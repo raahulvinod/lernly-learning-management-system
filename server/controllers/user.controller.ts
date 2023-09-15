@@ -3,10 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 import jwt, { Secret } from 'jsonwebtoken';
 import ejs from 'ejs';
 
-import userModel, { IUser } from '../models/user.model';
+import userModel from '../models/user.model';
 import ErrorHandler from '../utils/ErrorHandler';
 import { CatchAsyncError } from '../middleware/catchAsyncErrors';
 import path from 'path';
+import sendMail from '../utils/sendMail';
 
 // Register user
 interface IRegistrationBody {
@@ -19,7 +20,7 @@ interface IRegistrationBody {
 export const registrationUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { name, email, password } = req.body();
+      const { name, email, password } = req.body;
 
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
@@ -42,6 +43,23 @@ export const registrationUser = CatchAsyncError(
         path.join(__dirname, '../mails/activation-mail.ejs'),
         data
       );
+
+      try {
+        await sendMail({
+          email: user.email,
+          subject: 'Activate your account',
+          template: 'activation-mail.ejs',
+          data,
+        });
+
+        res.status(201).json({
+          success: true,
+          message: `Please check your email: ${user.email} to activate your account.`,
+          activationToken: activationToken.token,
+        });
+      } catch (error: any) {
+        return next(new ErrorHandler(error.message, 400));
+      }
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 400));
     }
