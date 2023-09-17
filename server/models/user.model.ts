@@ -72,12 +72,16 @@ userShema.pre<IUser>('save', async function (next) {
 
 // Sign access token
 userShema.methods.SignAccessToken = function () {
-  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || '');
+  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || '', {
+    expiresIn: '5m',
+  });
 };
 
 // Sign refresh token
 userShema.methods.SignRefreshToken = function () {
-  return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || '');
+  return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || '', {
+    expiresIn: '3d',
+  });
 };
 
 // Compare password
