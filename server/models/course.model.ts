@@ -22,7 +22,6 @@ interface ICourseData extends Document {
   title: string;
   description: string;
   videoUrl: string;
-  videoThumbnail: object;
   videoSection: string;
   videoLength: number;
   videoPlayer: string;
@@ -69,9 +68,8 @@ const commentSchema = new Schema<IComment>({
 });
 
 const courseDataSchema = new Schema<ICourseData>({
-  title: String,
   videoUrl: String,
-  videoThumbnail: Object,
+  title: String,
   videoSection: String,
   description: String,
   videoLength: String,
@@ -100,11 +98,9 @@ const courseSchema = new Schema<ICourse>({
   thumbnail: {
     public_id: {
       type: String,
-      required: true,
     },
     url: {
       type: String,
-      required: true,
     },
   },
   tags: {
@@ -119,8 +115,8 @@ const courseSchema = new Schema<ICourse>({
     type: String,
     required: true,
   },
-  benefits: [{ type: String }],
-  prerequisites: [{ type: String }],
+  benefits: [{ title: String }],
+  prerequisites: [{ title: String }],
   reviews: [reviewSchema],
   courseData: [courseDataSchema],
   ratings: {
