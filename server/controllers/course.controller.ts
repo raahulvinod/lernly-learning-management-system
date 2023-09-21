@@ -301,3 +301,54 @@ export const addAnswer = CatchAsyncError(
     }
   }
 );
+
+// add review in course
+interface IAddReviewData {
+  review: string;
+  courseId: string;
+  rating: number;
+  userId: string;
+}
+
+export const addReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userCourseList = req.user?.courses;
+      const courseId = req.params.id;
+
+      // check if courseId already exist
+      const courseExists = userCourseList?.some(
+        (course: any) => course._id === courseId
+      );
+
+      if (!courseExists) {
+        return next(
+          new ErrorHandler('You are not eliglble to access this course', 404)
+        );
+      }
+
+      const course = await CourseModel.findById(courseId);
+      const { review, rating } = req.body as IAddReviewData;
+
+      const reviewData: any = {
+        user: req.user,
+        comment: review,
+        rating,
+      };
+
+      course?.reviews.push(reviewData);
+
+      let avarage = 0;
+
+      course?.reviews.forEach((review: any) => (avarage += review.rating));
+
+      if (course) {
+        course.ratings = avarage / course.reviews.length;
+      }
+
+      await course?.save();
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
