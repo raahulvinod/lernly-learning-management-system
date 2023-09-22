@@ -346,7 +346,67 @@ export const addReview = CatchAsyncError(
         course.ratings = avarage / course.reviews.length;
       }
 
+      const notification = {
+        title: 'New Review Received',
+        message: `${req.user?.name} has given a review in ${course?.name}.`,
+      };
+
+      // TODO - create notification
+
+      res.status(200).json({
+        success: true,
+        course,
+      });
+
       await course?.save();
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+// add reply in review
+interface IAddReviewReply {
+  comment: string;
+  courseId: string;
+  reviewId: string;
+}
+
+export const replyToReview = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { comment, reviewId, courseId } = req.body as IAddReviewReply;
+      const course = await CourseModel.findById(courseId);
+
+      if (!course) {
+        return next(new ErrorHandler('Couse not found', 500));
+      }
+
+      const review = course?.reviews.find(
+        (review: any) => review._id.toString() === reviewId
+      );
+
+      if (!review) {
+        return next(new ErrorHandler('Review not found', 500));
+      }
+
+      const replyData: any = {
+        user: req.user,
+        comment,
+      };
+
+      if (!review.commentReplies) {
+        review.commentReplies = [];
+      }
+
+      review.commentReplies?.push(replyData);
+
+      await course.save();
+
+      res.status(200).json({
+        success: true,
+        course,
+      });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
