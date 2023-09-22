@@ -1,6 +1,9 @@
 import express from 'express';
 
-import { getNotifications } from '../controllers/notification.controller';
+import {
+  getNotifications,
+  updateNotification,
+} from '../controllers/notification.controller';
 import { authorizeRoles, isAuthenticated } from '../middleware/auth';
 
 const notificatioRouter = express.Router();
@@ -10,6 +13,13 @@ notificatioRouter.get(
   isAuthenticated,
   authorizeRoles('admin'),
   getNotifications
+);
+
+notificatioRouter.put(
+  '/update-notification/:id',
+  isAuthenticated,
+  authorizeRoles('admin'),
+  updateNotification
 );
 
 export default notificatioRouter;
