@@ -453,7 +453,7 @@ export const updateUserRole = CatchAsyncError(
   }
 );
 
-// update user role - only for admin
+// delete user - only for admin
 export const deleteUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -477,3 +477,5 @@ export const deleteUser = CatchAsyncError(
     }
   }
 );
+
+
