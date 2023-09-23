@@ -7,7 +7,7 @@ import ejs from 'ejs';
 import { CatchAsyncError } from '../middleware/catchAsyncErrors';
 import ErrorHandler from '../utils/ErrorHandler';
 import { redis } from '../utils/redis';
-import { createCourse } from '../services/course.service';
+import { createCourse, getAllCoursesService } from '../services/course.service';
 import CourseModel from '../models/course.model';
 import path from 'path';
 import sendMail from '../utils/sendMail';
@@ -426,6 +426,17 @@ export const replyToReview = CatchAsyncError(
       });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
+// get all courses
+export const getAllCourses = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllCoursesService(res);
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
     }
   }
 );
