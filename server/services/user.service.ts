@@ -24,3 +24,19 @@ export const getAllUsersService = async (res: Response) => {
     users,
   });
 };
+
+// update user role
+export const updateUserRoleService = async (
+  res: Response,
+  id: string,
+  role: string
+) => {
+  const user = await userModel
+    .findByIdAndUpdate(id, { role }, { new: true })
+    .sort({ createdAt: -1 });
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+};
