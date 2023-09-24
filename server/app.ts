@@ -10,6 +10,7 @@ import courseRouter from './routes/course.route';
 import orderRouter from './routes/order.route';
 import notificatioRouter from './routes/notification.route';
 import analyticsRouter from './routes/analytics.route';
+import layoutRouter from './routes/layout.route';
 
 export const app = express();
 
@@ -28,7 +29,8 @@ app.use(
   courseRouter,
   orderRouter,
   notificatioRouter,
-  analyticsRouter
+  analyticsRouter,
+  layoutRouter
 );
 
 // Testing api
