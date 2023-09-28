@@ -28,6 +28,7 @@ const Signup: React.FC<Props> = ({ setRoute }) => {
     },
     validationSchema: schema,
     onSubmit: async ({ name, email, password }) => {
+      setRoute('Verification');
       console.log(name, email, password);
     },
   });
