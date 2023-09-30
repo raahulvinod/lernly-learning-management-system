@@ -16,8 +16,8 @@ const Hero = () => {
           className="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full"
           src="/assets/learnly2.jpg"
           alt="Hero"
-          width={2000}
-          height={2000}
+          width={200}
+          height={200}
         />
       </div>
       <div className="relative flex flex-col items-start w-full max-w-xl px-4 mx-auto md:px-0 lg:px-8 lg:max-w-screen-xl">
