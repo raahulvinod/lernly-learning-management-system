@@ -20,6 +20,11 @@ const intializeApp = async () => {
   await store.dispatch(
     apiSlice.endpoints.refreshToken.initiate({}, { forceRefetch: true })
   );
+
+  // get user data on every page reload
+  await store.dispatch(
+    apiSlice.endpoints.loadUser.initiate({}, { forceRefetch: true })
+  );
 };
 
 intializeApp();
