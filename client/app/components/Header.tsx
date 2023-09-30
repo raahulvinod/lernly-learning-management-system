@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { Component, FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi';
 
 import NavItems from '../utils/NavItems';
@@ -14,6 +14,9 @@ import Signup from './Auth/Signup';
 import Verification from './Auth/Verification';
 import avatar from '../../public/assets/avatar.png';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { useSocialAuthMutation } from '@/redux/features/auth/authApi';
+import toast from 'react-hot-toast';
 
 type Props = {
   open: boolean;
@@ -28,7 +31,24 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const [openSideBar, setOpenSideBar] = useState(false);
 
   const { user } = useSelector((state: any) => state.auth);
-  console.log(user);
+  const { data } = useSession();
+  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+
+  useEffect(() => {
+    if (!user) {
+      if (data) {
+        socialAuth({
+          email: data.user?.email,
+          name: data.user?.name,
+          avatar: data.user?.image,
+        });
+      }
+    }
+
+    if (isSuccess) {
+      toast.success('Login successfully');
+    }
+  }, [data, user]);
 
   if (typeof window !== 'undefined') {
     window.addEventListener('scroll', () => {
@@ -81,9 +101,11 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
               {user ? (
                 <Link href={'/profile'}>
                   <Image
-                    src={user.avatar ? user.avatar : avatar}
+                    src={user.avatar ? user.avatar?.url : avatar}
                     alt="profile"
                     className="h-[30px] w-[30px] rounded-full"
+                    width={30}
+                    height={30}
                   />
                 </Link>
               ) : (
