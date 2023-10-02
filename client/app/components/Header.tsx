@@ -6,6 +6,9 @@ import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi';
 
 import NavItems from '../utils/NavItems';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 import ThemeSwitcher from '../utils/ThemeSwitcher';
 import CustomModal from '../utils/CustomModal';
@@ -13,10 +16,10 @@ import Login from './Auth/Login';
 import Signup from './Auth/Signup';
 import Verification from './Auth/Verification';
 import avatar from '../../public/assets/avatar.png';
-import Image from 'next/image';
-import { useSession } from 'next-auth/react';
-import { useSocialAuthMutation } from '@/redux/features/auth/authApi';
-import toast from 'react-hot-toast';
+import {
+  useLogOutQuery,
+  useSocialAuthMutation,
+} from '@/redux/features/auth/authApi';
 
 type Props = {
   open: boolean;
@@ -34,6 +37,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const { data } = useSession();
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
 
+  const [logout, setLogout] = useState(false);
+
+  const {} = useLogOutQuery(undefined, {
+    skip: !logout ? true : false,
+  });
+
   useEffect(() => {
     if (!user) {
       if (data) {
@@ -45,8 +54,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
       }
     }
 
-    if (isSuccess) {
-      toast.success('Login successfully');
+    if (data === null) {
+      if (isSuccess) {
+        toast.success('Login successfully');
+      }
+    }
+
+    if (data === null) {
+      setLogout(true);
     }
   }, [data, user]);
 

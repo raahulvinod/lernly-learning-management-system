@@ -5,6 +5,9 @@ import { useState } from 'react';
 import Heading from '../utils/Heading';
 import Header from '../components/Header';
 import Protected from '../hooks/useProtected';
+import { useSelector } from 'react-redux';
+
+import Profile from '../components/Profile/Profile';
 
 type Props = {};
 
@@ -13,11 +16,13 @@ const page: React.FC<Props> = (props) => {
   const [activeItem, setActiveItem] = useState(0);
   const [route, setRoute] = useState('Login');
 
+  const { user } = useSelector((state: any) => state.auth);
+
   return (
     <div>
       <Protected>
         <Heading
-          title="Learnly"
+          title={`${user?.name} Profile`}
           description="
         Elevate Learning, 
         Anywhere, Anytime. 
@@ -32,6 +37,7 @@ const page: React.FC<Props> = (props) => {
           setRoute={setRoute}
           route={route}
         />
+        <Profile user={user} />
       </Protected>
     </div>
   );
