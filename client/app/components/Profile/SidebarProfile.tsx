@@ -43,7 +43,7 @@ const SidebarProfile: React.FC<Props> = ({
         }`}
         onClick={() => setActive(2)}
       >
-        <RiLockPasswordLine size={20} fill="#fff" />
+        <RiLockPasswordLine size={20} className="text-black dark:text-white" />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
           Change Password
         </h5>
@@ -54,7 +54,7 @@ const SidebarProfile: React.FC<Props> = ({
         }`}
         onClick={() => setActive(3)}
       >
-        <SiCoursera size={20} fill="#fff" />
+        <SiCoursera size={20} className="text-black dark:text-white" />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
           Entrolled courses
         </h5>
@@ -65,7 +65,7 @@ const SidebarProfile: React.FC<Props> = ({
         }`}
         onClick={() => logoutHandler()}
       >
-        <AiOutlineLogout size={20} fill="#fff" />
+        <AiOutlineLogout size={20} className="text-black dark:text-white" />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
           Logout
         </h5>
