@@ -29,9 +29,13 @@ const SidebarProfile: React.FC<Props> = ({
         onClick={() => setActive(1)}
       >
         <Image
-          src={user.avatar || avatar ? user.avatar || avatar : avatarDefault}
+          src={
+            user.avatar || avatar ? user.avatar.url || avatar : avatarDefault
+          }
           alt="profile"
           className="w-20px h-20px 800px:w-[30px] 800px:h-[30px] cursor-pointer rounded-full"
+          width={20}
+          height={20}
         />
         <h5 className="pl-2 800px:block hidden font-Poppins dark:text-white text-black">
           My Account

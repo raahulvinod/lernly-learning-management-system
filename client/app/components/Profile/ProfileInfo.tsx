@@ -1,9 +1,11 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import avatarIcon from '../../../public/assets/avatar.png';
 import { AiOutlineCamera } from 'react-icons/ai';
 import { styles } from '@/app/styles/style';
+import { useUpdateAvatarMutation } from '@/redux/features/user/userApi';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   avatar: string | null;
@@ -12,8 +14,32 @@ type Props = {
 
 const ProfileInfo: React.FC<Props> = ({ avatar, user }) => {
   const [name, setName] = useState(user && user.name);
+  const [updateAvatar, { isSuccess, error }] = useUpdateAvatarMutation();
+  const [loadUser, setLoadUser] = useState(false);
+  const {} = useLoadUserQuery(undefined, { skip: loadUser ? false : true });
 
-  const imageHandler = async (e: any) => {};
+  const imageHandler = async (e: any) => {
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      if (fileReader.readyState === 2) {
+        const avatar = fileReader.result;
+        updateAvatar(avatar);
+      }
+    };
+
+    fileReader.readAsDataURL(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLoadUser(true);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  }, [isSuccess, error]);
 
   const handleSubmit = async (e: any) => {};
 
@@ -25,6 +51,8 @@ const ProfileInfo: React.FC<Props> = ({ avatar, user }) => {
             className="w-[120px] h-[120px] cursor-pointer border-[3px] border-[crimson] dark:border-[#37a39a] rounded-full"
             src={user.avatar || avatar ? user.avatar.url || avatar : avatarIcon}
             alt="profile"
+            width={120}
+            height={120}
           />
           <input
             type="file"
