@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 import Heading from '../utils/Heading';
 import Header from '../components/Header';
-import Protected from '../hooks/useProtected';
 import { useSelector } from 'react-redux';
 
 import Profile from '../components/Profile/Profile';
+import Protected from '../hooks/useProtected';
 
 type Props = {};
 
@@ -22,7 +22,7 @@ const page: React.FC<Props> = (props) => {
     <div>
       <Protected>
         <Heading
-          title={`${user?.name} Profile`}
+          title={`${user?.name} Profile - Learnly online courses`}
           description="
         Elevate Learning, 
         Anywhere, Anytime. 

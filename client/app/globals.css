@@ -23,6 +23,21 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1771c6;
+}
+
+/*  Handle */
+::-webkit-scrollbar-corner {
+  background: #32ae7e;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #32ae7e;
+}
+
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;

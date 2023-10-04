@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import avatarIcon from '../../../public/assets/avatar.png';
 import { AiOutlineCamera } from 'react-icons/ai';
@@ -9,7 +10,6 @@ import {
   useUpdateAvatarMutation,
 } from '@/redux/features/user/userApi';
 import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
-import toast from 'react-hot-toast';
 
 type Props = {
   avatar: string | null;
