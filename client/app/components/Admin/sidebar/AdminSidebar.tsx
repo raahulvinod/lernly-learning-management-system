@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useSelector } from 'react-redux';
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { useTheme as nextTheme } from 'next-themes';
 import 'react-pro-sidebar/dist/css/styles.css';
 
 import { tokens } from './Theme';
@@ -55,7 +56,7 @@ const Item: React.FC<ItemProps> = ({
       onClick={() => setSelected(title)}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography className="!text-[16px] !font-Poppins">{title}</Typography>
       <Link href={to} />
     </MenuItem>
   );
@@ -71,6 +72,7 @@ const TestSidebar = () => {
   const [selected, setSelected] = useState('Dashboard');
   const [mounted, setMounted] = useState(false);
   const [logout, setLogout] = useState(false);
+  const { theme: themes, setTheme } = nextTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -88,13 +90,19 @@ const TestSidebar = () => {
     <Box
       sx={{
         '& .pro-sidebar-inner': {
-          background: `${colors.primary[400]} !important`,
+          // background: `${colors.primary[400]} !important`,
+          background: `${
+            themes === 'dark'
+              ? '#111C43 !important'
+              : `${colors.primary[400]} !important`
+          }`,
         },
         '& .pro-icon-wrapper': {
           backgroundColor: 'transparent !important',
         },
         '& .pro-inner-item': {
           padding: '5px 35px 5px 20px !important',
+          color: `${themes === 'dark' ? '#fff' : undefined}`,
         },
         '& .pro-inner-item:hover': {
           color: '#868dfb !important',
@@ -160,15 +168,15 @@ const TestSidebar = () => {
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h4"
-                  color={colors.grey[100]}
+                  variant="h6"
+                  color={`${themes === 'dark' ? '#fff' : colors.grey[100]}`}
                   fontWeight="bold"
                   sx={{ m: '10px 0 0 0' }}
                 >
                   {user?.name}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Learnly - {user?.role}
+                <Typography variant="h6" color={colors.greenAccent[500]}>
+                  {user?.role}
                 </Typography>
               </Box>
             </Box>
@@ -177,7 +185,7 @@ const TestSidebar = () => {
           <Box paddingLeft={isCollapsed ? undefined : '10%'}>
             <Item
               title="Dashboard"
-              to="/"
+              to="/admin"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
