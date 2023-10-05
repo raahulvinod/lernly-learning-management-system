@@ -14,6 +14,7 @@ import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
 export {
   HomeOutlinedIcon,
@@ -32,4 +33,5 @@ export {
   ManageHistoryIcon,
   SettingsIcon,
   ExitToAppIcon,
+  MenuOutlinedIcon,
 };
