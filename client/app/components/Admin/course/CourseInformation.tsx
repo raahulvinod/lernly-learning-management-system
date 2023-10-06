@@ -229,7 +229,7 @@ const CourseInformation: React.FC<Props> = ({
           <input
             type="submit"
             value="Next"
-            className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-white  text-center rounded mt-8 cursor-pointer"
+            className="w-full 800px:w-[180px] h-[40px] bg-[crimson] text-white  text-center rounded mt-8 cursor-pointer"
           />
         </div>
         <br />

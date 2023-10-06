@@ -145,7 +145,7 @@ const AdminSidebar = () => {
                   </h3>
                 </Link>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <ArrowBackIosIcon />
+                  <ArrowBackIosIcon className="dark:text-white" />
                 </IconButton>
               </Box>
             )}
