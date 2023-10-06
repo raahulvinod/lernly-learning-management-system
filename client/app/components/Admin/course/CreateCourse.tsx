@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CourseInformation from './CourseInformation';
 import CourseOptions from './CourseOptions';
+import CourseData from './CourseData';
 
 const CreateCourse = () => {
   const [active, setActive] = useState(0);
@@ -41,6 +42,16 @@ const CreateCourse = () => {
           <CourseInformation
             courseInfo={courseInfo}
             setCourseInfo={setCourseInfo}
+            active={active}
+            setActive={setActive}
+          />
+        )}
+        {active === 1 && (
+          <CourseData
+            benefits={benifits}
+            setBenefits={setBenifits}
+            prerequisites={prerequisites}
+            setPrerequisites={setPrerequisites}
             active={active}
             setActive={setActive}
           />
