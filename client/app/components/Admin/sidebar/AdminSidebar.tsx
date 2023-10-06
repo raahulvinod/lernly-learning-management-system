@@ -62,7 +62,7 @@ const Item: React.FC<ItemProps> = ({
   );
 };
 
-const TestSidebar = () => {
+const AdminSidebar = () => {
   const { user } = useSelector((state: any) => state.auth);
 
   const theme = useTheme();
@@ -126,7 +126,7 @@ const TestSidebar = () => {
           {/* LOGO AND MENU ICON */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
             style={{
               margin: '10px 0 20px 0',
               color: colors.grey[100],
@@ -145,7 +145,7 @@ const TestSidebar = () => {
                   </h3>
                 </Link>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
+                  <ArrowBackIosIcon />
                 </IconButton>
               </Box>
             )}
@@ -342,4 +342,4 @@ const TestSidebar = () => {
   );
 };
 
-export default TestSidebar;
+export default AdminSidebar;
