@@ -4,9 +4,10 @@ import CourseInformation from './CourseInformation';
 import CourseOptions from './CourseOptions';
 import CourseData from './CourseData';
 import CourseContent from './CourseContent';
+import CoursePreview from './CoursePreview';
 
 const CreateCourse = () => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const [courseInfo, setCourseInfo] = useState({
     name: '',
     description: '',
@@ -38,7 +39,52 @@ const CreateCourse = () => {
 
   const [courseData, setCourseData] = useState({});
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    const formattedBenefits = benifits.map((benifit) => ({
+      title: benifit.title,
+    }));
+
+    const formattedPrerequisites = prerequisites.map((prerequisite) => ({
+      title: prerequisite.title,
+    }));
+
+    // formatted course content array
+    const formattedCourseContentData = courseContentData.map(
+      (courseContent) => ({
+        videoUrl: courseContent.videoUrl,
+        title: courseContent.title,
+        description: courseContent.description,
+        videoSection: courseContent.videoSection,
+        suggestion: courseContent.suggestion,
+        links: courseContent.links.map((link) => ({
+          title: link.title,
+          url: link.url,
+        })),
+      })
+    );
+
+    const data = {
+      name: courseInfo.name,
+      description: courseInfo.description,
+      price: courseInfo.price,
+      estimatedPrice: courseInfo.estimatedPrice,
+      tags: courseInfo.tags,
+      thumbnail: courseInfo.thumbnail,
+      level: courseInfo.level,
+      demoUrl: courseInfo.demoUrl,
+      totalVideos: courseContentData.length,
+      benifits: formattedBenefits,
+      prerequisites: formattedPrerequisites,
+      courseContent: formattedCourseContentData,
+    };
+
+    setCourseData(data);
+  };
+
+  const handleCourseCreate = (e: any) => {
+    const data = courseData;
+  };
+
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
@@ -67,6 +113,15 @@ const CreateCourse = () => {
             courseContentData={courseContentData}
             setCourseContentData={setCourseContentData}
             handleSubmit={handleSubmit}
+          />
+        )}
+
+        {active === 3 && (
+          <CoursePreview
+            active={active}
+            setActive={setActive}
+            courseData={courseContentData}
+            handleCourseCreate={handleCourseCreate}
           />
         )}
       </div>
