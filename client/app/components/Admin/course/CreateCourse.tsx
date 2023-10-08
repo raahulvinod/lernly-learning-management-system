@@ -120,7 +120,7 @@ const CreateCourse = () => {
           <CoursePreview
             active={active}
             setActive={setActive}
-            courseData={courseContentData}
+            courseData={courseData}
             handleCourseCreate={handleCourseCreate}
           />
         )}

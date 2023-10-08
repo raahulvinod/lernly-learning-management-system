@@ -13,14 +13,13 @@ const CoursePreview: React.FC<Props> = ({
   courseData,
   handleCourseCreate,
 }) => {
-  console.log(courseData);
   return (
     <div className="w-[90%] m-auto mb-5">
       <div className="w-full relative">
         <div className="w-full mt-10">
           <CoursePlayer
-            videoUrl={courseData?.demoUrl}
-            title={courseData?.title}
+            videoUrl={courseData.demoUrl}
+            title={courseData.title}
           />
         </div>
       </div>
