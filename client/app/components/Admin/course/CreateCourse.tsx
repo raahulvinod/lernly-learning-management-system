@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 import CourseInformation from './CourseInformation';
 import CourseOptions from './CourseOptions';
 import CourseData from './CourseData';
 import CourseContent from './CourseContent';
 import CoursePreview from './CoursePreview';
+import { useCreateCourseMutation } from '@/redux/features/courses/coursesApi';
 
 const CreateCourse = () => {
+  const [createcourse, { isSuccess, error, isLoading }] =
+    useCreateCourseMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Course create successfully');
+      redirect('/admin/all-courses');
+    }
+
+    if (error) {
+      if ('data' in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isLoading, isSuccess, error]);
+
   const [active, setActive] = useState(0);
   const [courseInfo, setCourseInfo] = useState({
     name: '',
@@ -81,8 +101,12 @@ const CreateCourse = () => {
     setCourseData(data);
   };
 
-  const handleCourseCreate = (e: any) => {
+  const handleCourseCreate = async (e: any) => {
     const data = courseData;
+
+    if (!isLoading) {
+      await createcourse(data);
+    }
   };
 
   return (
