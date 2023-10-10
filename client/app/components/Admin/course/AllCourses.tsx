@@ -5,11 +5,15 @@ import { FiEdit2 } from 'react-icons/fi';
 import { useTheme as NextTheme } from 'next-themes';
 import { tokens } from '../sidebar/Theme';
 import AdminHeader from '../topbar/AdminHeader';
+import { useGetAllCoursesQuery } from '@/redux/features/courses/coursesApi';
+import Loader from '../../Loader/Loader';
 
 const AllCourses = () => {
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { isLoading, data, error } = useGetAllCoursesQuery({});
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -58,58 +62,67 @@ const AllCourses = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1234,
-      title: 'React',
-      purchased: '40',
-      ratings: '5',
-      createdAt: '12/12/24',
-    },
-  ];
+  const rows: any = [];
+
+  {
+    data &&
+      data?.courses?.forEach((item: any) => {
+        rows.push({
+          id: item._id,
+          title: item.name,
+          purchased: item.purchased,
+          ratings: item.ratings,
+          createdAt: item.createdAt,
+        });
+      });
+  }
 
   return (
     <div className="mt-[60px] ml-12">
-      <Box m="20px">
-        <AdminHeader title="COURSES" subtitle="List of courses" />
-        <Box
-          m="40px 0 0 0"
-          height="75vh"
-          sx={{
-            '& .MuiDataGrid-root': {
-              border: 'none',
-              color: `${themes === 'dark' ? '#fff !important' : ''}`,
-            },
-            '& .MuiDataGrid-cell': {
-              borderBottom: 'none',
-            },
-            '& .name-column--cell': {
-              color: colors.greenAccent[300],
-            },
-            '& .MuiDataGrid-columnHeaders': {
-              backgroundColor: colors.blueAccent[700],
-              color: `${themes === 'dark' ? '#000 !important' : ''}`,
-              borderBottom: 'none',
-            },
-            '& .MuiDataGrid-virtualScroller': {
-              backgroundColor: `${
-                themes === 'dark'
-                  ? '#111C43 !important'
-                  : `${colors.primary[400]} !important`
-              }`,
-            },
-            '& .MuiDataGrid-footerContainer': {
-              borderTop: 'none',
-              backgroundColor: colors.blueAccent[700],
-            },
-            '& .MuiCheckbox-root': {
-              color: `${colors.greenAccent[200]} !important`,
-            },
-          }}
-        >
-          <DataGrid checkboxSelection rows={rows} columns={columns} />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Box m="20px">
+          <AdminHeader title="COURSES" subtitle="List of courses" />
+          <Box
+            m="40px 0 0 0"
+            height="75vh"
+            sx={{
+              '& .MuiDataGrid-root': {
+                border: 'none',
+                color: `${themes === 'dark' ? '#fff !important' : ''}`,
+              },
+              '& .MuiDataGrid-cell': {
+                borderBottom: 'none',
+              },
+              '& .name-column--cell': {
+                color: colors.greenAccent[300],
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: colors.blueAccent[700],
+                color: `${themes === 'dark' ? '#000 !important' : ''}`,
+                borderBottom: 'none',
+              },
+              '& .MuiDataGrid-virtualScroller': {
+                backgroundColor: `${
+                  themes === 'dark'
+                    ? '#111C43 !important'
+                    : `${colors.primary[400]} !important`
+                }`,
+              },
+              '& .MuiDataGrid-footerContainer': {
+                borderTop: 'none',
+                backgroundColor: colors.blueAccent[700],
+              },
+              '& .MuiCheckbox-root': {
+                color: `${colors.greenAccent[200]} !important`,
+              },
+            }}
+          >
+            <DataGrid checkboxSelection rows={rows} columns={columns} />
+          </Box>
         </Box>
-      </Box>
+      )}
     </div>
   );
 };
