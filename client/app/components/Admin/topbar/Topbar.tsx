@@ -11,14 +11,14 @@ const Topbar: React.FC<Props> = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full flex justify-end p-6 fixed top-5 right-0">
+    <div className="w-full flex justify-end p-6 fixed right-0">
       <ThemeSwitcher />
       <div
         className="relative cursor-pointer m-2"
         onClick={() => setOpen(!open)}
       >
-        <NotificationsOutlinedIcon className="text-2xl cursor-pointer dark:text:white text-black dark:text-white" />
-        <span className="absolute -top-2 -right-2 bg-[#3ccba0] rounded-full w-[20px] h-[20px] text-[12px] flex items-center text-white">
+        <NotificationsOutlinedIcon className="text-2xl cursor-pointer dark:text:white text-black dark:text-white relative" />
+        <span className="absolute -top-2 -right-2 bg-[#3ccba0] rounded-full w-[20px] h-[20px] text-[12px] flex items-center justify-center text-white">
           2
         </span>
       </div>

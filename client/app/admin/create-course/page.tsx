@@ -3,7 +3,6 @@
 import AdminSidebar from '@/app/components/Admin/sidebar/AdminSidebar';
 import Heading from '@/app/utils/Heading';
 import CreateCourse from '@/app/components/Admin/course/CreateCourse';
-import Topbar from '@/app/components/Admin/topbar/Topbar';
 
 const page = () => {
   return (

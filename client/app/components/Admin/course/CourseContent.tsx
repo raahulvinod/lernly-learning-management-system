@@ -5,6 +5,7 @@ import { BiSolidPencil } from 'react-icons/bi';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { BsLink45Deg } from 'react-icons/bs';
 import toast from 'react-hot-toast';
+import AdminHeader from '../topbar/AdminHeader';
 
 type Props = {
   active: number;
@@ -126,7 +127,8 @@ const CourseContent: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24 p-3">
+    <div className="w-[80%] m-auto mt-10 p-3">
+      <AdminHeader title="CREATE COURSE" subtitle="Add course content" />
       <form onSubmit={handleSubmit}>
         {courseContentData?.map((item: any, index: number) => {
           const showSectionInput =

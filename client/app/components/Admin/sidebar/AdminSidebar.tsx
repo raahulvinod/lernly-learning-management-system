@@ -208,7 +208,7 @@ const AdminSidebar = () => {
             />
 
             <Item
-              title="Invoices Balances"
+              title="Invoices"
               to="/admin/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -233,7 +233,7 @@ const AdminSidebar = () => {
 
             <Item
               title="Live Courses"
-              to="/admin/course"
+              to="/admin/courses"
               icon={<OndemandVideoIcon />}
               selected={selected}
               setSelected={setSelected}

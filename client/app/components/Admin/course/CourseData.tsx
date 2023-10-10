@@ -2,6 +2,7 @@ import { styles } from '@/app/styles/style';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import toast from 'react-hot-toast';
+import AdminHeader from '../topbar/AdminHeader';
 
 type Props = {
   benefits: { title: string }[];
@@ -56,7 +57,12 @@ const CourseData: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24 block">
+    <div className="w-[80%] m-auto mt-10 block">
+      <AdminHeader
+        title="CREATE COURSE"
+        subtitle="Add course benefits and Prerequisites"
+      />
+
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor="email">
           What are the benefits for students in this course?

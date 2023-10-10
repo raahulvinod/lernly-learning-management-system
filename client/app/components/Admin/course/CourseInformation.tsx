@@ -1,6 +1,8 @@
 import { styles } from '@/app/styles/style';
 import React, { useState } from 'react';
 
+import AdminHeader from '../topbar/AdminHeader';
+
 type Props = {
   courseInfo: any;
   setCourseInfo: (courseInfo: any) => void;
@@ -69,7 +71,9 @@ const CourseInformation: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24">
+    <div className="w-[80%] m-auto mt-10">
+      <AdminHeader title="CREATE COURSE" subtitle="Add course details" />
+
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="" className={`${styles.label}`}>

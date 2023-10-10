@@ -162,7 +162,7 @@ const CoursePreview: React.FC<Props> = ({
           className="w-full 800px:w-[180px] flex items-center justify-center cursor-pointer h-[40px] bg-[#DC143C] text-center text-[#fff] rounded mt-8"
           onClick={() => createCourse()}
         >
-          Next
+          Create course
         </div>
       </div>
     </div>
