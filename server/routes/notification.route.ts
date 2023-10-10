@@ -5,11 +5,13 @@ import {
   updateNotification,
 } from '../controllers/notification.controller';
 import { authorizeRoles, isAuthenticated } from '../middleware/auth';
+import { updateAccessToken } from '../controllers/user.controller';
 
 const notificatioRouter = express.Router();
 
 notificatioRouter.get(
   '/get-all-notification',
+  updateAccessToken,
   isAuthenticated,
   authorizeRoles('admin'),
   getNotifications
@@ -17,6 +19,7 @@ notificatioRouter.get(
 
 notificatioRouter.put(
   '/update-notification/:id',
+  updateAccessToken,
   isAuthenticated,
   authorizeRoles('admin'),
   updateNotification
