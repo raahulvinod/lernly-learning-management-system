@@ -7,7 +7,7 @@ type Props = {};
 const page: React.FC<Props> = () => {
   return (
     <div className="w-[85%]">
-      <AllUsers isTeam={false} />
+      <AllUsers isTeam={true} />
     </div>
   );
 };
