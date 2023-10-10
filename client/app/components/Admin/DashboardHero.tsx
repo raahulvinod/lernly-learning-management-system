@@ -1,10 +1,9 @@
 import React from 'react';
-import Topbar from './topbar/Topbar';
 
 export const DashboardHero = () => {
   return (
     <div>
-      <Topbar />
+      <h1>Main Dashboard</h1>
     </div>
   );
 };

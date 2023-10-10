@@ -13,15 +13,7 @@ const page = () => {
         description="Empower students to learn and teachers to assist effortlessly with our intuitive learnly dashboard, designed to enhance the online learning experience."
         keywords="Learning, Online courses, Programming, Coding, MERN"
       />
-      <div className="flex">
-        <div className="1500px:w-[16%] w-1/5">
-          <AdminSidebar />
-        </div>
-        <div className="w-[85%]">
-          <Topbar />
-          <CreateCourse />
-        </div>
-      </div>
+      <CreateCourse />
     </div>
   );
 };

@@ -15,12 +15,7 @@ const page = () => {
           keywords="Learning, Online courses, Programming, Coding, MERN"
         />
         <div className="flex h-[200vh]">
-          <div className="1500px:w-[16%] w-1/5">
-            <AdminSidebar />
-          </div>
-          <div className="w-[85%]">
-            <DashboardHero />
-          </div>
+          <DashboardHero />
         </div>
       </AdminProtected>
     </div>
