@@ -40,8 +40,8 @@ const CreateCourse = () => {
   const [courseData, setCourseData] = useState({});
 
   const handleSubmit = async () => {
-    const formattedBenefits = benifits.map((benifit) => ({
-      title: benifit.title,
+    const formattedBenefits = benifits.map((benefit) => ({
+      title: benefit.title,
     }));
 
     const formattedPrerequisites = prerequisites.map((prerequisite) => ({
@@ -73,7 +73,7 @@ const CreateCourse = () => {
       level: courseInfo.level,
       demoUrl: courseInfo.demoUrl,
       totalVideos: courseContentData.length,
-      benifits: formattedBenefits,
+      benefits: formattedBenefits,
       prerequisites: formattedPrerequisites,
       courseContent: formattedCourseContentData,
     };
