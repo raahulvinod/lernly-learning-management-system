@@ -1,5 +1,8 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button, Modal, useTheme } from '@mui/material';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { FiEdit2 } from 'react-icons/fi';
 import { useTheme as NextTheme } from 'next-themes';
@@ -8,14 +11,26 @@ import { format } from 'timeago.js';
 import AdminHeader from '../topbar/AdminHeader';
 import Loader from '../../Loader/Loader';
 import { tokens } from '../sidebar/Theme';
-import { useGetAllCoursesQuery } from '@/redux/features/courses/coursesApi';
+import {
+  useDeleteCourseMutation,
+  useGetAllCoursesQuery,
+} from '@/redux/features/courses/coursesApi';
+import DeleteModal from '../../Modal/DeleteModal';
+import toast from 'react-hot-toast';
 
 const AllCourses = () => {
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { isLoading, data, error } = useGetAllCoursesQuery({});
+  const [open, setOpen] = useState(false);
+  const [courseId, setCourseId] = useState('');
+
+  const { isLoading, data, refetch } = useGetAllCoursesQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+  const [deleteCourse, { isSuccess, error }] = useDeleteCourseMutation();
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.5 },
@@ -61,7 +76,13 @@ const AllCourses = () => {
         return (
           <>
             <Button>
-              <AiOutlineDelete size={20} />
+              <AiOutlineDelete
+                size={20}
+                onClick={() => {
+                  setOpen(!open);
+                  setCourseId(params.row.id);
+                }}
+              />
             </Button>
           </>
         );
@@ -83,6 +104,26 @@ const AllCourses = () => {
         });
       });
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      refetch();
+      setOpen(false);
+      toast.success('Course deleted successfully.');
+    }
+
+    if (error) {
+      if ('data' in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isSuccess, error]);
+
+  const handleDelete = async () => {
+    const id = courseId;
+    await deleteCourse(id);
+  };
 
   return (
     <div className="mt-[60px] ml-12 w-full">
@@ -128,6 +169,22 @@ const AllCourses = () => {
           >
             <DataGrid checkboxSelection rows={rows} columns={columns} />
           </Box>
+          {open && (
+            <Modal
+              open={open}
+              onClose={() => setOpen(!open)}
+              aria-labelledBy="modal-modal-title"
+              aria-describedBy="modal-modal-description"
+            >
+              <Box>
+                <DeleteModal
+                  open={open}
+                  setOpen={setOpen}
+                  handleDelete={handleDelete}
+                />
+              </Box>
+            </Modal>
+          )}
         </Box>
       )}
     </div>
