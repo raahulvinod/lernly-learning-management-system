@@ -11,6 +11,7 @@ type Props = {
   setPrerequisites: (prerequisites: { title: string }[]) => void;
   active: number;
   setActive: (active: number) => void;
+  isEdit: boolean;
 };
 
 const CourseData: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const CourseData: React.FC<Props> = ({
   setPrerequisites,
   active,
   setActive,
+  isEdit,
 }) => {
   const handleBenefitChange = (index: number, value: any) => {
     const updateBenefits = [...benefits];
@@ -59,8 +61,12 @@ const CourseData: React.FC<Props> = ({
   return (
     <div className="w-[80%] m-auto mt-10 block">
       <AdminHeader
-        title="CREATE COURSE"
-        subtitle="Add course benefits and Prerequisites"
+        title={`${isEdit ? 'EDIT COURSE' : 'CREATE COURSE'}`}
+        subtitle={`${
+          isEdit
+            ? 'Edit course benefits and Prerequisites'
+            : 'Add course benefits and Prerequisites'
+        }`}
       />
 
       <div>

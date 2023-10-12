@@ -1,9 +1,11 @@
 'use client';
 
 import Heading from '@/app/utils/Heading';
-import CreateCourse from '@/app/components/Admin/course/CreateCourse';
+import EditCourse from '@/app/components/Admin/course/EditCourse';
 
-const page = () => {
+const page = ({ params }: any) => {
+  const courseId = params?.id;
+  console.log(courseId);
   return (
     <div>
       <Heading
@@ -11,7 +13,7 @@ const page = () => {
         description="Empower students to learn and teachers to assist effortlessly with our intuitive learnly dashboard, designed to enhance the online learning experience."
         keywords="Learning, Online courses, Programming, Coding, MERN"
       />
-      <CreateCourse />
+      <EditCourse courseId={courseId} />
     </div>
   );
 };

@@ -8,6 +8,7 @@ type Props = {
   setCourseInfo: (courseInfo: any) => void;
   active: number;
   setActive: (active: number) => void;
+  isEdit: boolean;
 };
 
 const CourseInformation: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const CourseInformation: React.FC<Props> = ({
   setCourseInfo,
   active,
   setActive,
+  isEdit,
 }) => {
   const [dragging, setDragging] = useState(false);
 
@@ -72,7 +74,10 @@ const CourseInformation: React.FC<Props> = ({
 
   return (
     <div className="w-[80%] m-auto mt-10">
-      <AdminHeader title="CREATE COURSE" subtitle="Add course details" />
+      <AdminHeader
+        title={`${isEdit ? 'EDIT COURSE' : 'CREATE COURSE'}`}
+        subtitle={`${isEdit ? 'Edit course details' : 'Add course details'}`}
+      />
 
       <form onSubmit={handleSubmit}>
         <div>

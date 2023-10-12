@@ -40,7 +40,9 @@ const DeleteModal: React.FC<Props> = ({ open, setOpen, handleDelete }) => {
                 clip-rule="evenodd"
               />
             </svg>
-            <h2 className="text-xl font-bold py-4 ">Are you sure?</h2>
+            <h2 className="text-xl font-bold py-4 ">
+              Are you sure want to delete?
+            </h2>
             <p className="text-sm text-gray-500 px-8">
               Do you really want to delete your course? This process cannot be
               undone

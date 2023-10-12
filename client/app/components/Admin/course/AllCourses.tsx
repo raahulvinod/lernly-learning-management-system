@@ -17,6 +17,7 @@ import {
 } from '@/redux/features/courses/coursesApi';
 import DeleteModal from '../../Modal/DeleteModal';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 const AllCourses = () => {
   const { theme: themes, setTheme } = NextTheme();
@@ -61,9 +62,9 @@ const AllCourses = () => {
       renderCell: (params: any) => {
         return (
           <>
-            <Button>
+            <Link href={`/admin/edit-course/${params.row.id}`}>
               <FiEdit2 size={20} />
-            </Button>
+            </Link>
           </>
         );
       },

@@ -13,6 +13,7 @@ type Props = {
   courseContentData: any;
   setCourseContentData: (courseContentData: any) => void;
   handleSubmit: any;
+  isEdit: boolean;
 };
 
 const CourseContent: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const CourseContent: React.FC<Props> = ({
   courseContentData,
   setCourseContentData,
   handleSubmit: handleCourseSubmit,
+  isEdit,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(
     Array(courseContentData.length).fill(false)
@@ -128,7 +130,10 @@ const CourseContent: React.FC<Props> = ({
 
   return (
     <div className="w-[80%] m-auto mt-10 p-3">
-      <AdminHeader title="CREATE COURSE" subtitle="Add course content" />
+      <AdminHeader
+        title={`${isEdit ? 'EDIT COURSE' : 'CREATE COURSE'}`}
+        subtitle={`${isEdit ? 'Edit course content' : 'Add course content'}`}
+      />
       <form onSubmit={handleSubmit}>
         {courseContentData?.map((item: any, index: number) => {
           const showSectionInput =
