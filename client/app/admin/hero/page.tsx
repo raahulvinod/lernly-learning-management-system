@@ -1,7 +1,7 @@
 'use client';
 
+import EditHero from '@/app/components/Admin/customization/EditHero';
 import Heading from '@/app/utils/Heading';
-import EditHero from '@/app/components/Admin/hero/editHero';
 
 const page = () => {
   return (

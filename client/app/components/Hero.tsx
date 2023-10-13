@@ -37,12 +37,16 @@ const Hero = () => {
           </div>
         </div>
         <div className="flex-1 text-center mt-7 lg:mt-0 lg:ml-3">
-          <Image
+          {/* <Image
             src="/assets/learnly.jpeg"
             className="w-full mx-auto sm:w-10/12 lg:w-full"
             alt="Hero"
             width={1000}
             height={50}
+          /> */}
+          <img
+            src="https://i.postimg.cc/HxHyt53c/undraw-heatmap-uyye.png"
+            className="w-full mx-auto sm:w-10/12  lg:w-full"
           />
         </div>
       </div>
