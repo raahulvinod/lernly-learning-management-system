@@ -22,7 +22,7 @@ const EditCourse: React.FC<Props> = ({ courseId }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const [editCourse, { isSuccess, error }] = useEditCourseMutation();
+  const [editCourse, { isSuccess, error, isLoading }] = useEditCourseMutation();
 
   const courseDetails =
     data && data.courses.find((course: any) => course._id === courseId);

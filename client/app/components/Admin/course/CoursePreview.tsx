@@ -160,12 +160,12 @@ const CoursePreview: React.FC<Props> = ({
         >
           Back
         </div>
-        <div
+        <button
           className="w-full 800px:w-[180px] flex items-center justify-center cursor-pointer h-[40px] bg-[#DC143C] text-center text-[#fff] rounded mt-8"
           onClick={() => createCourse()}
         >
           {isEdit ? 'Edit course' : 'Create course'}
-        </div>
+        </button>
       </div>
     </div>
   );
