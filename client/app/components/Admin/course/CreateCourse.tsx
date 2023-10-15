@@ -118,6 +118,7 @@ const CreateCourse = () => {
             setCourseInfo={setCourseInfo}
             active={active}
             setActive={setActive}
+            isEdit={false}
           />
         )}
         {active === 1 && (
@@ -128,6 +129,7 @@ const CreateCourse = () => {
             setPrerequisites={setPrerequisites}
             active={active}
             setActive={setActive}
+            isEdit={false}
           />
         )}
         {active === 2 && (
@@ -137,6 +139,7 @@ const CreateCourse = () => {
             courseContentData={courseContentData}
             setCourseContentData={setCourseContentData}
             handleSubmit={handleSubmit}
+            isEdit={false}
           />
         )}
 
@@ -146,6 +149,7 @@ const CreateCourse = () => {
             setActive={setActive}
             courseData={courseData}
             handleCourseCreate={handleCourseCreate}
+            isEdit={false}
           />
         )}
       </div>

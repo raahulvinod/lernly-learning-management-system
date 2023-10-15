@@ -140,6 +140,7 @@ const AllCourses = () => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
+                zIndex: -50,
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',
