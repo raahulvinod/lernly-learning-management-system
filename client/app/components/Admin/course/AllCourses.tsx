@@ -140,13 +140,14 @@ const AllCourses = () => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                zIndex: 5,
+                // zIndex: 1,
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',
               },
               '& .name-column--cell': {
                 color: colors.greenAccent[300],
+                zIndex: 50,
               },
               '& .MuiDataGrid-columnHeaders': {
                 backgroundColor: colors.blueAccent[700],

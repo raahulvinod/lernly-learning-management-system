@@ -1,10 +1,11 @@
-import { styles } from '@/app/styles/style';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { AiOutlineDelete, AiOutlinePlusCircle } from 'react-icons/ai';
 import { BiSolidPencil } from 'react-icons/bi';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { BsLink45Deg } from 'react-icons/bs';
-import toast from 'react-hot-toast';
+
+import { styles } from '@/app/styles/style';
 import AdminHeader from '../topbar/AdminHeader';
 
 type Props = {
@@ -47,9 +48,29 @@ const CourseContent: React.FC<Props> = ({
   };
 
   const handleAddLink = (index: number) => {
-    const updatedData = [...courseContentData];
-    updatedData[index].links.push({ title: '', url: '' });
-    setCourseContentData(updatedData);
+    setCourseContentData((prevData: any) => {
+      const updatedData = prevData.map((item: any, itemIndex: number) => {
+        if (itemIndex === index) {
+          // Check if all existing links have non-empty titles and URLs
+          const areAllLinksValid = item.links.every(
+            (link: any) => link.title !== '' && link.url !== ''
+          );
+
+          // If all links are valid, create a deep copy of the item and the links array
+          if (areAllLinksValid) {
+            const newItem = { ...item };
+            newItem.links = [...item.links, { title: '', url: '' }];
+            return newItem;
+          } else {
+            toast.error(
+              'Please fill all existing link fields before adding a new link.'
+            );
+          }
+        }
+        return item;
+      });
+      return updatedData;
+    });
   };
 
   const newContentHandler = (item: any) => {
@@ -128,6 +149,112 @@ const CourseContent: React.FC<Props> = ({
     }
   };
 
+  const handleVideoLengthChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedCourseContentData = [...courseContentData]; // Create a shallow copy
+    updatedCourseContentData[index] = {
+      ...updatedCourseContentData[index], // Create a shallow copy of the item
+      videoLength: e.target.value, // Update the videoLength property
+    };
+    setCourseContentData(updatedCourseContentData); // Update the state with the new array
+  };
+
+  const handleVideoSectionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedCourseContentData = [...courseContentData];
+    updatedCourseContentData[index] = {
+      ...updatedCourseContentData[index],
+      videoSection: e.target.value,
+    };
+    setCourseContentData(updatedCourseContentData);
+  };
+
+  const handleVideoTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedCourseContentData = [...courseContentData];
+    updatedCourseContentData[index] = {
+      ...updatedCourseContentData[index],
+      title: e.target.value,
+    };
+    setCourseContentData(updatedCourseContentData);
+  };
+
+  const handleVideoUrlChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const updatedCourseContentData = [...courseContentData];
+    updatedCourseContentData[index] = {
+      ...updatedCourseContentData[index],
+      videoUrl: e.target.value,
+    };
+    setCourseContentData(updatedCourseContentData);
+  };
+
+  const handleVideoDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    index: number
+  ) => {
+    const updatedCourseContentData = [...courseContentData];
+    updatedCourseContentData[index] = {
+      ...updatedCourseContentData[index],
+      description: e.target.value,
+    };
+    setCourseContentData(updatedCourseContentData);
+  };
+
+  const handleLinkTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    sectionIndex: number,
+    linkIndex: number
+  ) => {
+    setCourseContentData((prevData: any) => {
+      const updatedData = [...prevData];
+      updatedData[sectionIndex] = {
+        ...updatedData[sectionIndex],
+        links: updatedData[sectionIndex].links.map((link: any, idx: any) => {
+          if (idx === linkIndex) {
+            return {
+              ...link,
+              title: e.target.value,
+            };
+          }
+          return link;
+        }),
+      };
+      return updatedData;
+    });
+  };
+
+  const handleLinkUrlChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    sectionIndex: number,
+    linkIndex: number
+  ) => {
+    setCourseContentData((prevData: any) => {
+      const updatedData = [...prevData];
+      updatedData[sectionIndex] = {
+        ...updatedData[sectionIndex],
+        links: updatedData[sectionIndex].links.map((link: any, idx: any) => {
+          if (idx === linkIndex) {
+            return {
+              ...link,
+              url: e.target.value,
+            };
+          }
+          return link;
+        }),
+      };
+      return updatedData;
+    });
+  };
+
   return (
     <div className="w-[80%] m-auto mt-10 p-3">
       <AdminHeader
@@ -153,16 +280,12 @@ const CourseContent: React.FC<Props> = ({
                       <input
                         type="text"
                         className={`text-[20px] ${
-                          item.videoSection === 'Untittled Section'
+                          item.videoSection === 'Untitled Section'
                             ? 'w-[170px]'
                             : 'w-min'
                         } font-Poppins cursor-pointer dark:text-white text-black bg-transparent outline-none`}
                         value={item.videoSection}
-                        onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].videoSection = e.target.value;
-                          setCourseContentData(updateData);
-                        }}
+                        onChange={(e) => handleVideoSectionChange(e, index)}
                       />
                       <BiSolidPencil className="cursor-pointer dark:text-white text-black" />
                     </div>
@@ -219,11 +342,7 @@ const CourseContent: React.FC<Props> = ({
                         placeholder="Enter video title"
                         className={`${styles.input}`}
                         value={item.title}
-                        onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].title = e.target.value;
-                          setCourseContentData(updateData);
-                        }}
+                        onChange={(e) => handleVideoTitleChange(e, index)}
                       />
                     </div>
                     <div className="my-3">
@@ -233,11 +352,7 @@ const CourseContent: React.FC<Props> = ({
                         placeholder="Enter video url"
                         className={`${styles.input}`}
                         value={item.videoUrl}
-                        onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].videoUrl = e.target.value;
-                          setCourseContentData(updateData);
-                        }}
+                        onChange={(e) => handleVideoUrlChange(e, index)}
                       />
                     </div>
                     <div className="my-3">
@@ -249,11 +364,7 @@ const CourseContent: React.FC<Props> = ({
                         placeholder="Enter video length"
                         className={`${styles.input}`}
                         value={item.videoLength}
-                        onChange={(e: any) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].videoLength = e.target.value;
-                          setCourseContentData(updateData);
-                        }}
+                        onChange={(e) => handleVideoLengthChange(e, index)}
                       />
                     </div>
                     <div className="my-3">
@@ -264,11 +375,7 @@ const CourseContent: React.FC<Props> = ({
                         placeholder="Enter video description"
                         className={`${styles.input} !h-min p-2`}
                         value={item.description}
-                        onChange={(e) => {
-                          const updateData = [...courseContentData];
-                          updateData[index].description = e.target.value;
-                          setCourseContentData(updateData);
-                        }}
+                        onChange={(e) => handleVideoDescriptionChange(e, index)}
                       />
                       <br />
                     </div>
@@ -294,24 +401,18 @@ const CourseContent: React.FC<Props> = ({
                           placeholder="Source code title"
                           className={`${styles.input}`}
                           value={link.title}
-                          onChange={(e) => {
-                            const updateData = [...courseContentData];
-                            updateData[index].links[linkIndex].title =
-                              e.target.value;
-                            setCourseContentData(updateData);
-                          }}
+                          onChange={(e) =>
+                            handleLinkTitleChange(e, index, linkIndex)
+                          }
                         />
                         <input
                           type="text"
                           placeholder="Source code url"
                           className={`${styles.input} mt-6`}
                           value={link.url}
-                          onChange={(e) => {
-                            const updateData = [...courseContentData];
-                            updateData[index].links[linkIndex].url =
-                              e.target.value;
-                            setCourseContentData(updateData);
-                          }}
+                          onChange={(e) =>
+                            handleLinkUrlChange(e, index, linkIndex)
+                          }
                         />
                       </div>
                     ))}
