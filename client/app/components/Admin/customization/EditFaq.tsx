@@ -166,7 +166,12 @@ const EditFaq = () => {
                   ? 'hidden'
                   : 'block cursor-pointer'
               }`}
-              onClick={handleEdit}
+              onClick={
+                areQuestionsUnchanged(data?.layout?.faq, questions) ||
+                isAnyQuestionEmpty(questions)
+                  ? () => null
+                  : handleEdit
+              }
             >
               Save changes
             </div>
