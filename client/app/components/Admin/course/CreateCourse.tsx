@@ -31,6 +31,7 @@ const CreateCourse = () => {
   const [courseInfo, setCourseInfo] = useState({
     name: '',
     description: '',
+    categories: '',
     price: '',
     estimatedPrice: '',
     tags: '',
@@ -47,6 +48,7 @@ const CreateCourse = () => {
       title: '',
       description: '',
       videoSection: 'Untitled Section',
+      videoLength: '',
       links: [
         {
           title: '',
@@ -75,6 +77,7 @@ const CreateCourse = () => {
         title: courseContent.title,
         description: courseContent.description,
         videoSection: courseContent.videoSection,
+        videoLength: courseContent.videoLength,
         suggestion: courseContent.suggestion,
         links: courseContent.links.map((link) => ({
           title: link.title,
@@ -86,6 +89,7 @@ const CreateCourse = () => {
     const data = {
       name: courseInfo.name,
       description: courseInfo.description,
+      categories: courseInfo.categories,
       price: courseInfo.price,
       estimatedPrice: courseInfo.estimatedPrice,
       tags: courseInfo.tags,
@@ -100,6 +104,8 @@ const CreateCourse = () => {
 
     setCourseData(data);
   };
+
+  console.log(courseData);
 
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
