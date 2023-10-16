@@ -43,12 +43,12 @@ const AllCourses = () => {
     {
       field: 'ratings',
       headerName: 'Ratings',
-      flex: 0.5,
+      flex: 0.3,
     },
     {
       field: 'purchased',
       headerName: 'Purchased',
-      flex: 0.5,
+      flex: 0.3,
     },
     {
       field: 'createdAt',
@@ -140,7 +140,7 @@ const AllCourses = () => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                zIndex: -50,
+                zIndex: 5,
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',

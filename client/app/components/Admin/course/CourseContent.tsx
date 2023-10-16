@@ -249,7 +249,7 @@ const CourseContent: React.FC<Props> = ({
                         placeholder="Enter video length"
                         className={`${styles.input}`}
                         value={item.videoLength}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                           const updateData = [...courseContentData];
                           updateData[index].videoLength = e.target.value;
                           setCourseContentData(updateData);

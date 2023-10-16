@@ -105,8 +105,6 @@ const CreateCourse = () => {
     setCourseData(data);
   };
 
-  console.log(courseData);
-
   const handleCourseCreate = async (e: any) => {
     const data = courseData;
 

@@ -24,7 +24,7 @@ const Topbar: React.FC<Props> = () => {
       </div>
 
       {open && (
-        <div className="w-[350px] h-[65vh] dark:bg-[#111c43] bg-white shadow-xl absolute top-16 z-1 rounded max-w-sm my-4 divide-y divide-gray-100 overflow-hidden text-base">
+        <div className="w-[350px] h-[65vh] dark:bg-[#111c43] bg-white shadow-xl absolute top-16 z-50 rounded max-w-sm my-4 divide-y divide-gray-100 overflow-hidden text-base">
           <div className="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             Notifications
           </div>
