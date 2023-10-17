@@ -305,7 +305,7 @@ const AdminSidebar = () => {
 
             <Item
               title="User Analytics"
-              to="/admin/orders-analytics"
+              to="/admin/users-analytics"
               icon={<ManageHistoryIcon />}
               selected={selected}
               setSelected={setSelected}
