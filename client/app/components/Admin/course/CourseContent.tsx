@@ -63,7 +63,7 @@ const CourseContent: React.FC<Props> = ({
             return newItem;
           } else {
             toast.error(
-              'Please fill all existing link fields before adding a new link.'
+              'Please fill existing link fields before adding a new link.'
             );
           }
         }
