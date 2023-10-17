@@ -48,15 +48,19 @@ const UserAnalytics = ({ isDashboard }: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="h-screen ml-12 mt-[60px]">
-          <AdminHeader
-            title="USER ANALYTICS"
-            subtitle="Last 12 months analytics data"
-          />
-          <div className={`${isDashboard ? 'h-[30vh]' : 'h-screen'}`}>
+        <div className="h-screen ml-12 mt-[60px] w-full">
+          {isDashboard ? (
+            ''
+          ) : (
+            <AdminHeader
+              title="USERS ANALYTICS"
+              subtitle="Last 12 months users analytics"
+            />
+          )}
+          <div className={`${isDashboard ? 'h-[50vh]' : 'h-screen'}`}>
             <ResponsiveContainer
-              width={`${isDashboard ? '90%' : '100%'}`}
-              height={`${isDashboard ? '50%' : '70%'}`}
+              width={`${isDashboard ? '100%' : '90%'}`}
+              height={`${isDashboard ? '100%' : '70%'}`}
             >
               <AreaChart
                 width={500}

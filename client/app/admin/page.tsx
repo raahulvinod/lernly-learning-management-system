@@ -15,7 +15,7 @@ const page = () => {
           keywords="Learning, Online courses, Programming, Coding, MERN"
         />
         <div className="flex h-[200vh]">
-          <DashboardHero />
+          <DashboardHero isDashboard={true} />
         </div>
       </AdminProtected>
     </div>

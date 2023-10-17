@@ -15,7 +15,7 @@ const AdminHeader: React.FC<Props> = ({ title, subtitle }) => {
   return (
     <Box mb="30px">
       <Typography
-        variant="h4"
+        variant="h5"
         color={`${themes === 'dark' ? '#fff' : colors.grey[100]}`}
         fontWeight="bold"
         sx={{ m: '0 0 5px 0' }}
