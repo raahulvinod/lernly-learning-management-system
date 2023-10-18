@@ -14,9 +14,10 @@ import { useGetAllUsersQuery } from '@/redux/features/user/userApi';
 
 type Props = {
   isTeam: boolean;
+  open: boolean;
 };
 
-const AllUsers: React.FC<Props> = ({ isTeam }) => {
+const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
   const [active, setActive] = useState(false);
 
   const { theme: themes, setTheme } = NextTheme();
@@ -113,7 +114,7 @@ const AllUsers: React.FC<Props> = ({ isTeam }) => {
   }
 
   return (
-    <div className="mt-[60px] ml-12 w-full relative h-screen -z-50">
+    <div className="mt-[20px] ml-12 w-full relative h-screen -z-50">
       {isLoading ? (
         <Loader />
       ) : (
@@ -136,7 +137,7 @@ const AllUsers: React.FC<Props> = ({ isTeam }) => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                zIndex: -50,
+                zIndex: open ? -1 : 1,
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',

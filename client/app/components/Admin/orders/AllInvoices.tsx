@@ -12,14 +12,14 @@ import Loader from '../../Loader/Loader';
 import { tokens } from '../sidebar/Theme';
 import { useGetAllUsersQuery } from '@/redux/features/user/userApi';
 import { useGetAllOrdersQuery } from '@/redux/features/orders/ordersApi';
-import { Cousine } from 'next/font/google';
 import { useGetAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 
 type Props = {
   isDashboard?: boolean;
+  open?: boolean;
 };
 
-const AllInvoices: React.FC<Props> = ({ isDashboard }) => {
+const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -202,7 +202,8 @@ const AllInvoices: React.FC<Props> = ({ isDashboard }) => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                zIndex: 1,
+                zIndex: open ? -1 : 1,
+                ouline: 'none',
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',

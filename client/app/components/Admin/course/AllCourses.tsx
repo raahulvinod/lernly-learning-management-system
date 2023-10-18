@@ -19,7 +19,11 @@ import DeleteModal from '../../Modal/DeleteModal';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
-const AllCourses = () => {
+type Props = {
+  open: boolean;
+};
+
+const AllCourses: React.FC<Props> = ({ open: notificationOpen }) => {
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -127,7 +131,7 @@ const AllCourses = () => {
   };
 
   return (
-    <div className="mt-[60px] ml-12 w-full">
+    <div className="mt-[20px] ml-12 w-full">
       {isLoading ? (
         <Loader />
       ) : (
@@ -140,7 +144,7 @@ const AllCourses = () => {
               '& .MuiDataGrid-root': {
                 border: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                // zIndex: 1,
+                zIndex: notificationOpen ? -1 : 1,
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',

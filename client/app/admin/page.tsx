@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { DashboardHero } from '../components/Admin/DashboardHero';
+import Topbar from '../components/Admin/topbar/Topbar';
 import AdminProtected from '../hooks/adminProtected';
 import Heading from '../utils/Heading';
 
 const page = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <AdminProtected>
@@ -14,7 +18,8 @@ const page = () => {
           keywords="Learning, Online courses, Programming, Coding, MERN"
         />
         <div className="flex">
-          <DashboardHero isDashboard={true} />
+          <Topbar open={open} setOpen={setOpen} />
+          <DashboardHero isDashboard={true} open={open} />
         </div>
       </AdminProtected>
     </div>

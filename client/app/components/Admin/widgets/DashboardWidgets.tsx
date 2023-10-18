@@ -6,7 +6,7 @@ import OrdersAnalytics from '../analytics/OrdersAnalytics';
 import AllInvoices from '../orders/AllInvoices';
 
 type Props = {
-  open?: boolean;
+  open: boolean;
   value?: number;
 };
 
@@ -19,7 +19,7 @@ const CircularProgressWithLabel: React.FC<Props> = ({ open, value }) => {
         size={45}
         color={value && value > 99 ? 'info' : 'error'}
         thickness={4}
-        style={{ zIndex: -1 }}
+        style={{ zIndex: open ? -1 : 1 }}
       />
       <Box
         sx={{
@@ -92,7 +92,7 @@ const DashboardWidgets: React.FC<Props> = ({ open, value }) => {
           <h5 className="dark:text-white text-black text-[20px] font-[400] font-Poppins pb-3">
             Recent Transactions
           </h5>
-          <AllInvoices isDashboard={true} />
+          <AllInvoices isDashboard={true} open={open} />
         </div>
       </div>
     </div>

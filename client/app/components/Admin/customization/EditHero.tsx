@@ -70,7 +70,7 @@ const EditHero: React.FC<Props> = () => {
         <Loader />
       ) : (
         <div className="h-screen">
-          <div className="px-12 mt-[60px]">
+          <div className="px-12 mt-[20px]">
             <AdminHeader
               title="CUSTOMIZATION"
               subtitle="Customize your hero section"

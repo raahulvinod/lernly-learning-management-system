@@ -15,7 +15,7 @@ export default function DashboardLayout({
           <AdminSidebar />
         </div>
         <div className="w-[85%]">
-          <Topbar />
+          {/* <Topbar /> */}
           {children}
         </div>
       </div>

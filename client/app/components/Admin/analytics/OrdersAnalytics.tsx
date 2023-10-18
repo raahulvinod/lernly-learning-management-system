@@ -52,7 +52,7 @@ const OrdersAnalytics = ({ isDashboard }: Props) => {
       ) : (
         <div
           className={`w-full ${
-            isDashboard ? 'mt-0' : 'mt-[60px] h-screen ml-12'
+            isDashboard ? 'mt-0' : 'mt-[20px] h-screen ml-12'
           }`}
         >
           {isDashboard ? (
@@ -67,10 +67,10 @@ const OrdersAnalytics = ({ isDashboard }: Props) => {
           )}
           <div className={`${isDashboard ? 'h-[45vh]' : 'h-screen'}`}>
             <ResponsiveContainer
-              width={`${isDashboard ? '100%' : '90%'}`}
+              width={`${isDashboard ? '100%' : '80%'}`}
               height={`${isDashboard ? '100%' : '70%'}`}
             >
-              <LineChart width={500} height={300} data={analyticsData}>
+              <LineChart width={500} height={300} data={analyticsData}  style={{ zIndex: -50 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" padding={{ left: 30, right: 30 }} />
                 <YAxis />

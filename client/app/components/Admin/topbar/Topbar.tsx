@@ -1,15 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
 import ThemeSwitcher from '@/app/utils/ThemeSwitcher';
 
-type Props = {};
+type Props = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+};
 
-const Topbar: React.FC<Props> = () => {
-  const [open, setOpen] = useState(false);
-
+const Topbar: React.FC<Props> = ({ open, setOpen }) => {
   return (
     <div className="w-50% flex justify-end p-6 fixed right-0">
       <ThemeSwitcher />

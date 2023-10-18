@@ -82,7 +82,7 @@ const EditCategories = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="ml-12 mt-[60px]">
+        <div className="ml-12 mt-[20px]">
           <AdminHeader title="CATEGORIES" subtitle="All categories" />
           {categories.map((category: any, index: number) => {
             return (

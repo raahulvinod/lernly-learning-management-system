@@ -90,7 +90,7 @@ const EditFaq = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-[90%] 800px:w-[80%] mt-[60px] h-screen">
+        <div className="w-[90%] 800px:w-[80%] mt-[20px] h-screen">
           <AdminHeader title="FAQ" subtitle="Edit FAQ" />
           <div className="mt-12">
             <dl className="space-y-8">
