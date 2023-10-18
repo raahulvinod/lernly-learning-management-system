@@ -2,6 +2,8 @@ import { BiBorderLeft } from 'react-icons/bi';
 import UserAnalytics from '../analytics/UserAnalytics';
 import { PiUsersFourLight } from 'react-icons/pi';
 import { Box, CircularProgress } from '@mui/material';
+import OrdersAnalytics from '../analytics/OrdersAnalytics';
+import AllInvoices from '../orders/AllInvoices';
 
 type Props = {
   open?: boolean;
@@ -37,7 +39,7 @@ const CircularProgressWithLabel: React.FC<Props> = ({ open, value }) => {
 
 const DashboardWidgets: React.FC<Props> = ({ open, value }) => {
   return (
-    <div className="mt-[30px] min-h-screen">
+    <div className="mt-[30px]">
       <div className="grid grid-cols-3 gap-10">
         <div className="p-4 col-span-2">
           <UserAnalytics isDashboard={true} />
@@ -79,6 +81,18 @@ const DashboardWidgets: React.FC<Props> = ({ open, value }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-10">
+        <div className="p-4 col-span-2">
+          <OrdersAnalytics isDashboard={true} />
+        </div>
+        <div className="p-4 col-span-1">
+          <h5 className="dark:text-white text-black text-[20px] font-[400] font-Poppins pb-3">
+            Recent Transactions
+          </h5>
+          <AllInvoices isDashboard={true} />
         </div>
       </div>
     </div>

@@ -23,8 +23,6 @@ type Props = {
 const OrdersAnalytics = ({ isDashboard }: Props) => {
   const { data, isLoading } = useGetOrdersAnalyticsQuery({});
 
-  console.log(data);
-
   //   const analyticsData = [
   //     { name: 'Jan 2023', count: 440 },
   //     { name: 'Feb 2023', count: 550 },
@@ -52,15 +50,25 @@ const OrdersAnalytics = ({ isDashboard }: Props) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="h-screen ml-12 mt-[60px]">
-          <AdminHeader
-            title="ORDERS ANALYTICS"
-            subtitle="Last 12 months orders analytics"
-          />
-          <div className={`${isDashboard ? 'h-[30vh]' : 'h-screen'}`}>
+        <div
+          className={`w-full ${
+            isDashboard ? 'mt-0' : 'mt-[60px] h-screen ml-12'
+          }`}
+        >
+          {isDashboard ? (
+            <h4 className="dark:text-white font-Poppins ml-12 mb-4 font-semibold text-[20px]">
+              Orders Analytics
+            </h4>
+          ) : (
+            <AdminHeader
+              title="ORDERS ANALYTICS"
+              subtitle="Last 12 months orders analytics"
+            />
+          )}
+          <div className={`${isDashboard ? 'h-[45vh]' : 'h-screen'}`}>
             <ResponsiveContainer
-              width={`${isDashboard ? '90%' : '90%'}`}
-              height={`${isDashboard ? '50%' : '70%'}`}
+              width={`${isDashboard ? '100%' : '90%'}`}
+              height={`${isDashboard ? '100%' : '70%'}`}
             >
               <LineChart width={500} height={300} data={analyticsData}>
                 <CartesianGrid strokeDasharray="3 3" />
