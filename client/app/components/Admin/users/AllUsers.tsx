@@ -114,61 +114,64 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
   }
 
   return (
-    <div className="mt-[20px] ml-12 w-full relative h-screen -z-50">
+    <div className="mt-[20px] ml-12 w-full relative h-screen">
       {isLoading ? (
         <Loader />
       ) : (
-        <Box m="20px">
+        <>
           {isTeam && (
-            <div className="w-full flex justify-end absolute right-4 top-4">
+            <div className="w-full flex justify-end absolute right-4 top-4 cursor-pointer">
               <div
-                className={`bg-[#3e4396] font-Poppins text-white p-4 text-center rounded-lg !w-[190px] cursor-pointer`}
+                className={`bg-[#3e4396] font-Poppins text-white p-4 text-center rounded-lg !w-[190px]`}
                 onClick={() => setActive(!active)}
               >
                 Add new memeber
               </div>
             </div>
           )}
-          <AdminHeader title="TEAM MANAGEMENT" subtitle="List of admin" />
-          <Box
-            m="40px 0 0 0"
-            height="75vh"
-            sx={{
-              '& .MuiDataGrid-root': {
-                border: 'none',
-                color: `${themes === 'dark' ? '#fff !important' : ''}`,
-                zIndex: open ? -1 : 1,
-              },
-              '& .MuiDataGrid-cell': {
-                borderBottom: 'none',
-              },
-              '& .name-column--cell': {
-                color: colors.greenAccent[300],
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: colors.blueAccent[700],
-                color: `${themes === 'dark' ? '#000 !important' : ''}`,
-                borderBottom: 'none',
-              },
-              '& .MuiDataGrid-virtualScroller': {
-                backgroundColor: `${
-                  themes === 'dark'
-                    ? '#111C43 !important'
-                    : `${colors.primary[400]} !important`
-                }`,
-              },
-              '& .MuiDataGrid-footerContainer': {
-                borderTop: 'none',
-                backgroundColor: colors.blueAccent[700],
-              },
-              '& .MuiCheckbox-root': {
-                color: `${colors.greenAccent[200]} !important`,
-              },
-            }}
-          >
-            <DataGrid checkboxSelection rows={rows} columns={columns} />
+          <Box m="20px">
+            <AdminHeader title="USER MANAGEMENT" subtitle="List of users" />
+            <Box
+              m="40px 0 0 0"
+              height="75vh"
+              sx={{
+                '& .MuiDataGrid-root': {
+                  border: 'none',
+                  color: `${themes === 'dark' ? '#fff !important' : ''}`,
+                  zIndex: open ? -1 : 1,
+                },
+                '& .MuiDataGrid-cell': {
+                  borderBottom: 'none',
+                },
+                '& .name-column--cell': {
+                  color: colors.greenAccent[300],
+                  // zIndex: 50,
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: colors.blueAccent[700],
+                  color: `${themes === 'dark' ? '#000 !important' : ''}`,
+                  borderBottom: 'none',
+                },
+                '& .MuiDataGrid-virtualScroller': {
+                  backgroundColor: `${
+                    themes === 'dark'
+                      ? '#111C43 !important'
+                      : `${colors.primary[400]} !important`
+                  }`,
+                },
+                '& .MuiDataGrid-footerContainer': {
+                  borderTop: 'none',
+                  backgroundColor: colors.blueAccent[700],
+                },
+                '& .MuiCheckbox-root': {
+                  color: `${colors.greenAccent[200]} !important`,
+                },
+              }}
+            >
+              <DataGrid checkboxSelection rows={rows} columns={columns} />
+            </Box>
           </Box>
-        </Box>
+        </>
       )}
     </div>
   );

@@ -63,7 +63,6 @@ const UserAnalytics = ({ isDashboard }: Props) => {
             <ResponsiveContainer
               width={`${isDashboard ? '100%' : '90%'}`}
               height={`${isDashboard ? '100%' : '70%'}`}
-              // style={{ zIndex: -50 }}
             >
               <AreaChart
                 width={500}

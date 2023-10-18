@@ -15,8 +15,8 @@ import { useGetAllOrdersQuery } from '@/redux/features/orders/ordersApi';
 import { useGetAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 
 type Props = {
-  isDashboard?: boolean;
-  open?: boolean;
+  isDashboard: boolean;
+  open: boolean;
 };
 
 const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
@@ -182,7 +182,7 @@ const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
   return (
     <div
       className={`${
-        isDashboard ? 'mt-0' : 'mt-[60px] ml-12 w-full relative h-screen -z-50'
+        isDashboard ? 'mt-0' : 'mt-[20px] ml-12 w-full relative h-screen'
       }`}
     >
       {isLoading ? (
@@ -201,9 +201,9 @@ const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
             sx={{
               '& .MuiDataGrid-root': {
                 border: 'none',
+                ouline: 'none',
                 color: `${themes === 'dark' ? '#fff !important' : ''}`,
                 zIndex: open ? -1 : 1,
-                ouline: 'none',
               },
               '& .MuiDataGrid-cell': {
                 borderBottom: 'none',
