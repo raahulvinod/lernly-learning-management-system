@@ -3,9 +3,10 @@ import { BsStarHalf } from 'react-icons/bs';
 
 type Props = {
   rating: number;
+  isProfile?: boolean
 };
 
-const Ratings: React.FC<Props> = ({ rating }) => {
+const Ratings: React.FC<Props> = ({ rating , isProfile}) => {
   const stars = [];
 
   for (let i = 0; i <= 5; i++) {
@@ -38,7 +39,7 @@ const Ratings: React.FC<Props> = ({ rating }) => {
       );
     }
   }
-  return <div className="flex mt-1 ml-2 800px:ml-10">{stars}</div>;
+  return <div className={`${isProfile && 'ml-2 800px:ml-10'} flex mt-1 `}>{stars}</div>;
 };
 
 export default Ratings;
