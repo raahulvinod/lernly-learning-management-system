@@ -7,7 +7,7 @@ const Hero = () => {
 
   return (
     <>
-      <div className="mt-12 font-Poppins mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8 h-full">
+      <div className="font-Poppins h-screen mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
         <div className="space-y-4 flex-1 sm:text-center lg:text-left">
           <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
             A world of learning from{' '}
