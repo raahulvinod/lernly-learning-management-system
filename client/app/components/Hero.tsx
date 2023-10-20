@@ -3,11 +3,11 @@ import Image from 'next/image';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
 
 const Hero = () => {
-  const { data, refetch, isLoading } = useGetHeroDataQuery('Banner', {});
+  const { data, isLoading } = useGetHeroDataQuery('Banner', {});
 
   return (
     <>
-      <div className="font-Poppins h-screen mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
+      <div className="font-Poppins h-full mx-auto max-w-screen-xl pb-12 px-4 items-center lg:flex md:px-8">
         <div className="space-y-4 flex-1 sm:text-center lg:text-left">
           <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
             A world of learning from{' '}
@@ -42,11 +42,6 @@ const Hero = () => {
             width={400}
             height={400}
           />
-          {/* <img
-            src="https://i.postimg.cc/HxHyt53c/undraw-heatmap-uyye.png"
-            className="w-full mx-auto sm:w-10/12  lg:w-full"
-          /> */}
-          {/* data?.layout?.banner?.image?.url */}
         </div>
       </div>
     </>

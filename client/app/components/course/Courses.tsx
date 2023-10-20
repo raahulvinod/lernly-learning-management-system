@@ -60,14 +60,14 @@ const Courses = () => {
   // console.log(courses);
   return (
     <div className={`w-[90%] 800px:w-[80%] m-auto`}>
-      <h1 className="text-center  font-Poppins font-bold text-[20px] leading-[35px] sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[40px] text-[#000]">
+      {/* <h1 className="text-center  font-Poppins font-semibold text-[20px] leading-[35px] sm:text-3xl lg:text-4xl dark:text-white 800px:!leading-[40px] text-[#000]">
         Fulfill Your Career <span className="text-gradient">Aspirations </span>{' '}
         <br />
         With Our Courses
       </h1>
       <br />
-      <br />
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-4 mb-12">
+      <br /> */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mb-12">
         <article>
           <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">
             OUR COURSES
