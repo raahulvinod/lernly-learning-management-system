@@ -1,7 +1,8 @@
 import React from 'react';
-import { Course } from './Courses';
 import Link from 'next/link';
 import Image from 'next/image';
+
+import { Course } from './Courses';
 import Ratings from '@/app/utils/Ratings';
 
 interface CourseProps {
@@ -53,11 +54,21 @@ const CourseCard: React.FC<CourseProps> = ({ course, isProfile }) => {
             </h5> */}
           </div>
           {/* Price details */}
-          <div className="text-lg text-gray-900 font-semibold mt-3">
-            ₹ {course.price}
-            {course.estimatedPrice && (
-              <span className="text-gray-400 text-sm line-through ml-2">
-                ₹ {course.estimatedPrice}
+          <div className="flex justify-between items-center">
+            <div className="text-lg text-gray-900 font-semibold mt-3">
+              {course.price === 0 ? 'Free' : '₹' + course.price}
+              {course.estimatedPrice && (
+                <span className="text-gray-400 text-sm line-through ml-2">
+                  {course.estimatedPrice === 0
+                    ? ''
+                    : '₹' + course.estimatedPrice}
+                </span>
+              )}
+            </div>
+            {/* Bestseller tag */}
+            {course.purchased === 5 && (
+              <span className="bg-yellow-100 mt-4 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
+                Bestseller
               </span>
             )}
           </div>
