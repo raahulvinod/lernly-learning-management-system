@@ -20,9 +20,7 @@ const Page: FC<Props> = (props) => {
     <div>
       <Heading
         title="Learnly"
-        description="
-        Elevate Learning, 
-        Anywhere, Anytime. 
+        description=" 
         Explore a world of knowledge with our learnly eLearning platform. 
         Join educators and learners worldwide on a journey of discovery."
         keywords="Learning, Online courses, Programming, Coding, MERN"

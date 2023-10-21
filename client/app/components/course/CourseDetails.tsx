@@ -1,6 +1,10 @@
+import Link from 'next/link';
 import { MdCheck } from 'react-icons/md';
 import { FiClock, FiTag, FiBook, FiGlobe } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+import { AiFillLike, AiFillDislike, AiOutlineFlag } from 'react-icons/ai';
+import { BsPerson } from 'react-icons/bs';
+import { format } from 'timeago.js';
 
 import { Course } from './Courses';
 import Ratings from '@/app/utils/Ratings';
@@ -26,7 +30,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === courseData._id);
 
-  const handleOrder = (e: any) => {};
+  const handleOrder = (e: any) => {
+    console.log('order');
+  };
 
   const formatLastUpdated = (updatedAt: string): string => {
     const date = new Date(updatedAt);
@@ -41,9 +47,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
 
   return (
     <>
-      <div className="px-20">
+      <div className="px-24">
         <div className="bg-white">
-          <div className="container mx-auto flex flex-wrap relative">
+          <div className="container mx-auto flex flex-wrap relative flex-col-reverse lg:flex-row">
             {/* Course Details */}
             <div className="w-full lg:w-2/3">
               <header className="bg-white py-6">
@@ -101,6 +107,24 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                   ))}
                 </ul>
               </section>
+
+              {/* Course overview */}
+              <section className="bg-white py-8">
+                <div className="container mx-auto">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                      Course Overview
+                    </h2>
+                    <p className="text-gray-700">
+                      Learn what this course is all about, who the instructor
+                      is, and what you'll achieve.
+                    </p>
+                  </div>
+                  {/*  Course content List */}
+                  {/* TODO: add content here, such as instructor information, course description, and goals. */}
+                </div>
+              </section>
+
               <section className="py-4  bg-white border-gray-300 rounded p-4">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
                   Prerequisites
@@ -113,11 +137,118 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                   )}
                 </ul>
               </section>
+
+              {/* Reviews */}
+              <section className="bg-white py-8 mr-12">
+                <div className="container mx-auto">
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                    Reviews
+                  </h2>
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
+                    <Ratings rating={courseData?.ratings} />
+                    <div>
+                      <h5 className="font-semibold mb-4 mt-2 text-lg">
+                        (
+                        {Number.isInteger(courseData.ratings)
+                          ? courseData?.ratings.toFixed(1)
+                          : courseData?.ratings.toFixed(2)}{' '}
+                        ) ratings {courseData?.reviews.length} reviews
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {courseData?.reviews &&
+                      [...courseData.reviews]
+                        .reverse()
+                        .map((review: any, index: number) => (
+                          <div
+                            key={index}
+                            className="bg-gray-100 rounded-lg p-4"
+                          >
+                            <div className="flex items-center mb-2">
+                              <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                <BsPerson size={24} color="gray" />{' '}
+                              </div>
+                              <div className="ml-2">
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                  {review.user.name}
+                                </h3>
+                                <div className="text-gray-500 text-sm">
+                                  {format(review.createdAt)}
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-gray-700">{review.content}</p>
+                            {/*rating component*/}
+                            <div className="mt-2">
+                              <Ratings rating={review.rating} />
+                            </div>
+                            <div className="mt-4">
+                              <div className="flex items-center text-gray-600">
+                                <button className="mr-2">
+                                  <AiFillLike /> Like
+                                </button>
+                                <button className="mr-2">
+                                  <AiFillDislike /> Dislike
+                                </button>
+                                <button>
+                                  <AiOutlineFlag /> Report
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                  </div>
+                </div>
+                {/* sample content */}
+                <div key={1} className="bg-gray-100 rounded-lg p-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                      <BsPerson size={24} color="gray" />{' '}
+                    </div>
+                    <div className="ml-2">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        Rahul vinod
+                      </h3>
+                      <div className="text-gray-500 text-sm">21 October</div>
+                    </div>
+                  </div>
+                  <p className="text-gray-700">
+                    I recently completed this React course, and I must say it's
+                    one of the best online courses I've ever taken. The
+                    instructor did a fantastic job explaining complex React
+                    concepts in a simple and understandable manner. The course
+                    content was well-structured, starting from the fundamentals
+                    and gradually progressing to more advanced topics. Each
+                    section had practical exercises and projects, which helped
+                    me reinforce what I learned.
+                  </p>
+                  {/* You can add the rating component here */}
+                  <div className="mt-2">
+                    <Ratings rating={4.5} />
+                  </div>
+                  <div className="mt-4">
+                    <p>Was this review helpful?</p>
+                    <div className="flex items-center text-gray-600 mt-2">
+                      <button className="mr-2">
+                        <AiFillLike className="hover:text-blue-400" /> Like
+                      </button>
+                      <button className="mr-2">
+                        <AiFillDislike className="hover:text-blue-400" />{' '}
+                        Dislike
+                      </button>
+                      <button>
+                        <AiOutlineFlag className="hover:text-red-400" /> Report
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
 
             {/* Fixed Right-side Box */}
             <div className="w-full lg:w-1/3 lg:flex-none">
-              <div className="sticky top-10">
+              <div className="sticky top-16">
                 <div className="bg-white rounded-lg shadow-md p-4">
                   {/* Course Video */}
                   <div className="mb-4">
@@ -129,7 +260,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                   </div>
 
                   {/* Price Details */}
-                  <div className="mb-4">
+                  <div className="mb-4 w-[90%]">
                     <div className="flex items-center gap-2 ">
                       <p className="text-xl font-semibold text-black">
                         ₹{courseData?.price === 0 ? 'Free' : courseData?.price}
@@ -143,29 +274,37 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                     </p>
                   </div>
 
-                  {/* Buy Now Button */}
-                  <button className="bg-[crimson] text-white py-2 px-4 rounded-lg w-full mb-4">
-                    Buy Now
-                  </button>
+                  {isPurchased ? (
+                    <Link
+                      href={`/course-access/${courseData._id}`}
+                      className="bg-[crimson] mx-auto text-white py-2 px-4 rounded-lg w-[90%] mb-4"
+                    >
+                      Go to course
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={handleOrder}
+                      className="bg-[crimson] mx-auto text-white py-2 px-4 rounded-lg w-[90%] mb-4"
+                    >
+                      Buy Now
+                    </button>
+                  )}
 
                   {/* Coupon Input */}
                   <input
                     type="text"
                     placeholder="Enter Coupon Code"
-                    className="w-full bg-gray-200 p-2 rounded-lg mb-2"
+                    className="w-[90%] bg-gray-200 p-2 rounded-lg mb-2"
                   />
 
                   {/* Apply Coupon Button */}
-                  <button className="bg-[#37a39a] text-white py-2 px-4 rounded-lg w-full mb-2">
+                  <button className="bg-[#37a39a] mx-auto text-white py-2 px-4 rounded-lg w-[90%] mb-2">
                     Apply Coupon
                   </button>
 
-                  {/* 30-Day Money-Back Guarantee */}
                   <p className="text-sm text-gray-500 mb-2 text-center">
                     30-Day Money-Back Guarantee
                   </p>
-
-                  {/* Full-Time Access */}
                   <p className="text-sm text-gray-500 text-center">
                     Full-Time Access
                   </p>
