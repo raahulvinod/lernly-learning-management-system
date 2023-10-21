@@ -47,16 +47,18 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
 
   return (
     <>
-      <div className="px-24">
-        <div className="bg-white">
+      <div className="px-4 md:px-32 dark:bg-gray-900">
+        <div className="bg-white dark:bg-gray-900">
           <div className="container mx-auto flex flex-wrap relative flex-col-reverse lg:flex-row">
             {/* Course Details */}
             <div className="w-full lg:w-2/3">
-              <header className="bg-white py-6">
-                <h1 className="text-3xl font-semibold text-gray-900">
+              <header className="bg-white dark:bg-gray-900 py-6">
+                <h1 className="text-3xl font-semibold dark:text-white text-gray-900">
                   {courseData.name}
                 </h1>
-                <p className="text-gray-500 mt-2">{courseData.description}</p>
+                <p className="text-gray-500 dark:text-gray-300 mt-2 px-1">
+                  {courseData.description}
+                </p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="flex items-start flex-col space-y-2 md:flex-row md:items-center">
                     <Ratings rating={courseData.ratings} />
@@ -94,8 +96,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
               {/*TODO: Add course curriculum, instructor information, reviews */}
 
               {/* What You'll Learn Section */}
-              <section className="py-4 border bg-white border-gray-300 rounded p-4 mr-12">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              <section className="py-4 border bg-white dark:bg-gray-900 dark:text-white border-gray-300 rounded p-4 mr-12">
+                <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900 mb-2">
                   What You'll Learn
                 </h2>
                 <ul className="list-inside">
@@ -109,13 +111,13 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
               </section>
 
               {/* Course overview */}
-              <section className="bg-white py-8">
+              <section className="bg-white dark:bg-gray-900 py-8">
                 <div className="container mx-auto">
                   <div className="text-center">
-                    <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                    <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-4">
                       Course Overview
                     </h2>
-                    <p className="text-gray-700">
+                    <p className="text-gray-700 dark:text-gray-400">
                       Learn what this course is all about, who the instructor
                       is, and what you'll achieve.
                     </p>
@@ -125,8 +127,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                 </div>
               </section>
 
-              <section className="py-4  bg-white border-gray-300 rounded p-4">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              <section className="py-4  bg-white dark:bg-gray-900 border-gray-300 dark:text-white rounded p-4 mr-12">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                   Prerequisites
                 </h2>
                 <ul className=" list-disc list-inside">
@@ -139,9 +141,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
               </section>
 
               {/* Reviews */}
-              <section className="bg-white py-8 mr-12">
+              <section className="bg-white dark:bg-gray-900 dark:text-white py-8 mr-12">
                 <div className="container mx-auto">
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                  <h2 className="text-2xl font-semibold dark:text-gray-100 text-gray-900 mb-4">
                     Reviews
                   </h2>
                   <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
@@ -201,19 +203,22 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                   </div>
                 </div>
                 {/* sample content */}
-                <div key={1} className="bg-gray-100 rounded-lg p-4">
+                <div
+                  key={1}
+                  className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
+                >
                   <div className="flex items-center mb-2">
                     <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                       <BsPerson size={24} color="gray" />{' '}
                     </div>
                     <div className="ml-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-400">
                         Rahul vinod
                       </h3>
                       <div className="text-gray-500 text-sm">21 October</div>
                     </div>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-gray-700 dark:text-gray-400">
                     I recently completed this React course, and I must say it's
                     one of the best online courses I've ever taken. The
                     instructor did a fantastic job explaining complex React
@@ -223,7 +228,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                     section had practical exercises and projects, which helped
                     me reinforce what I learned.
                   </p>
-                  {/* You can add the rating component here */}
+                  {/*  rating component */}
                   <div className="mt-2">
                     <Ratings rating={4.5} />
                   </div>
@@ -249,7 +254,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
             {/* Fixed Right-side Box */}
             <div className="w-full lg:w-1/3 lg:flex-none">
               <div className="sticky top-16">
-                <div className="bg-white rounded-lg shadow-md p-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
                   {/* Course Video */}
                   <div className="mb-4">
                     {/* course video player */}
@@ -262,7 +267,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                   {/* Price Details */}
                   <div className="mb-4 w-[90%]">
                     <div className="flex items-center gap-2 ">
-                      <p className="text-xl font-semibold text-black">
+                      <p className="text-xl font-semibold text-black dark:text-gray-100">
                         ₹{courseData?.price === 0 ? 'Free' : courseData?.price}
                       </p>
                       <p className="text-gray-500 line-through">
@@ -290,24 +295,27 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                     </button>
                   )}
 
-                  {/* Coupon Input */}
-                  <input
-                    type="text"
-                    placeholder="Enter Coupon Code"
-                    className="w-[90%] bg-gray-200 p-2 rounded-lg mb-2"
-                  />
+                  {/* Apply Coupon*/}
+                  {!isPurchased && (
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Enter Coupon Code"
+                        className="w-[90%] bg-gray-200 p-2 rounded-lg mb-2"
+                      />
 
-                  {/* Apply Coupon Button */}
-                  <button className="bg-[#37a39a] mx-auto text-white py-2 px-4 rounded-lg w-[90%] mb-2">
-                    Apply Coupon
-                  </button>
+                      <button className="bg-[#37a39a] mx-auto text-white py-2 px-4 rounded-lg w-[90%] mb-2">
+                        Apply Coupon
+                      </button>
 
-                  <p className="text-sm text-gray-500 mb-2 text-center">
-                    30-Day Money-Back Guarantee
-                  </p>
-                  <p className="text-sm text-gray-500 text-center">
-                    Full-Time Access
-                  </p>
+                      <p className="text-sm text-gray-500 mb-2 text-center">
+                        30-Day Money-Back Guarantee
+                      </p>
+                      <p className="text-sm text-gray-500 text-center">
+                        Full-Time Access
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
