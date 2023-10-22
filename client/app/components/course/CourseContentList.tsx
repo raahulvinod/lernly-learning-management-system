@@ -79,7 +79,7 @@ const CourseContentList: React.FC<CourseContentProps> = ({
 
         return (
           <div className={`${!isDemo && ''}`} key={section}>
-            <div className="w-full flex">
+            <div className="w-full flex" onClick={() => toggleSection(section)}>
               {/* render video section */}
               <div className="w-full flex justify-between items-center bg-[#f7f9fa] dark:bg-gray-800 p-3 border dark:border-gray-700">
                 <h2 className="text-lg font-semibold text-black dark:text-white">
