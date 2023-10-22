@@ -9,6 +9,7 @@ import { format } from 'timeago.js';
 import { Course } from './Courses';
 import Ratings from '@/app/utils/Ratings';
 import CoursePlayer from '../Admin/course/CoursePlayer';
+import CourseContentList from './CourseContentList';
 
 interface CourseDataProps {
   courseData: Course;
@@ -16,9 +17,9 @@ interface CourseDataProps {
 
 const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
   const { user } = useSelector((state: any) => state.auth);
-  console.log('user: ' + user);
+  // console.log('user: ' + user);
 
-  console.log(courseData);
+  // console.log(courseData);
 
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -111,16 +112,20 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
               </section>
 
               {/* Course overview */}
-              <section className="bg-white dark:bg-gray-900 py-8">
+              <section className="bg-white dark:bg-gray-900 py-8 mr-12">
                 <div className="container mx-auto">
-                  <div className="text-center">
+                  <div>
                     <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-200 mb-4">
                       Course Overview
                     </h2>
                     <p className="text-gray-700 dark:text-gray-400">
-                      Learn what this course is all about, who the instructor
-                      is, and what you'll achieve.
+                      Learn what this course is all about,and what you'll
+                      achieve.
                     </p>
+                    <CourseContentList
+                      courseContent={courseData?.courseData}
+                      isDemo={true}
+                    />
                   </div>
                   {/*  Course content List */}
                   {/* TODO: add content here, such as instructor information, course description, and goals. */}
@@ -266,6 +271,13 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
 
                   {/* Price Details */}
                   <div className="mb-4 w-[90%]">
+                    <p className="text-lg font-semibold dark:text-white">
+                      Preview this course
+                    </p>
+                    <p className="text-base font-normal pb-2 dark:text-white">
+                      Get this course, plus premium support 24x7, interactive
+                      sessions and more.
+                    </p>
                     <div className="flex items-center gap-2 ">
                       <p className="text-xl font-semibold text-black dark:text-gray-100">
                         ₹{courseData?.price === 0 ? 'Free' : courseData?.price}
