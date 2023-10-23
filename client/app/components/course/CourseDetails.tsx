@@ -257,7 +257,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
             </div>
 
             {/* Fixed Right-side Box */}
-            <div className="w-full lg:w-1/3 lg:flex-none">
+            <div className="w-full lg:w-1/3 lg:flex-none mb-8">
               <div className="sticky top-16">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
                   {/* Course Video */}
