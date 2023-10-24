@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { MdCheck } from 'react-icons/md';
 import { FiClock, FiTag, FiBook, FiGlobe } from 'react-icons/fi';
@@ -10,6 +12,8 @@ import { Course } from './Courses';
 import Ratings from '@/app/utils/Ratings';
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import CourseContentList from './CourseContentList';
+import { useState } from 'react';
+import { IoCloseOutline } from 'react-icons/io5';
 
 interface CourseDataProps {
   courseData: Course;
@@ -17,6 +21,7 @@ interface CourseDataProps {
 
 const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
   const { user } = useSelector((state: any) => state.auth);
+  const [open, setOpen] = useState(false);
   // console.log('user: ' + user);
 
   // console.log(courseData);
@@ -31,8 +36,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === courseData._id);
 
-  const handleOrder = (e: any) => {
-    console.log('order');
+  const handleOrder = (e: React.MouseEvent) => {
+    setOpen(true);
   };
 
   const formatLastUpdated = (updatedAt: string): string => {
@@ -333,6 +338,21 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
             </div>
           </div>
         </div>
+        <>
+          {open && (
+            <div className="w-full fixed h-screen bg-[#00000036] top-0 left-0 z-50 flex items-center justify-center">
+              <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
+                <div className="w-full flex justify-end">
+                  <IoCloseOutline
+                    size={30}
+                    className="text-black cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       </div>
     </>
   );
