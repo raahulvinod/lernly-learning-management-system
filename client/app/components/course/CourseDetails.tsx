@@ -7,24 +7,31 @@ import { useSelector } from 'react-redux';
 import { AiFillLike, AiFillDislike, AiOutlineFlag } from 'react-icons/ai';
 import { BsPerson } from 'react-icons/bs';
 import { format } from 'timeago.js';
+import { Stripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
+import { useState } from 'react';
+import { IoCloseOutline } from 'react-icons/io5';
 
 import { Course } from './Courses';
 import Ratings from '@/app/utils/Ratings';
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import CourseContentList from './CourseContentList';
-import { useState } from 'react';
-import { IoCloseOutline } from 'react-icons/io5';
+import CheckoutForm from '../payment/CheckoutForm';
 
 interface CourseDataProps {
   courseData: Course;
+  stripePromise: Stripe | null;
+  clientSecret: string;
 }
 
-const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
+const CourseDetails: React.FC<CourseDataProps> = ({
+  courseData,
+  stripePromise,
+  clientSecret,
+}) => {
   const { user } = useSelector((state: any) => state.auth);
   const [open, setOpen] = useState(false);
-  // console.log('user: ' + user);
-
-  // console.log(courseData);
 
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -348,6 +355,13 @@ const CourseDetails: React.FC<CourseDataProps> = ({ courseData }) => {
                     className="text-black cursor-pointer"
                     onClick={() => setOpen(false)}
                   />
+                </div>
+                <div className="w-full">
+                  {stripePromise && clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                      <CheckoutForm setOpen={setOpen} course={courseData} />
+                    </Elements>
+                  )}
                 </div>
               </div>
             </div>
