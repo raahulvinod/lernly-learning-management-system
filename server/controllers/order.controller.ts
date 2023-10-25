@@ -138,7 +138,7 @@ export const stripePayment = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: req.body.amount,
+        amount: req.body.amount * 100, //amount in rupees
         currency: 'INR',
         metadata: {
           company: 'Leanly.education',
