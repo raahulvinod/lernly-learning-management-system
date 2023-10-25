@@ -18,6 +18,7 @@ import Ratings from '@/app/utils/Ratings';
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import CourseContentList from './CourseContentList';
 import CheckoutForm from '../payment/CheckoutForm';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 interface CourseDataProps {
   courseData: Course;
@@ -30,7 +31,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({
   stripePromise,
   clientSecret,
 }) => {
-  const { user } = useSelector((state: any) => state.auth);
+  const { data: { user } = {} } = useLoadUserQuery(undefined, {});
+
   const [open, setOpen] = useState(false);
 
   const discountPercentage =
