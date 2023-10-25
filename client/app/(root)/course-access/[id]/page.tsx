@@ -37,7 +37,7 @@ const page = ({ params }: { params: { id: string } }) => {
         <Loader />
       ) : (
         <div>
-          <CourseContent courseId={id} />
+          <CourseContent courseId={id} userData={data.user} />
         </div>
       )}
     </>

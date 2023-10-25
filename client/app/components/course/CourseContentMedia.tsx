@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import CoursePlayer from '../Admin/course/CoursePlayer';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import {
+  AiFillStar,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineStar,
+} from 'react-icons/ai';
+import Image from 'next/image';
+import { useGetCourseDetailsQuery } from '@/redux/features/courses/coursesApi';
 
-interface UserData {
+export interface UserData {
+  _id: string;
   name: string;
   email: string;
   avatar: {
@@ -41,6 +49,7 @@ interface CourseContentMediaProps {
   courseId: string;
   activeVideo: number;
   setActiveVideo: (activeVideo: number) => void;
+  userData: UserData;
 }
 
 const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
@@ -48,9 +57,20 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   courseId,
   activeVideo,
   setActiveVideo,
+  userData,
 }) => {
-  console.log(courseData);
+  //   console.log(courseData);
   const [activeBar, setActiveBar] = useState(0);
+  const [question, setQuestion] = useState('');
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState('');
+
+  const { data } = useGetCourseDetailsQuery(courseId);
+  //   console.log(data);
+
+  const isReviewExists = data?.reviews?.find(
+    (review: any) => review.user._id === userData._id
+  );
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -60,15 +80,18 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       />
       <div className="w-full flex items-center justify-between my-3">
         <div
-          className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 px-4 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 !min-h-[40px] !py-[unset] ${
+          className={`text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 md:px-4 text-center inline-flex items-center md:mr-2 mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 !min-h-[40px] !py-[unset] ${
             activeVideo === 0 && '!cursor-no-drop opacity-[0.8]'
           }`}
-          onClick={() => (activeVideo === 0 ? 0 : activeVideo - 1)}
+          onClick={() =>
+            activeVideo === 0 ? 0 : setActiveVideo(activeVideo - 1)
+          }
         >
-          <AiOutlineArrowLeft className="mr-2" /> Prev Lecture
+          <AiOutlineArrowLeft className="md:mr-2" />
+          <span className="hidden md:block">Prev lecture</span>
         </div>
         <div
-          className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 px-4 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 !min-h-[40px] !py-[unset] ${
+          className={`text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 md:px-4 text-center inline-flex items-center md:mr-2 mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 !min-h-[40px] !py-[unset] ${
             courseData.length - 1 === activeVideo &&
             '!cursor-no-drop opacity-[0.8]'
           }`}
@@ -80,22 +103,22 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
             )
           }
         >
-          Next Lecture
-          <AiOutlineArrowRight className="ml-2" />
+          <span className="hidden md:block">Next lecture</span>
+          <AiOutlineArrowRight className="md:ml-2" />
         </div>
       </div>
       <h1 className="pt-2 text-[25px] font-[600] dark:text-white">
         {courseData[activeVideo]?.title}
       </h1>
       <br />
-      <div className="border">
+      <div className="border dark:border-none">
         <div className="p-4 flex items-center justify-between bg-slate-500 bg-opacity-20 backdrop-blur shadow-[bg-slate-700] rounded shadow-inner">
           {['Overview', 'Resourses', 'Q & A', 'Reviews'].map((text, index) => (
             <h5
               key={index}
               className={`800px:text-[20px] cursor-pointer ${
                 activeBar === index
-                  ? 'text-blue-700'
+                  ? 'text-[crimson]'
                   : 'dark:text-white text-black'
               }`}
               onClick={() => setActiveBar(index)}
@@ -122,6 +145,105 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 </a>
               </div>
             ))}
+          </div>
+        )}
+        {activeBar === 2 && (
+          <>
+            <div className="flex w-full">
+              <Image
+                src={userData.avatar ? userData.avatar.url : ''}
+                width={50}
+                height={50}
+                alt="user profile"
+                className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+              />
+              <textarea
+                name=""
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                id=""
+                cols={40}
+                rows={5}
+                placeholder="Ask your question..."
+                className="outline-none bg-transparent ml-3 p-2 border boarder-[#ffffff57] 800px:w-[90%] 800px:text-[18px] mb-4"
+              ></textarea>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="text-white  bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Submit
+              </button>
+            </div>
+            <br />
+            <div className="w-full h-[1px] bg-[#ffffff3b] dark:text-white"></div>
+            <div>{/* question replay */}</div>
+          </>
+        )}
+        {activeBar === 3 && (
+          <div className="w-full">
+            <>
+              {!isReviewExists && (
+                <>
+                  <div className="flex w-full">
+                    <Image
+                      src={userData.avatar ? userData.avatar.url : ''}
+                      width={50}
+                      height={50}
+                      alt="user profile"
+                      className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+                    />
+                    <div className="w-full">
+                      <h5 className="pl-3 mb-2 text-[20px] font-[500] dark:text-white text-black">
+                        Rate this course
+                      </h5>
+                      <div className="flex w-full ml-2 pb-3">
+                        {[1, 2, 3, 4, 5].map((i) =>
+                          rating >= i ? (
+                            <AiFillStar
+                              key={i}
+                              className="mr-2 cursor-pointer"
+                              color="rgba(246,186,0)"
+                              size={25}
+                              onClick={() => setRating(i)}
+                            />
+                          ) : (
+                            <AiOutlineStar
+                              key={i}
+                              className="mr-2 cursor-pointer"
+                              color="rgba(246,186,0)"
+                              size={25}
+                              onClick={() => setRating(i)}
+                            />
+                          )
+                        )}
+                      </div>
+                      <textarea
+                        name=""
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                        id=""
+                        cols={40}
+                        rows={5}
+                        placeholder="Write a review..."
+                        className="outline-none bg-transparent ml-3 p-2 border boarder-[#ffffff57] dark:text-white 800px:w-[90%] 800px:text-[18px] mb-4"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-12 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                  <br />
+                  <div className="w-full h-[1px] bg-[#ffffff3b] dark:text-white"></div>
+                </>
+              )}
+            </>
           </div>
         )}
       </div>

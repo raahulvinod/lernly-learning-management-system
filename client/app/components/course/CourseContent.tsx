@@ -2,13 +2,18 @@ import { useGetCourseContentQuery } from '@/redux/features/courses/coursesApi';
 import Loader from '../Loader/Loader';
 import Heading from '@/app/utils/Heading';
 import { useState } from 'react';
-import CourseContentMedia from './CourseContentMedia';
+import CourseContentMedia, { UserData } from './CourseContentMedia';
+import CourseContentList from './CourseContentList';
 
 interface CourseContentProps {
   courseId: string;
+  userData: UserData;
 }
 
-const CourseContent: React.FC<CourseContentProps> = ({ courseId }) => {
+const CourseContent: React.FC<CourseContentProps> = ({
+  courseId,
+  userData,
+}) => {
   const { data: { content } = {}, isLoading } =
     useGetCourseContentQuery(courseId);
 
@@ -33,6 +38,14 @@ const CourseContent: React.FC<CourseContentProps> = ({ courseId }) => {
               courseId={courseId}
               activeVideo={activeVideo}
               setActiveVideo={setActiveVideo}
+              userData={userData}
+            />
+          </div>
+          <div className="hidden 800px:block 800px:col-span-3">
+            <CourseContentList
+              activeVideo={activeVideo}
+              setActiveVideo={setActiveVideo}
+              courseContent={content}
             />
           </div>
         </div>
