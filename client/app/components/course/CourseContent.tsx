@@ -1,9 +1,10 @@
-import { useGetCourseContentQuery } from '@/redux/features/courses/coursesApi';
+import { useState } from 'react';
+
 import Loader from '../Loader/Loader';
 import Heading from '@/app/utils/Heading';
-import { useState } from 'react';
 import CourseContentMedia, { UserData } from './CourseContentMedia';
 import CourseContentList from './CourseContentList';
+import { useGetCourseContentQuery } from '@/redux/features/courses/coursesApi';
 
 interface CourseContentProps {
   courseId: string;
@@ -14,8 +15,11 @@ const CourseContent: React.FC<CourseContentProps> = ({
   courseId,
   userData,
 }) => {
-  const { data: { content } = {}, isLoading } =
-    useGetCourseContentQuery(courseId);
+  const {
+    data: { content } = {},
+    isLoading,
+    refetch,
+  } = useGetCourseContentQuery(courseId, { refetchOnMountOrArgChange: true });
 
   const [activeVideo, setActiveVideo] = useState(0);
 
@@ -39,6 +43,7 @@ const CourseContent: React.FC<CourseContentProps> = ({
               activeVideo={activeVideo}
               setActiveVideo={setActiveVideo}
               userData={userData}
+              refetch={refetch}
             />
           </div>
           <div className="hidden 800px:block 800px:col-span-3">

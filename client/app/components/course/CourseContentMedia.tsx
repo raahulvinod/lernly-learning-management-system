@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import {
   AiFillStar,
@@ -7,7 +9,11 @@ import {
   AiOutlineStar,
 } from 'react-icons/ai';
 import Image from 'next/image';
-import { useGetCourseDetailsQuery } from '@/redux/features/courses/coursesApi';
+import {
+  useAddNewQuestionMutation,
+  useGetCourseDetailsQuery,
+} from '@/redux/features/courses/coursesApi';
+import { format } from 'timeago.js';
 
 export interface UserData {
   _id: string;
@@ -50,6 +56,7 @@ interface CourseContentMediaProps {
   activeVideo: number;
   setActiveVideo: (activeVideo: number) => void;
   userData: UserData;
+  refetch: any;
 }
 
 const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
@@ -58,19 +65,56 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   activeVideo,
   setActiveVideo,
   userData,
+  refetch,
 }) => {
   //   console.log(courseData);
   const [activeBar, setActiveBar] = useState(0);
   const [question, setQuestion] = useState('');
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [answerId, setAnswerId] = useState('');
 
   const { data } = useGetCourseDetailsQuery(courseId);
   //   console.log(data);
+  console.log(courseData);
+  const [
+    addNewQuestion,
+    { isSuccess, error, isLoading: questionCreationLoading },
+  ] = useAddNewQuestionMutation();
 
   const isReviewExists = data?.reviews?.find(
     (review: any) => review.user._id === userData._id
   );
+
+  const handleQuestion = () => {
+    if (question === '') {
+      toast.error('Question cant be empty');
+    } else {
+      addNewQuestion({
+        question,
+        courseId,
+        contentId: courseData[activeVideo]._id,
+      });
+    }
+  };
+
+  const handleAnswerSubmit = () => {};
+
+  useEffect(() => {
+    if (isSuccess) {
+      setQuestion('');
+      refetch();
+      toast.success('Question added successfully');
+    }
+
+    if (error) {
+      if ('data' in error) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isSuccess, error]);
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -171,14 +215,27 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
             <div className="flex justify-end">
               <button
                 type="button"
+                disabled={questionCreationLoading}
                 className="text-white  bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={questionCreationLoading ? () => {} : handleQuestion}
               >
                 Submit
               </button>
             </div>
             <br />
-            <div className="w-full h-[1px] bg-[#ffffff3b] dark:text-white"></div>
-            <div>{/* question replay */}</div>
+            <div className="w-full h-[1px] bg-gray-200 dark:bg-[#ffffff3b] dark:text-white"></div>
+            <div>
+              {/* question replay */}
+              <CommentReply
+                courseData={courseData}
+                activeVideo={activeVideo}
+                answer={answer}
+                setAnswer={setAnswer}
+                setAnswerId={setAnswerId}
+                handleAnswerSubmit={handleAnswerSubmit}
+                userData={userData}
+              />
+            </div>
           </>
         )}
         {activeBar === 3 && (
@@ -248,6 +305,70 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
         )}
       </div>
     </div>
+  );
+};
+
+const CommentReply = ({
+  courseData,
+  activeVideo,
+  answer,
+  setAnswer,
+  setAnswerId,
+  handleAnswerSubmit,
+  userData,
+}: any) => {
+  return (
+    <>
+      <div className="w-full my-3">
+        {courseData[activeVideo].questions.map(
+          (question: string, index: number) => (
+            <CommentItem
+              key={index}
+              courseData={courseData}
+              activeVideo={activeVideo}
+              questionData={question}
+              index={index}
+              answer={answer}
+              setAnswer={setAnswer}
+              handleAnswerSubmit={handleAnswerSubmit}
+            />
+          )
+        )}
+      </div>
+    </>
+  );
+};
+
+const CommentItem = ({
+  courseData,
+  activeVideo,
+  questionData,
+  index,
+  answer,
+  setAnswer,
+  handleAnswerSubmit,
+}: any) => {
+  return (
+    <>
+      <div className="my-4">
+        <div className="flex mb-2">
+          <div className="w-[50px] h-[50px] ml-2 bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
+            <h1 className="uppercase text-[18px]">
+              {questionData?.user.name.slice(0, 2)}
+            </h1>
+          </div>
+          <div className="pl-3">
+            <h5 className="text-md dark:text-white font-semibold">
+              {questionData?.user.name}
+            </h5>
+            <p className="dark:text-white ">{questionData?.question}</p>
+            <small className="text-black dark:text-[#ffffff83]">
+              {format(questionData?.createdAt)}
+            </small>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
