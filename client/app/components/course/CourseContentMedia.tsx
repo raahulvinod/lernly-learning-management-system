@@ -11,9 +11,11 @@ import {
 import Image from 'next/image';
 import {
   useAddNewQuestionMutation,
+  useAddQuestionAnswerMutation,
   useGetCourseDetailsQuery,
 } from '@/redux/features/courses/coursesApi';
 import { format } from 'timeago.js';
+import { BiMessage } from 'react-icons/bi';
 
 export interface UserData {
   _id: string;
@@ -73,7 +75,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
   const [answer, setAnswer] = useState('');
-  const [answerId, setAnswerId] = useState('');
+  const [questionId, setQuestionId] = useState('');
 
   const { data } = useGetCourseDetailsQuery(courseId);
   //   console.log(data);
@@ -82,6 +84,11 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     addNewQuestion,
     { isSuccess, error, isLoading: questionCreationLoading },
   ] = useAddNewQuestionMutation();
+
+  const [
+    addQuestionAnswer,
+    { isSuccess: addAnswerSuccess, isLoading, error: addAnswerError },
+  ] = useAddQuestionAnswerMutation();
 
   const isReviewExists = data?.reviews?.find(
     (review: any) => review.user._id === userData._id
@@ -99,7 +106,14 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     }
   };
 
-  const handleAnswerSubmit = () => {};
+  const handleAnswerSubmit = () => {
+    addQuestionAnswer({
+      answer,
+      courseId,
+      contentId: courseData[activeVideo]._id,
+      questionId,
+    });
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -114,7 +128,18 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error]);
+
+    if (addAnswerSuccess) {
+      toast.success('Answer added successfully.');
+    }
+
+    if (addAnswerError) {
+      if ('data' in addAnswerError) {
+        const errorMessage = error as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isSuccess, error, addAnswerError, addAnswerError]);
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -223,7 +248,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
               </button>
             </div>
             <br />
-            <div className="w-full h-[1px] bg-gray-200 dark:bg-[#ffffff3b] dark:text-white"></div>
+            <div className="w-full h-[1px] dark:bg-[#ffffff3b] dark:text-white"></div>
             <div>
               {/* question replay */}
               <CommentReply
@@ -231,9 +256,10 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 activeVideo={activeVideo}
                 answer={answer}
                 setAnswer={setAnswer}
-                setAnswerId={setAnswerId}
+                setQuestionId={setQuestionId}
                 handleAnswerSubmit={handleAnswerSubmit}
                 userData={userData}
+                questionCreationLoading={questionCreationLoading}
               />
             </div>
           </>
@@ -313,9 +339,10 @@ const CommentReply = ({
   activeVideo,
   answer,
   setAnswer,
-  setAnswerId,
+  setQuestionId,
   handleAnswerSubmit,
   userData,
+  questionCreationLoading,
 }: any) => {
   return (
     <>
@@ -330,7 +357,9 @@ const CommentReply = ({
               index={index}
               answer={answer}
               setAnswer={setAnswer}
+              setQuestionId={setQuestionId}
               handleAnswerSubmit={handleAnswerSubmit}
+              questionCreationLoading={questionCreationLoading}
             />
           )
         )}
@@ -347,15 +376,25 @@ const CommentItem = ({
   answer,
   setAnswer,
   handleAnswerSubmit,
+  setQuestionId,
+  questionCreationLoading,
 }: any) => {
+  const [replayActive, setReplayActive] = useState(false);
+
   return (
     <>
       <div className="my-4">
         <div className="flex mb-2">
-          <div className="w-[50px] h-[50px] ml-2 bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-            <h1 className="uppercase text-[18px]">
-              {questionData?.user.name.slice(0, 2)}
-            </h1>
+          <div>
+            <Image
+              src={
+                questionData?.user.avatar ? questionData?.user.avatar.url : ''
+              }
+              width={50}
+              height={50}
+              alt="user profile"
+              className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+            />
           </div>
           <div className="pl-3">
             <h5 className="text-md dark:text-white font-semibold">
@@ -367,6 +406,72 @@ const CommentItem = ({
             </small>
           </div>
         </div>
+        <div className="w-full flex items-center">
+          <span
+            className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mr-2"
+            onClick={() => {
+              setReplayActive(!replayActive), setQuestionId(questionData._id);
+            }}
+          >
+            {/* Question replies */}
+            {!replayActive
+              ? questionData.questionReplies.length !== 0
+                ? 'All replies'
+                : 'Add reply'
+              : 'hide replies'}
+          </span>
+          <BiMessage size={20} className="cursor-pointer text-gray-500 mt-1" />
+          <span className="pl-1 mt-[-4px] cursor-pointer text-gray-500">
+            {questionData.questionReplies.length}
+          </span>
+        </div>
+        {replayActive && (
+          <>
+            {questionData.questionReplies.map((item: any) => (
+              <div className="w-full flex 800px:ml-16 my-5 text-black dark=text-white">
+                <div>
+                  <Image
+                    src={item?.user.avatar ? item?.user.avatar.url : ''}
+                    width={50}
+                    height={50}
+                    alt="user profile"
+                    className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+                  />
+                </div>
+                <div className="pl-2">
+                  <h5 className="text-20px">{item.user.name}</h5>
+                  <p>{item.answer}</p>
+                  <small className="text-black dark:text-[#ffffff83]">
+                    {format(item?.createdAt)}
+                  </small>
+                </div>
+              </div>
+            ))}
+            <div>
+              <div className="w-full flex relative">
+                <input
+                  type="text"
+                  placeholder="reply"
+                  value={answer}
+                  onChange={(e: any) => setAnswer(e.target.value)}
+                  className="block 800px:ml-12 mt-2 outline-none text-black dark:text-white bg-transparent border-b dark:border-[#fff] p-[5px] w-[95%]"
+                />
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className={`absolute right-4 bottom-1 text-black dark:text-white cursor-pointer ${
+                      answer === '' && 'hidden'
+                    }`}
+                    disabled={questionCreationLoading}
+                    onClick={handleAnswerSubmit}
+                  >
+                    Add reply
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
