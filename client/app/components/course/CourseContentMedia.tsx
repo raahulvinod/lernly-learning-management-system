@@ -80,14 +80,16 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   const { data } = useGetCourseDetailsQuery(courseId);
   //   console.log(data);
   console.log(courseData);
-  const [
-    addNewQuestion,
-    { isSuccess, error, isLoading: questionCreationLoading },
-  ] = useAddNewQuestionMutation();
+  const [addNewQuestion, { isSuccess, error, isLoading }] =
+    useAddNewQuestionMutation();
 
   const [
     addQuestionAnswer,
-    { isSuccess: addAnswerSuccess, isLoading, error: addAnswerError },
+    {
+      isSuccess: addAnswerSuccess,
+      isLoading: questionCreationLoading,
+      error: addAnswerError,
+    },
   ] = useAddQuestionAnswerMutation();
 
   const isReviewExists = data?.reviews?.find(
@@ -130,16 +132,18 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     }
 
     if (addAnswerSuccess) {
+      setAnswer('');
+      refetch();
       toast.success('Answer added successfully.');
     }
 
     if (addAnswerError) {
       if ('data' in addAnswerError) {
-        const errorMessage = error as any;
+        const errorMessage = addAnswerError as any;
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error, addAnswerError, addAnswerError]);
+  }, [isSuccess, error, addAnswerSuccess, addAnswerError]);
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -463,7 +467,9 @@ const CommentItem = ({
                       answer === '' && 'hidden'
                     }`}
                     disabled={questionCreationLoading}
-                    onClick={handleAnswerSubmit}
+                    onClick={
+                      questionCreationLoading ? null : handleAnswerSubmit
+                    }
                   >
                     Add reply
                   </button>
