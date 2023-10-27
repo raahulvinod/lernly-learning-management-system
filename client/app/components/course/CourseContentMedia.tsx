@@ -16,6 +16,7 @@ import {
 } from '@/redux/features/courses/coursesApi';
 import { format } from 'timeago.js';
 import { BiMessage } from 'react-icons/bi';
+import { VscVerifiedFilled } from 'react-icons/vsc';
 
 export interface UserData {
   _id: string;
@@ -432,7 +433,7 @@ const CommentItem = ({
         {replayActive && (
           <>
             {questionData.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark=text-white">
+              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
                 <div>
                   <Image
                     src={item?.user.avatar ? item?.user.avatar.url : ''}
@@ -442,8 +443,15 @@ const CommentItem = ({
                     className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
                   />
                 </div>
-                <div className="pl-2">
-                  <h5 className="text-20px">{item.user.name}</h5>
+                <div className="pl-3">
+                  <div className="flex items-center">
+                    <h5 className="text-20px font-semibold">
+                      {item.user.name}
+                    </h5>
+                    {item.user.role === 'admin' && (
+                      <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
+                    )}
+                  </div>
                   <p>{item.answer}</p>
                   <small className="text-black dark:text-[#ffffff83]">
                     {format(item?.createdAt)}
@@ -471,7 +479,7 @@ const CommentItem = ({
                       questionCreationLoading ? null : handleAnswerSubmit
                     }
                   >
-                    Add reply
+                    {questionCreationLoading ? 'replying...' : 'Add reply'}
                   </button>
                 </div>
               </div>
