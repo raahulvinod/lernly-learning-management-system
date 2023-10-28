@@ -182,7 +182,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                         .map((review: any, index: number) => (
                           <div
                             key={index}
-                            className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
+                            className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-4"
                           >
                             <div className="flex items-center mb-2">
                               <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
@@ -205,7 +205,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                               <Ratings rating={review.rating} />
                             </div>
                             <div className="mt-4">
-                              <div className="flex items-center text-gray-600">
+                              <p>Was this review helpful?</p>
+                              <div className="flex items-center text-gray-600 mt-2">
                                 <button className="mr-2">
                                   <AiFillLike className="hover:text-blue-400" />{' '}
                                   Like
