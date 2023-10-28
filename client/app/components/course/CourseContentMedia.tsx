@@ -17,6 +17,7 @@ import {
 import { format } from 'timeago.js';
 import { BiMessage } from 'react-icons/bi';
 import { VscVerifiedFilled } from 'react-icons/vsc';
+import CommentReply from './questions/CommentReply';
 
 export interface UserData {
   _id: string;
@@ -30,13 +31,15 @@ export interface UserData {
   isVerified: boolean;
 }
 
-interface CommentData {
+export interface CommentData {
   user: UserData;
   question: string;
   questionReplies?: CommentData[];
+  createdAt: any;
+  _id: string;
 }
 
-interface CourseData {
+export interface CourseData {
   _id: string;
   title: string;
   description: string;
@@ -336,158 +339,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
         )}
       </div>
     </div>
-  );
-};
-
-const CommentReply = ({
-  courseData,
-  activeVideo,
-  answer,
-  setAnswer,
-  setQuestionId,
-  handleAnswerSubmit,
-  userData,
-  questionCreationLoading,
-}: any) => {
-  return (
-    <>
-      <div className="w-full my-3">
-        {courseData[activeVideo].questions.map(
-          (question: string, index: number) => (
-            <CommentItem
-              key={index}
-              courseData={courseData}
-              activeVideo={activeVideo}
-              questionData={question}
-              index={index}
-              answer={answer}
-              setAnswer={setAnswer}
-              setQuestionId={setQuestionId}
-              handleAnswerSubmit={handleAnswerSubmit}
-              questionCreationLoading={questionCreationLoading}
-            />
-          )
-        )}
-      </div>
-    </>
-  );
-};
-
-const CommentItem = ({
-  courseData,
-  activeVideo,
-  questionData,
-  index,
-  answer,
-  setAnswer,
-  handleAnswerSubmit,
-  setQuestionId,
-  questionCreationLoading,
-}: any) => {
-  const [replayActive, setReplayActive] = useState(false);
-
-  return (
-    <>
-      <div className="my-4">
-        <div className="flex mb-2">
-          <div>
-            <Image
-              src={
-                questionData?.user.avatar ? questionData?.user.avatar.url : ''
-              }
-              width={50}
-              height={50}
-              alt="user profile"
-              className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
-            />
-          </div>
-          <div className="pl-3">
-            <h5 className="text-md dark:text-white font-semibold">
-              {questionData?.user.name}
-            </h5>
-            <p className="dark:text-white ">{questionData?.question}</p>
-            <small className="text-black dark:text-[#ffffff83]">
-              {format(questionData?.createdAt)}
-            </small>
-          </div>
-        </div>
-        <div className="w-full flex items-center">
-          <span
-            className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mr-2"
-            onClick={() => {
-              setReplayActive(!replayActive), setQuestionId(questionData._id);
-            }}
-          >
-            {/* Question replies */}
-            {!replayActive
-              ? questionData.questionReplies.length !== 0
-                ? 'All replies'
-                : 'Add reply'
-              : 'hide replies'}
-          </span>
-          <BiMessage size={20} className="cursor-pointer text-gray-500 mt-1" />
-          <span className="pl-1 mt-[-4px] cursor-pointer text-gray-500">
-            {questionData.questionReplies.length}
-          </span>
-        </div>
-        {replayActive && (
-          <>
-            {questionData.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
-                <div>
-                  <Image
-                    src={item?.user.avatar ? item?.user.avatar.url : ''}
-                    width={50}
-                    height={50}
-                    alt="user profile"
-                    className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
-                  />
-                </div>
-                <div className="pl-3">
-                  <div className="flex items-center">
-                    <h5 className="text-20px font-semibold">
-                      {item.user.name}
-                    </h5>
-                    {item.user.role === 'admin' && (
-                      <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
-                    )}
-                  </div>
-                  <p>{item.answer}</p>
-                  <small className="text-black dark:text-[#ffffff83]">
-                    {format(item?.createdAt)}
-                  </small>
-                </div>
-              </div>
-            ))}
-            <div>
-              <div className="w-full flex relative">
-                <input
-                  type="text"
-                  placeholder="reply"
-                  value={answer}
-                  onChange={(e: any) => setAnswer(e.target.value)}
-                  className="block 800px:ml-12 mt-2 outline-none text-black dark:text-white bg-transparent border-b dark:border-[#fff] p-[5px] w-[95%]"
-                />
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className={`absolute right-4 bottom-1 text-black dark:text-white cursor-pointer ${
-                      answer === '' && 'hidden'
-                    }`}
-                    disabled={questionCreationLoading}
-                    onClick={
-                      questionCreationLoading ? null : handleAnswerSubmit
-                    }
-                  >
-                    {questionCreationLoading ? 'replying...' : 'Add reply'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </>
   );
 };
 
