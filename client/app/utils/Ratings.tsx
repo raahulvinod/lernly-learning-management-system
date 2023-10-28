@@ -3,13 +3,13 @@ import { BsStarHalf } from 'react-icons/bs';
 
 type Props = {
   rating: number;
-  isProfile?: boolean
+  isProfile?: boolean;
 };
 
-const Ratings: React.FC<Props> = ({ rating , isProfile}) => {
+const Ratings: React.FC<Props> = ({ rating, isProfile }) => {
   const stars = [];
 
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
       stars.push(
         <AiFillStar
@@ -39,7 +39,11 @@ const Ratings: React.FC<Props> = ({ rating , isProfile}) => {
       );
     }
   }
-  return <div className={`${isProfile && 'ml-2 800px:ml-10'} flex mt-1 `}>{stars}</div>;
+  return (
+    <div className={`${isProfile && 'ml-2 800px:ml-10'} flex mt-1 `}>
+      {stars}
+    </div>
+  );
 };
 
 export default Ratings;

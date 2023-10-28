@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-
-import CoursePlayer from '../Admin/course/CoursePlayer';
 import {
   AiFillStar,
   AiOutlineArrowLeft,
@@ -9,15 +7,19 @@ import {
   AiOutlineStar,
 } from 'react-icons/ai';
 import Image from 'next/image';
-import {
-  useAddNewQuestionMutation,
-  useAddQuestionAnswerMutation,
-  useGetCourseDetailsQuery,
-} from '@/redux/features/courses/coursesApi';
 import { format } from 'timeago.js';
 import { BiMessage } from 'react-icons/bi';
 import { VscVerifiedFilled } from 'react-icons/vsc';
+
+import CoursePlayer from '../Admin/course/CoursePlayer';
+import {
+  useAddNewQuestionMutation,
+  useAddQuestionAnswerMutation,
+  useAddReviewMutation,
+  useGetCourseDetailsQuery,
+} from '@/redux/features/courses/coursesApi';
 import CommentReply from './questions/CommentReply';
+import Ratings from '@/app/utils/Ratings';
 
 export interface UserData {
   _id: string;
@@ -81,9 +83,13 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   const [answer, setAnswer] = useState('');
   const [questionId, setQuestionId] = useState('');
 
-  const { data } = useGetCourseDetailsQuery(courseId);
-  //   console.log(data);
-  console.log(courseData);
+  const { data: { course } = {}, refetch: refetchCourse } =
+    useGetCourseDetailsQuery(courseId, {
+      refetchOnMountOrArgChange: true,
+    });
+  // console.log(course);
+  // console.log(courseData);
+  console.log(rating);
   const [addNewQuestion, { isSuccess, error, isLoading }] =
     useAddNewQuestionMutation();
 
@@ -96,9 +102,18 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     },
   ] = useAddQuestionAnswerMutation();
 
-  const isReviewExists = data?.reviews?.find(
+  const isReviewExists = course?.reviews?.find(
     (review: any) => review.user._id === userData._id
   );
+
+  const [
+    addReview,
+    {
+      isSuccess: reviewSuccess,
+      error: reviewError,
+      isLoading: reviewCreationLoading,
+    },
+  ] = useAddReviewMutation();
 
   const handleQuestion = () => {
     if (question === '') {
@@ -119,6 +134,14 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       contentId: courseData[activeVideo]._id,
       questionId,
     });
+  };
+
+  const handleReviewSubmit = async () => {
+    if (review.length === 0) {
+      toast.error('Review cant be empty.');
+    } else {
+      addReview({ review, rating, courseId });
+    }
   };
 
   useEffect(() => {
@@ -147,7 +170,28 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
         toast.error(errorMessage.data.message);
       }
     }
-  }, [isSuccess, error, addAnswerSuccess, addAnswerError]);
+
+    if (reviewSuccess) {
+      setReview('');
+      setRating(1);
+      refetchCourse();
+      toast.success('Review added successfully');
+    }
+
+    if (reviewError) {
+      if ('data' in reviewError) {
+        const errorMessage = reviewError as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [
+    isSuccess,
+    error,
+    addAnswerSuccess,
+    addAnswerError,
+    reviewSuccess,
+    reviewError,
+  ]);
 
   return (
     <div className="w-[95%] 800px:w-[86%] py-4 m-auto">
@@ -326,9 +370,15 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                   <div className="flex justify-end">
                     <button
                       type="button"
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-12 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      disabled={reviewCreationLoading}
+                      className={`text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-12 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${
+                        reviewCreationLoading && 'bg-blue-400'
+                      }`}
+                      onClick={
+                        reviewCreationLoading ? () => {} : handleReviewSubmit
+                      }
                     >
-                      Submit
+                      {reviewCreationLoading ? 'Submitting...' : 'Submit'}
                     </button>
                   </div>
                   <br />
@@ -336,6 +386,38 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 </>
               )}
             </>
+            <div className="w-full">
+              {course?.reviews &&
+                [...course.reviews]
+                  .reverse()
+                  .map((review: any, index: number) => (
+                    <div className="w-full my-5">
+                      <div className="w-full flex gap-4">
+                        <div className="ml-4">
+                          <Image
+                            src={
+                              review?.user.avatar ? review?.user.avatar.url : ''
+                            }
+                            width={50}
+                            height={50}
+                            alt="profile"
+                            className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="w-[80%] ml-2 mb-2">
+                          <h1 className="text-lg font-semibold dark:text-gray-100">
+                            {review?.user.name}
+                          </h1>
+                          <Ratings rating={review.rating} />
+                          <p className="mt-2 dark:text-gray-300">
+                            {review.comment}
+                          </p>
+                          <small>{format(review.createdAt)}</small>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+            </div>
           </div>
         )}
       </div>

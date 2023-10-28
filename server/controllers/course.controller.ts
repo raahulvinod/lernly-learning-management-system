@@ -355,6 +355,10 @@ export const addReview = CatchAsyncError(
         course.ratings = avarage / course.reviews.length;
       }
 
+      await course?.save();
+
+      await redis.set(courseId, JSON.stringify(course), 'EX', 604800); // expires in 7 days
+
       const notification = {
         title: 'New Review Received',
         message: `${req.user?.name} has given a review in ${course?.name}.`,
@@ -371,8 +375,6 @@ export const addReview = CatchAsyncError(
         success: true,
         course,
       });
-
-      await course?.save();
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
