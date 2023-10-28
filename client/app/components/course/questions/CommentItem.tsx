@@ -13,6 +13,7 @@ interface CommentItemProps {
   answer: string;
   setAnswer: React.Dispatch<React.SetStateAction<string>>;
   handleAnswerSubmit: () => void;
+  questionId: string;
   setQuestionId: React.Dispatch<React.SetStateAction<string>>;
   questionCreationLoading: boolean;
 }
@@ -25,10 +26,22 @@ const CommentItem: React.FC<CommentItemProps> = ({
   answer,
   setAnswer,
   handleAnswerSubmit,
+  questionId,
   setQuestionId,
   questionCreationLoading,
 }) => {
   const [replayActive, setReplayActive] = useState(false);
+
+  const toggleReplies = () => {
+    if (replayActive) {
+      setReplayActive(false);
+    } else {
+      setReplayActive(true);
+      setQuestionId(questionData._id);
+    }
+  };
+
+  const isRepliesVisible = replayActive && questionId === questionData._id;
 
   return (
     <>
@@ -58,23 +71,17 @@ const CommentItem: React.FC<CommentItemProps> = ({
         <div className="w-full flex items-center">
           <span
             className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mr-2"
-            onClick={() => {
-              setReplayActive(!replayActive), setQuestionId(questionData._id);
-            }}
+            onClick={() => toggleReplies()}
           >
             {/* Question replies */}
-            {!replayActive
-              ? questionData?.questionReplies?.length !== 0
-                ? 'All replies'
-                : 'Add reply'
-              : 'hide replies'}
+            {isRepliesVisible ? 'Hide replies' : 'Add reply'}
           </span>
           <BiMessage size={20} className="cursor-pointer text-gray-500 mt-1" />
           <span className="pl-1 mt-[-4px] cursor-pointer text-gray-500">
             {questionData?.questionReplies?.length}
           </span>
         </div>
-        {replayActive && (
+        {isRepliesVisible && (
           <>
             {questionData?.questionReplies?.map((item: any) => (
               <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">

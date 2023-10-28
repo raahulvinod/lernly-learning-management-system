@@ -264,6 +264,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 activeVideo={activeVideo}
                 answer={answer}
                 setAnswer={setAnswer}
+                questionId={questionId}
                 setQuestionId={setQuestionId}
                 handleAnswerSubmit={handleAnswerSubmit}
                 userData={userData}

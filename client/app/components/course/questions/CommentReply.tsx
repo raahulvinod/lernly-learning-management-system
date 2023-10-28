@@ -6,6 +6,7 @@ export interface CommentReplyProps {
   activeVideo: number;
   answer: string;
   setAnswer: React.Dispatch<React.SetStateAction<string>>;
+  questionId: string;
   setQuestionId: React.Dispatch<React.SetStateAction<string>>;
   handleAnswerSubmit: () => void;
   userData: UserData;
@@ -17,6 +18,7 @@ const CommentReply: React.FC<CommentReplyProps> = ({
   activeVideo,
   answer,
   setAnswer,
+  questionId,
   setQuestionId,
   handleAnswerSubmit,
   userData,
@@ -34,6 +36,7 @@ const CommentReply: React.FC<CommentReplyProps> = ({
             questionData={question}
             answer={answer}
             setAnswer={setAnswer}
+            questionId={questionId}
             setQuestionId={setQuestionId}
             handleAnswerSubmit={handleAnswerSubmit}
             questionCreationLoading={questionCreationLoading}
