@@ -20,6 +20,7 @@ import {
 } from '@/redux/features/courses/coursesApi';
 import CommentReply from './questions/CommentReply';
 import Ratings from '@/app/utils/Ratings';
+import Reviews from './Reviews/Reviews';
 
 export interface UserData {
   _id: string;
@@ -75,7 +76,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   userData,
   refetch,
 }) => {
-  //   console.log(courseData);
   const [activeBar, setActiveBar] = useState(0);
   const [question, setQuestion] = useState('');
   const [rating, setRating] = useState(0);
@@ -89,7 +89,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     });
   // console.log(course);
   // console.log(courseData);
-  console.log(rating);
   const [addNewQuestion, { isSuccess, error, isLoading }] =
     useAddNewQuestionMutation();
 
@@ -388,35 +387,11 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
             </>
             <div className="w-full">
               {course?.reviews &&
-                [...course.reviews]
-                  .reverse()
-                  .map((review: any, index: number) => (
-                    <div className="w-full my-5">
-                      <div className="w-full flex gap-4">
-                        <div className="ml-4">
-                          <Image
-                            src={
-                              review?.user.avatar ? review?.user.avatar.url : ''
-                            }
-                            width={50}
-                            height={50}
-                            alt="profile"
-                            className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
-                          />
-                        </div>
-                        <div className="w-[80%] ml-2 mb-2">
-                          <h1 className="text-lg font-semibold dark:text-gray-100">
-                            {review?.user.name}
-                          </h1>
-                          <Ratings rating={review.rating} />
-                          <p className="mt-2 dark:text-gray-300">
-                            {review.comment}
-                          </p>
-                          <small>{format(review.createdAt)}</small>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                [...course.reviews].reverse().map((review, index: number) => (
+                  <div className="w-full my-5" key={index}>
+                    <Reviews review={review} />
+                  </div>
+                ))}
             </div>
           </div>
         )}

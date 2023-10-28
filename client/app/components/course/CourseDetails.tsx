@@ -141,8 +141,6 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                       isDemo={true}
                     />
                   </div>
-                  {/*  Course content List */}
-                  {/* TODO: add content here, such as instructor information, course description, and goals. */}
                 </div>
               </section>
 
@@ -177,21 +175,21 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                       </h5>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="mb-4">
                     {courseData?.reviews &&
                       [...courseData.reviews]
                         .reverse()
                         .map((review: any, index: number) => (
                           <div
                             key={index}
-                            className="bg-gray-100 rounded-lg p-4"
+                            className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
                           >
                             <div className="flex items-center mb-2">
                               <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                                 <BsPerson size={24} color="gray" />{' '}
                               </div>
                               <div className="ml-2">
-                                <h3 className="text-lg font-semibold text-gray-900">
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-400">
                                   {review.user.name}
                                 </h3>
                                 <div className="text-gray-500 text-sm">
@@ -199,7 +197,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                                 </div>
                               </div>
                             </div>
-                            <p className="text-gray-700">{review.content}</p>
+                            <p className="text-gray-700 dark:text-gray-400">
+                              {review.comment}
+                            </p>
                             {/*rating component*/}
                             <div className="mt-2">
                               <Ratings rating={review.rating} />
@@ -207,13 +207,16 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                             <div className="mt-4">
                               <div className="flex items-center text-gray-600">
                                 <button className="mr-2">
-                                  <AiFillLike /> Like
+                                  <AiFillLike className="hover:text-blue-400" />{' '}
+                                  Like
                                 </button>
                                 <button className="mr-2">
-                                  <AiFillDislike /> Dislike
+                                  <AiFillDislike className="hover:text-blue-400" />{' '}
+                                  Dislike
                                 </button>
                                 <button>
-                                  <AiOutlineFlag /> Report
+                                  <AiOutlineFlag className="hover:text-red-400" />{' '}
+                                  Report
                                 </button>
                               </div>
                             </div>
@@ -232,20 +235,20 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                     </div>
                     <div className="ml-2">
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-400">
-                        Rahul vinod
+                        Sreerag c
                       </h3>
                       <div className="text-gray-500 text-sm">21 October</div>
                     </div>
                   </div>
                   <p className="text-gray-700 dark:text-gray-400">
-                    I recently completed this React course, and I must say it's
-                    one of the best online courses I've ever taken. The
-                    instructor did a fantastic job explaining complex React
-                    concepts in a simple and understandable manner. The course
-                    content was well-structured, starting from the fundamentals
-                    and gradually progressing to more advanced topics. Each
-                    section had practical exercises and projects, which helped
-                    me reinforce what I learned.
+                    I recently completed this course, and I must say it's one of
+                    the best online courses I've ever taken. The instructor did
+                    a fantastic job explaining complex React concepts in a
+                    simple and understandable manner. The course content was
+                    well-structured, starting from the fundamentals and
+                    gradually progressing to more advanced topics. Each section
+                    had practical exercises and projects, which helped me
+                    reinforce what I learned.
                   </p>
                   {/*  rating component */}
                   <div className="mt-2">
