@@ -80,7 +80,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   const [review, setReview] = useState('');
   const [answer, setAnswer] = useState('');
   const [questionId, setQuestionId] = useState('');
-  const [reviewId, setReviewId] = useState('');
 
   const { data: { course } = {}, refetch: refetchCourse } =
     useGetCourseDetailsQuery(courseId, {
@@ -88,6 +87,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     });
   // console.log(course);
   // console.log(courseData);
+
   const [addNewQuestion, { isSuccess, error, isLoading }] =
     useAddNewQuestionMutation();
 
@@ -141,8 +141,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       addReview({ review, rating, courseId });
     }
   };
-
-  const handleReviewReplySubmit = () => {};
 
   useEffect(() => {
     if (isSuccess) {
@@ -401,9 +399,8 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                     <Reviews
                       review={review}
                       userData={userData}
-                      reviewId={reviewId}
-                      setReviewId={setReviewId}
-                      handleReviewReplySubmit={handleReviewReplySubmit}
+                      courseId={courseId}
+                      refetchCourse={refetchCourse}
                     />
                   </div>
                 ))}

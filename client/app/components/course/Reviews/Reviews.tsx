@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format } from 'timeago.js';
 import Image from 'next/image';
 
@@ -8,6 +8,8 @@ import Ratings from '@/app/utils/Ratings';
 import { CommentData, UserData } from '../CourseContentMedia';
 import { BiMessage } from 'react-icons/bi';
 import { VscVerifiedFilled } from 'react-icons/vsc';
+import { useAddReviewReplyMutation } from '@/redux/features/courses/coursesApi';
+import toast from 'react-hot-toast';
 
 interface ReviewProps {
   review: {
@@ -20,21 +22,31 @@ interface ReviewProps {
     _id: string;
   };
   userData: UserData;
-  reviewId: string;
-  setReviewId: (reviewId: string) => void;
-  handleReviewReplySubmit: () => void;
+  courseId: string;
+  refetchCourse: any;
 }
 
 const Reviews: React.FC<ReviewProps> = ({
   review,
   userData,
-  reviewId,
-  setReviewId,
-  handleReviewReplySubmit,
+  courseId,
+  refetchCourse,
 }) => {
   const [replayActive, setReplayActive] = useState(false);
+  const [reviewId, setReviewId] = useState('');
   const [reviewReply, setReviewReply] = useState('');
+
+  const isRepliesVisible = replayActive && reviewId === review._id;
   console.log(review);
+
+  const [
+    addReviewReply,
+    {
+      isSuccess: reviewReplySuccess,
+      error: reviewReplyError,
+      isLoading: reviewReplyLoading,
+    },
+  ] = useAddReviewReplyMutation();
 
   const toggleReviewReplies = () => {
     if (replayActive) {
@@ -45,7 +57,29 @@ const Reviews: React.FC<ReviewProps> = ({
     }
   };
 
-  const isRepliesVisible = replayActive && reviewId === review._id;
+  const handleReviewReplySubmit = () => {
+    if (reviewReply === '') {
+      toast.error('Comment cant be empty');
+    } else {
+      addReviewReply({ comment: reviewReply, courseId, reviewId });
+    }
+  };
+
+  useEffect(() => {
+    if (reviewReplySuccess) {
+      setReviewId('');
+      setReviewReply('');
+      refetchCourse();
+      toast.success('Review added successfully');
+    }
+
+    if (reviewReplyError) {
+      if ('data' in reviewReplyError) {
+        const errorMessage = reviewReplyError as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [reviewReplySuccess, reviewReplyError]);
 
   return (
     <>
@@ -90,7 +124,7 @@ const Reviews: React.FC<ReviewProps> = ({
       <div>
         {isRepliesVisible && (
           <div
-            className={`transition-all duration-300 ${
+            className={`transition-all duration-300 ml-8 ${
               isRepliesVisible ? '' : 'hidden'
             }`}
           >
@@ -114,7 +148,7 @@ const Reviews: React.FC<ReviewProps> = ({
                       <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
                     )}
                   </div>
-                  <p>{item.answer}</p>
+                  <p>{item.comment}</p>
                   <small className="text-black dark:text-[#ffffff83]">
                     {format(item?.createdAt)}
                   </small>
@@ -122,7 +156,7 @@ const Reviews: React.FC<ReviewProps> = ({
               </div>
             ))}
             <div>
-              <div className="w-[85%] flex relative ml-12">
+              <div className="w-[85%] flex relative ml-4">
                 <input
                   type="text"
                   placeholder="reply"
@@ -138,14 +172,12 @@ const Reviews: React.FC<ReviewProps> = ({
                     className={`absolute right-2 bottom-2 border p-1 px-6 rounded-md text-black dark:text-white cursor-pointer ${
                       reviewReply === '' && 'hidden'
                     }`}
-                    // disabled={reviewReplyLoading}
-                    // onClick={
-                    //   reviewReplyLoading ? () => {} : handleReviewReplySubmit
-                    // }
-                    onClick={handleReviewReplySubmit}
+                    disabled={reviewReplyLoading}
+                    onClick={
+                      reviewReplyLoading ? () => {} : handleReviewReplySubmit
+                    }
                   >
-                    {/* {reviewReplyLoading ? 'replying...' : 'Add reply'} */}
-                    reply
+                    {reviewReplyLoading ? 'replying...' : 'Add reply'}
                   </button>
                 </div>
               </div>
