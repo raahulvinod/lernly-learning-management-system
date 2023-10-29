@@ -1,8 +1,13 @@
-import Ratings from '@/app/utils/Ratings';
-import Image from 'next/image';
-import { format } from 'timeago.js';
+'use client';
 
+import { useState } from 'react';
+import { format } from 'timeago.js';
+import Image from 'next/image';
+
+import Ratings from '@/app/utils/Ratings';
 import { CommentData, UserData } from '../CourseContentMedia';
+import { BiMessage } from 'react-icons/bi';
+import { VscVerifiedFilled } from 'react-icons/vsc';
 
 interface ReviewProps {
   review: {
@@ -14,29 +19,141 @@ interface ReviewProps {
     user: UserData;
     _id: string;
   };
+  userData: UserData;
+  reviewId: string;
+  setReviewId: (reviewId: string) => void;
+  handleReviewReplySubmit: () => void;
 }
 
-const Reviews: React.FC<ReviewProps> = ({ review }) => {
+const Reviews: React.FC<ReviewProps> = ({
+  review,
+  userData,
+  reviewId,
+  setReviewId,
+  handleReviewReplySubmit,
+}) => {
+  const [replayActive, setReplayActive] = useState(false);
+  const [reviewReply, setReviewReply] = useState('');
+  console.log(review);
+
+  const toggleReviewReplies = () => {
+    if (replayActive) {
+      setReplayActive(false);
+    } else {
+      setReplayActive(true);
+      setReviewId(review._id);
+    }
+  };
+
+  const isRepliesVisible = replayActive && reviewId === review._id;
+
   return (
-    <div className="w-full flex gap-4">
-      <div className="ml-4">
-        <Image
-          src={review?.user.avatar ? review?.user.avatar.url : ''}
-          width={50}
-          height={50}
-          alt="profile"
-          className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
-        />
+    <>
+      <div className="w-full flex gap-4">
+        <div className="ml-4">
+          <Image
+            src={
+              review?.user.avatar
+                ? review?.user.avatar.url
+                : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
+            }
+            width={50}
+            height={50}
+            alt="profile"
+            className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+          />
+        </div>
+        <div className="w-[80%] ml-2 mb-2">
+          <h1 className="text-lg font-semibold dark:text-gray-100">
+            {review?.user.name}
+          </h1>
+          <Ratings rating={review.rating} />
+          <p className="mt-2 dark:text-gray-300">{review.comment}</p>
+          <small className="dark:text-gray-400">
+            {format(review.createdAt)}
+          </small>
+          <div className="mt-2 text-sm cursor-pointer flex items-center dark:text-white">
+            {userData.role === 'admin' && (
+              <>
+                <span onClick={() => toggleReviewReplies()}>
+                  {isRepliesVisible ? 'Hide replies' : 'Add reply'}
+                </span>
+                <BiMessage
+                  size={20}
+                  className="cursor-pointer text-gray-500 mt-1 ml-2"
+                />
+              </>
+            )}
+          </div>
+        </div>
       </div>
-      <div className="w-[80%] ml-2 mb-2">
-        <h1 className="text-lg font-semibold dark:text-gray-100">
-          {review?.user.name}
-        </h1>
-        <Ratings rating={review.rating} />
-        <p className="mt-2 dark:text-gray-300">{review.comment}</p>
-        <small>{format(review.createdAt)}</small>
+      <div>
+        {isRepliesVisible && (
+          <div
+            className={`transition-all duration-300 ${
+              isRepliesVisible ? '' : 'hidden'
+            }`}
+          >
+            {review.commentReplies.map((item: any) => (
+              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+                <div>
+                  <Image
+                    src={item?.user.avatar ? item?.user.avatar.url : ''}
+                    width={50}
+                    height={50}
+                    alt="user profile"
+                    className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+                  />
+                </div>
+                <div className="pl-3">
+                  <div className="flex items-center">
+                    <h5 className="text-20px font-semibold">
+                      {item.user.name}
+                    </h5>
+                    {item.user.role === 'admin' && (
+                      <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
+                    )}
+                  </div>
+                  <p>{item.answer}</p>
+                  <small className="text-black dark:text-[#ffffff83]">
+                    {format(item?.createdAt)}
+                  </small>
+                </div>
+              </div>
+            ))}
+            <div>
+              <div className="w-[85%] flex relative ml-12">
+                <input
+                  type="text"
+                  placeholder="reply"
+                  value={reviewReply}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setReviewReply(e.target.value)
+                  }
+                  className="block 800px:ml-12 mt-2 outline-none text-black dark:text-white bg-transparent border-b dark:border-[#fff] p-[5px] w-[95%]"
+                />
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className={`absolute right-2 bottom-2 border p-1 px-6 rounded-md text-black dark:text-white cursor-pointer ${
+                      reviewReply === '' && 'hidden'
+                    }`}
+                    // disabled={reviewReplyLoading}
+                    // onClick={
+                    //   reviewReplyLoading ? () => {} : handleReviewReplySubmit
+                    // }
+                    onClick={handleReviewReplySubmit}
+                  >
+                    {/* {reviewReplyLoading ? 'replying...' : 'Add reply'} */}
+                    reply
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

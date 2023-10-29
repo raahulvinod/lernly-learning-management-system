@@ -107,9 +107,6 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                 </div>
               </header>
 
-              {/*TODO: Rest of the course content here */}
-              {/*TODO: Add course curriculum, instructor information, reviews */}
-
               {/* What You'll Learn Section */}
               <section className="py-4 border bg-white dark:bg-gray-900 dark:text-white border-gray-300 rounded p-4 mr-12">
                 <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900 mb-2">

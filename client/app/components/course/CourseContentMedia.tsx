@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
@@ -7,9 +9,6 @@ import {
   AiOutlineStar,
 } from 'react-icons/ai';
 import Image from 'next/image';
-import { format } from 'timeago.js';
-import { BiMessage } from 'react-icons/bi';
-import { VscVerifiedFilled } from 'react-icons/vsc';
 
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import {
@@ -19,7 +18,6 @@ import {
   useGetCourseDetailsQuery,
 } from '@/redux/features/courses/coursesApi';
 import CommentReply from './questions/CommentReply';
-import Ratings from '@/app/utils/Ratings';
 import Reviews from './Reviews/Reviews';
 
 export interface UserData {
@@ -82,6 +80,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
   const [review, setReview] = useState('');
   const [answer, setAnswer] = useState('');
   const [questionId, setQuestionId] = useState('');
+  const [reviewId, setReviewId] = useState('');
 
   const { data: { course } = {}, refetch: refetchCourse } =
     useGetCourseDetailsQuery(courseId, {
@@ -142,6 +141,8 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       addReview({ review, rating, courseId });
     }
   };
+
+  const handleReviewReplySubmit = () => {};
 
   useEffect(() => {
     if (isSuccess) {
@@ -257,7 +258,7 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
           <div>
             {courseData[activeVideo]?.links.map((link, index) => (
               <div className="mb-5 p-4" key={index}>
-                <h2 className="800px:text-[20px] 800px:inline-block font-sans dark:text-white">
+                <h2 className="800px:text-[20px] 800px:inline-block font-normal dark:text-white">
                   {link.title && link.title + ' : '}
                 </h2>
                 <a className="inline-block mx-2 text-blue-500" href={link.url}>
@@ -271,7 +272,11 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
           <>
             <div className="flex w-full">
               <Image
-                src={userData.avatar ? userData.avatar.url : ''}
+                src={
+                  userData.avatar
+                    ? userData.avatar.url
+                    : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
+                }
                 width={50}
                 height={50}
                 alt="user profile"
@@ -323,7 +328,11 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 <>
                   <div className="flex w-full">
                     <Image
-                      src={userData.avatar ? userData.avatar.url : ''}
+                      src={
+                        userData.avatar
+                          ? userData.avatar.url
+                          : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
+                      }
                       width={50}
                       height={50}
                       alt="user profile"
@@ -385,11 +394,17 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
                 </>
               )}
             </>
-            <div className="w-full">
+            <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
               {course?.reviews &&
                 [...course.reviews].reverse().map((review, index: number) => (
                   <div className="w-full my-5" key={index}>
-                    <Reviews review={review} />
+                    <Reviews
+                      review={review}
+                      userData={userData}
+                      reviewId={reviewId}
+                      setReviewId={setReviewId}
+                      handleReviewReplySubmit={handleReviewReplySubmit}
+                    />
                   </div>
                 ))}
             </div>

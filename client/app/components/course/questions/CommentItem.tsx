@@ -51,7 +51,9 @@ const CommentItem: React.FC<CommentItemProps> = ({
             <div>
               <Image
                 src={
-                  questionData?.user.avatar ? questionData?.user.avatar.url : ''
+                  questionData?.user.avatar
+                    ? questionData?.user.avatar.url
+                    : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
                 }
                 width={50}
                 height={50}
@@ -95,7 +97,11 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
                   <div>
                     <Image
-                      src={item?.user.avatar ? item?.user.avatar.url : ''}
+                      src={
+                        item?.user.avatar
+                          ? item?.user.avatar.url
+                          : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
+                      }
                       width={50}
                       height={50}
                       alt="user profile"
