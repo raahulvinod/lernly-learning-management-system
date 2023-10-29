@@ -37,7 +37,7 @@ const Reviews: React.FC<ReviewProps> = ({
   const [reviewReply, setReviewReply] = useState('');
 
   const isRepliesVisible = replayActive && reviewId === review._id;
-  console.log(review);
+  console.log(userData);
 
   const [
     addReviewReply,
@@ -107,7 +107,7 @@ const Reviews: React.FC<ReviewProps> = ({
             {format(review.createdAt)}
           </small>
           <div className="mt-2 text-sm cursor-pointer flex items-center dark:text-white">
-            {userData.role === 'admin' && (
+            {userData.role === 'admin' ? (
               <>
                 <span onClick={() => toggleReviewReplies()}>
                   {isRepliesVisible ? 'Hide replies' : 'Add reply'}
@@ -116,6 +116,20 @@ const Reviews: React.FC<ReviewProps> = ({
                   size={20}
                   className="cursor-pointer text-gray-500 mt-1 ml-2"
                 />
+              </>
+            ) : (
+              <>
+                {review.commentReplies.length !== 0 && (
+                  <>
+                    <span onClick={() => toggleReviewReplies()}>
+                      {isRepliesVisible ? 'Hide replies' : 'View reply'}
+                    </span>
+                    <BiMessage
+                      size={20}
+                      className="cursor-pointer text-gray-500 mt-1 mx-2"
+                    />
+                  </>
+                )}
               </>
             )}
           </div>
@@ -156,31 +170,33 @@ const Reviews: React.FC<ReviewProps> = ({
               </div>
             ))}
             <div>
-              <div className="w-[85%] flex relative ml-4">
-                <input
-                  type="text"
-                  placeholder="reply"
-                  value={reviewReply}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setReviewReply(e.target.value)
-                  }
-                  className="block 800px:ml-12 mt-2 outline-none text-black dark:text-white bg-transparent border-b dark:border-[#fff] p-[5px] w-[95%]"
-                />
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className={`absolute right-2 bottom-2 border p-1 px-6 rounded-md text-black dark:text-white cursor-pointer ${
-                      reviewReply === '' && 'hidden'
-                    }`}
-                    disabled={reviewReplyLoading}
-                    onClick={
-                      reviewReplyLoading ? () => {} : handleReviewReplySubmit
+              {userData.role === 'admin' && (
+                <div className="w-[85%] flex relative ml-4">
+                  <input
+                    type="text"
+                    placeholder="reply"
+                    value={reviewReply}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setReviewReply(e.target.value)
                     }
-                  >
-                    {reviewReplyLoading ? 'replying...' : 'Add reply'}
-                  </button>
+                    className="block 800px:ml-12 mt-2 outline-none text-black dark:text-white bg-transparent border-b dark:border-[#fff] p-[5px] w-[95%]"
+                  />
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className={`absolute right-2 bottom-2 border p-1 px-6 rounded-md text-black dark:text-white cursor-pointer ${
+                        reviewReply === '' && 'hidden'
+                      }`}
+                      disabled={reviewReplyLoading}
+                      onClick={
+                        reviewReplyLoading ? () => {} : handleReviewReplySubmit
+                      }
+                    >
+                      {reviewReplyLoading ? 'replying...' : 'Add reply'}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}
