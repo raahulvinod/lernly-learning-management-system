@@ -20,6 +20,7 @@ import {
   useLogOutQuery,
   useSocialAuthMutation,
 } from '@/redux/features/auth/authApi';
+import Searchbar from './search/Searchbar';
 
 type Props = {
   open: boolean;
@@ -94,14 +95,20 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
       >
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
           <div className="w-full h-[80px] flex items-center justify-between p-3">
-            <div>
-              <Link
-                href={'/'}
-                className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
-              >
-                Learnly
-              </Link>
+            <div className="flex items-center">
+              <div className="mr-1 md:mr-4 lg:mr-12">
+                <Link
+                  href={'/'}
+                  className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
+                >
+                  Learnly
+                </Link>
+              </div>
+              <div>
+                <Searchbar />
+              </div>
             </div>
+
             <div className="flex items-center">
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />
