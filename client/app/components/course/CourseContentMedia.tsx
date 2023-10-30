@@ -19,6 +19,7 @@ import {
 } from '@/redux/features/courses/coursesApi';
 import CommentReply from './questions/CommentReply';
 import Reviews from './Reviews/Reviews';
+import { Course } from './Courses';
 
 export interface UserData {
   _id: string;
@@ -30,6 +31,7 @@ export interface UserData {
   };
   role: string;
   isVerified: boolean;
+  courses: Course[];
 }
 
 export interface CommentData {

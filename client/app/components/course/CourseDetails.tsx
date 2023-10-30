@@ -9,7 +9,7 @@ import { format } from 'timeago.js';
 import { Stripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 
 import { Course } from './Courses';
@@ -19,6 +19,7 @@ import CourseContentList from './CourseContentList';
 import CheckoutForm from '../payment/CheckoutForm';
 import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 import { useOpen } from '@/app/context/OpenContext';
+import { UserData } from './CourseContentMedia';
 
 interface CourseDataProps {
   courseData: Course;
@@ -31,10 +32,17 @@ const CourseDetails: React.FC<CourseDataProps> = ({
   stripePromise,
   clientSecret,
 }) => {
-  const { data: { user } = {} } = useLoadUserQuery(undefined, {});
+  const { data: { user: userData } = {} } = useLoadUserQuery(undefined, {});
 
+  const [user, setUser] = useState<UserData>();
   const [open, setOpen] = useState(false);
   const { setOpen: modelOpen } = useOpen();
+
+  console.log(user);
+
+  useEffect(() => {
+    setUser(userData);
+  }, [userData]);
 
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -44,7 +52,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({
   const discountPercentagePrice = discountPercentage.toFixed(0);
 
   const isPurchased =
-    user && user?.courses?.find((item: any) => item._id === courseData._id);
+    user &&
+    user.courses.find((course: Course) => course._id === courseData._id);
 
   const handleOrder = (e: React.MouseEvent) => {
     if (user) {

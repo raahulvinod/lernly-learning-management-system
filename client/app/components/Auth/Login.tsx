@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 import { useLoginMutation } from '@/redux/features/auth/authApi';
-import toast from 'react-hot-toast';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   setRoute: (route: string) => void;
@@ -23,7 +24,10 @@ const schema = Yup.object().shape({
 
 const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
-  const [login, { isSuccess, error, data }] = useLoginMutation();
+  const [login, { isSuccess, error, isLoading }] = useLoginMutation();
+  const { refetch } = useLoadUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -39,6 +43,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Login successfully.');
+      refetch();
       setOpen(false);
     }
 
@@ -51,6 +56,19 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   }, [isSuccess, error]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
+
+  const handleAuthentication = async (provider: string) => {
+    try {
+      await signIn(provider);
+
+      await refetch();
+    } catch (error: any) {
+      if ('data' in error) {
+        const errorData = error as any;
+        toast.error(errorData.data.message);
+      }
+    }
+  };
 
   return (
     <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -138,8 +156,9 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
             className="w-full px-6 py-2.5 text-sm font-Poppins font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-[crimson] rounded-lg hover:bg-[#c94a6e] focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             type="submit"
             value="Login"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </div>
       </form>
@@ -160,7 +179,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
       <div className="flex items-center mt-6 -mx-2">
         <button
           type="button"
-          onClick={() => signIn('google')}
+          onClick={() => handleAuthentication('google')}
           className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
         >
           <svg className="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">
@@ -172,7 +191,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
           </span>
         </button>
         <button
-          onClick={() => signIn('github')}
+          onClick={() => handleAuthentication('github')}
           aria-label="Homepage"
           className="footer-octicon p-2 mx-2 text-sm font-medium text-gray-500 transition-colors duration-300 transform bg-gray-300 rounded-lg hover:bg-gray-200"
           title="GitHub"
