@@ -13,7 +13,7 @@ interface CourseProps {
 const CourseCard: React.FC<CourseProps> = ({ course, isProfile }) => {
   return (
     <>
-      <article className="bg-white group relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform duration-200">
+      <article className="bg-white dark:bg-gray-800 group relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transform duration-200">
         <div className="relative w-full h-50 md:h-30 lg:h-35">
           <Image
             src={course.thumbnail.url}
@@ -37,28 +37,21 @@ const CourseCard: React.FC<CourseProps> = ({ course, isProfile }) => {
               {course.level}
             </Link>
           </h3>
-          <p className="text-base font-bold text-gray-900 group-hover:text-indigo-600">
+          <p className="text-base font-bold text-gray-900 dark:text-white group-hover:text-indigo-600">
             {course.name}
           </p>
-          <p className="text-sm font-semibold text-gray-500 group-hover:text-indigo-600">
+          <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 group-hover:text-indigo-600">
             {course.description.slice(0, 70) + '...'}
           </p>
           <div className="mt-4 flex justify-between items-center">
             <Ratings rating={course.ratings} />
-            {/* <h5
-              className={`text-black dark:text-white font-semibold ${
-                isProfile && 'hidden 800px:inline'
-              }`}
-            >
-              {course.purchased} students
-            </h5> */}
           </div>
           {/* Price details */}
           <div className="flex justify-between items-center">
-            <div className="text-lg text-gray-900 font-semibold mt-3">
+            <div className="text-lg text-gray-900 dark:text-white font-semibold mt-3">
               {course.price === 0 ? 'Free' : '₹' + course.price}
               {course.estimatedPrice && (
-                <span className="text-gray-400 text-sm line-through ml-2">
+                <span className="text-gray-400 dark:text-gray-400 text-sm line-through ml-2">
                   {course.estimatedPrice === 0
                     ? ''
                     : '₹' + course.estimatedPrice}

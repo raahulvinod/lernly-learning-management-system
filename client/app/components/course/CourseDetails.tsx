@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { MdCheck } from 'react-icons/md';
 import { FiClock, FiTag, FiBook, FiGlobe } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import { AiFillLike, AiFillDislike, AiOutlineFlag } from 'react-icons/ai';
 import { BsPerson } from 'react-icons/bs';
 import { format } from 'timeago.js';
@@ -19,6 +18,7 @@ import CoursePlayer from '../Admin/course/CoursePlayer';
 import CourseContentList from './CourseContentList';
 import CheckoutForm from '../payment/CheckoutForm';
 import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
+import { useOpen } from '@/app/context/OpenContext';
 
 interface CourseDataProps {
   courseData: Course;
@@ -34,6 +34,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({
   const { data: { user } = {} } = useLoadUserQuery(undefined, {});
 
   const [open, setOpen] = useState(false);
+  const { setOpen: modelOpen } = useOpen();
 
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
@@ -46,7 +47,11 @@ const CourseDetails: React.FC<CourseDataProps> = ({
     user && user?.courses?.find((item: any) => item._id === courseData._id);
 
   const handleOrder = (e: React.MouseEvent) => {
-    setOpen(true);
+    if (user) {
+      setOpen(true);
+    } else {
+      modelOpen(true);
+    }
   };
 
   const formatLastUpdated = (updatedAt: string): string => {

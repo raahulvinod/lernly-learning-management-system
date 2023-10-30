@@ -1,12 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { OpenContext } from '../context/OpenContext';
 
-const CourseLayout = ({ children }: { children: React.ReactNode }) => {
+interface CourseLayoutProps {
+  children: React.ReactNode;
+}
+
+const CourseLayout: React.FC<CourseLayoutProps> = ({ children }) => {
   const [route, setRoute] = useState('Login');
   const [open, setOpen] = useState(false);
+
   return (
     <div>
       <Header
@@ -16,7 +23,10 @@ const CourseLayout = ({ children }: { children: React.ReactNode }) => {
         setRoute={setRoute}
         route={route}
       />
-      {children}
+      <OpenContext.Provider value={{ setOpen }}>
+        {children}
+      </OpenContext.Provider>
+
       <Footer />
     </div>
   );
