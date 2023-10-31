@@ -1,9 +1,19 @@
 'use client';
 
+import socketIO from 'socket.io-client';
 
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
 import ThemeSwitcher from '@/app/utils/ThemeSwitcher';
+import {
+  useGetAllNotificationsQuery,
+  useUpdateNotificationStatusMutation,
+} from '@/redux/features/notifications/notificationApi';
+import { useEffect, useState } from 'react';
+import { format } from 'timeago.js';
+
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
+const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
 type Props = {
   open: boolean;
@@ -11,6 +21,54 @@ type Props = {
 };
 
 const Topbar: React.FC<Props> = ({ open, setOpen }) => {
+  const { data, refetch } = useGetAllNotificationsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  console.log(data);
+
+  const [updateNotificationStatus, { isSuccess }] =
+    useUpdateNotificationStatusMutation();
+
+  const [notifications, setNotifications] = useState([]);
+
+  const [audio] = useState(
+    new Audio(
+      'https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3'
+    )
+  );
+
+  const playerNotificationSound = () => {
+    audio.play();
+  };
+
+  useEffect(() => {
+    if (data) {
+      setNotifications(
+        data.notifications.filter(
+          (notification: any) => notification.status === 'unread'
+        )
+      );
+    }
+
+    if (isSuccess) {
+      refetch();
+    }
+
+    audio.load();
+  }, [data, isSuccess]);
+
+  useEffect(() => {
+    socketId.on('newNotification', (data) => {
+      refetch();
+      playerNotificationSound();
+    });
+  }, []);
+
+  const handleNotificationChange = async (id: string) => {
+    await updateNotificationStatus(id);
+  };
+
   return (
     <div className="w-50% flex justify-end p-6 fixed right-0">
       <ThemeSwitcher />
@@ -20,7 +78,7 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
       >
         <NotificationsOutlinedIcon className="text-2xl cursor-pointer dark:text:white text-black dark:text-white relative" />
         <span className="absolute -top-2 -right-2 bg-[#3ccba0] rounded-full w-[20px] h-[20px] text-[12px] flex items-center justify-center text-white">
-          2
+          {notifications && notifications.length}
         </span>
       </div>
 
@@ -29,130 +87,36 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
           <div className="block px-4 py-2 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             Notifications
           </div>
-          <div>
-            <a
-              href="#"
-              className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
-            >
-              <div className="w-full pl-3">
-                <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                  New message from{' '}
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    Bonnie Green
-                  </span>
-                  : "Hey, what's up? All set for the presentation?"
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
-                    a few moments ago
+          {notifications &&
+            notifications.map((notified: any, index: number) => (
+              <div>
+                <a
+                  href="#"
+                  className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                >
+                  <div className="w-full pl-3">
+                    <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
+                      {/* New message from{' '} */}
+                      <span className="font-semibold text-gray-900 dark:text-white">
+                        {notified.title}
+                      </span>
+                      : {notified.message}
+                    </div>
+                    <div className="flex justify-between">
+                      <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
+                        {format(notified.createdAt)}
+                      </div>
+                      <div
+                        onClick={() => handleNotificationChange(notified._id)}
+                        className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer"
+                      >
+                        Mark as read
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer">
-                    Mark as read
-                  </div>
-                </div>
+                </a>
               </div>
-            </a>
-            <a
-              href="#"
-              className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
-            >
-              <div className="flex-shrink-0"></div>
-              <div className="w-full pl-3">
-                <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    Jese leos
-                  </span>{' '}
-                  and{' '}
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    5 others
-                  </span>{' '}
-                  started following you.
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
-                    10 minutes ago
-                  </div>
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer">
-                    Mark as read
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
-            >
-              <div className="flex-shrink-0"></div>
-              <div className="w-full pl-3">
-                <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    Joseph Mcfall
-                  </span>{' '}
-                  and{' '}
-                  <span className="font-medium text-gray-900 dark:text-white">
-                    141 others
-                  </span>{' '}
-                  love your story. See it and view more stories.
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
-                    44 minutes ago
-                  </div>
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer">
-                    Mark as read
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
-            >
-              <div className="w-full pl-3">
-                <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    Leslie Livingston
-                  </span>{' '}
-                  mentioned you in a comment:{' '}
-                  <span className="font-medium text-primary-700 dark:text-primary-500">
-                    @bonnie.green
-                  </span>{' '}
-                  what do you say?
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
-                    1 hour ago
-                  </div>
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer">
-                    Mark as read
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600"
-            >
-              <div className="flex-shrink-0"></div>
-              <div className="w-full pl-3">
-                <div className="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    Robert Brown
-                  </span>{' '}
-                  posted a new video: Glassmorphism - learn how to implement the
-                  new design trend.
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500">
-                    3 hour ago
-                  </div>
-                  <div className="text-xs font-medium text-primary-700 dark:text-gray-500 cursor-pointer">
-                    Mark as read
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+            ))}
         </div>
       )}
     </div>

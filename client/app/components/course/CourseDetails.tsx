@@ -38,8 +38,6 @@ const CourseDetails: React.FC<CourseDataProps> = ({
   const [open, setOpen] = useState(false);
   const { setOpen: modelOpen } = useOpen();
 
-  console.log(user);
-
   useEffect(() => {
     setUser(userData);
   }, [userData]);
@@ -376,7 +374,11 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                 <div className="w-full">
                   {stripePromise && clientSecret && (
                     <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <CheckoutForm setOpen={setOpen} course={courseData} />
+                      <CheckoutForm
+                        setOpen={setOpen}
+                        course={courseData}
+                        user={user}
+                      />
                     </Elements>
                   )}
                 </div>

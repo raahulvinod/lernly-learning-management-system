@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Heading from './utils/Heading';
 import Header from './components/Header';
@@ -9,9 +9,7 @@ import Courses from './components/course/Courses';
 import Faq from './components/faq/Faq';
 import Footer from './components/Footer';
 
-interface Props {}
-
-const Page: FC<Props> = (props) => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const [route, setRoute] = useState('Login');

@@ -9,6 +9,7 @@ import {
   AiOutlineStar,
 } from 'react-icons/ai';
 import Image from 'next/image';
+import socketIO from 'socket.io-client';
 
 import CoursePlayer from '../Admin/course/CoursePlayer';
 import {
@@ -20,6 +21,9 @@ import {
 import CommentReply from './questions/CommentReply';
 import Reviews from './Reviews/Reviews';
 import { Course } from './Courses';
+
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
+const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
 export interface UserData {
   _id: string;
@@ -87,8 +91,6 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
     useGetCourseDetailsQuery(courseId, {
       refetchOnMountOrArgChange: true,
     });
-  // console.log(course);
-  // console.log(courseData);
 
   const [addNewQuestion, { isSuccess, error, isLoading }] =
     useAddNewQuestionMutation();
@@ -149,6 +151,11 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       setQuestion('');
       refetch();
       toast.success('Question added successfully');
+      socketId.emit('notification', {
+        title: 'New question received',
+        message: `You have a new question in ${courseData[activeVideo].title}`,
+        userId: userData._id,
+      });
     }
 
     if (error) {
@@ -162,6 +169,13 @@ const CourseContentMedia: React.FC<CourseContentMediaProps> = ({
       setAnswer('');
       refetch();
       toast.success('Answer added successfully.');
+      if (userData.role !== 'admin') {
+        socketId.emit('notification', {
+          title: 'New reply received',
+          message: `You have a new question reply in ${courseData[activeVideo].title}`,
+          userId: userData._id,
+        });
+      }
     }
 
     if (addAnswerError) {

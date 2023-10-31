@@ -7,17 +7,27 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js';
 import { redirect } from 'next/navigation';
-import { Course } from '../course/Courses';
+import socketIO from 'socket.io-client';
 
+import { Course } from '../course/Courses';
+import { UserData } from '../course/CourseContentMedia';
 import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 import { useCreateOrderMutation } from '@/redux/features/orders/ordersApi';
+
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
+const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
 interface CheckOutFormProps {
   setOpen: (open: boolean) => void;
   course: Course;
+  user: UserData | undefined;
 }
 
-const CheckoutForm: React.FC<CheckOutFormProps> = ({ setOpen, course }) => {
+const CheckoutForm: React.FC<CheckOutFormProps> = ({
+  setOpen,
+  course,
+  user,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -54,6 +64,11 @@ const CheckoutForm: React.FC<CheckOutFormProps> = ({ setOpen, course }) => {
   useEffect(() => {
     if (orderData) {
       setLoadUser(true);
+      socketId.emit('notification', {
+        title: 'New Order',
+        message: `You have a new order from ${course.name}`,
+        userId: user?._id,
+      });
       redirect(`/course-access/${course._id}`);
     }
 
