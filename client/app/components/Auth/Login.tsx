@@ -25,9 +25,7 @@ const schema = Yup.object().shape({
 const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error, isLoading }] = useLoginMutation();
-  const { refetch } = useLoadUserQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { refetch } = useLoadUserQuery(undefined, {});
 
   const formik = useFormik({
     initialValues: {
@@ -43,8 +41,8 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Login successfully.');
-      refetch();
       setOpen(false);
+      refetch();
     }
 
     if (error) {
@@ -60,8 +58,6 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   const handleAuthentication = async (provider: string) => {
     try {
       await signIn(provider);
-
-      await refetch();
     } catch (error: any) {
       if ('data' in error) {
         const errorData = error as any;

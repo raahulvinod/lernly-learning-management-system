@@ -21,6 +21,7 @@ import {
   useSocialAuthMutation,
 } from '@/redux/features/auth/authApi';
 import Searchbar from './search/Searchbar';
+import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 
 type Props = {
   open: boolean;
@@ -34,7 +35,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
 
-  const { user } = useSelector((state: any) => state.auth);
+  const {
+    data: user = {},
+    isLoading,
+    refetch,
+  } = useLoadUserQuery(undefined, {});
+
   const { data } = useSession();
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
 
@@ -52,6 +58,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
           name: data.user?.name,
           avatar: data.user?.image,
         });
+        refetch();
       }
     }
 
@@ -61,7 +68,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
       }
     }
 
-    if (data === null) {
+    if (data === null && !isLoading && !user) {
       setLogout(true);
     }
   }, [data, user]);
@@ -175,6 +182,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
+              refetch={refetch}
             />
           )}
         </>
