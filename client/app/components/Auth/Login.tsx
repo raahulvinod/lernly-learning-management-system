@@ -13,6 +13,7 @@ import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
+  refetch: any;
 };
 
 const schema = Yup.object().shape({
@@ -54,17 +55,6 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
   }, [isSuccess, error]);
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
-
-  const handleAuthentication = async (provider: string) => {
-    try {
-      await signIn(provider);
-    } catch (error: any) {
-      if ('data' in error) {
-        const errorData = error as any;
-        toast.error(errorData.data.message);
-      }
-    }
-  };
 
   return (
     <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -175,7 +165,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
       <div className="flex items-center mt-6 -mx-2">
         <button
           type="button"
-          onClick={() => handleAuthentication('google')}
+          onClick={() => signIn('google')}
           className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
         >
           <svg className="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">
@@ -187,7 +177,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
           </span>
         </button>
         <button
-          onClick={() => handleAuthentication('github')}
+          onClick={() => signIn('github')}
           aria-label="Homepage"
           className="footer-octicon p-2 mx-2 text-sm font-medium text-gray-500 transition-colors duration-300 transform bg-gray-300 rounded-lg hover:bg-gray-200"
           title="GitHub"

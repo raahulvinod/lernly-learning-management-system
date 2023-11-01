@@ -20,7 +20,6 @@ const Faq = () => {
       setQuestions(data.layout.faq);
     }
   }, [data]);
-  console.log(questions);
 
   const toggleQuestion = (id: any) => {
     setActiveQuestion(activeQuestion === id ? null : id);

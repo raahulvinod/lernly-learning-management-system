@@ -3,19 +3,19 @@ const footerNavs = [
     label: 'Company',
     items: [
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Partners',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Blog',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Team',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Careers',
       },
     ],
@@ -24,19 +24,19 @@ const footerNavs = [
     label: 'Resources',
     items: [
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'contact',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Support',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Docs',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Pricing',
       },
     ],
@@ -45,19 +45,19 @@ const footerNavs = [
     label: 'About',
     items: [
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Terms',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'License',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'Privacy',
       },
       {
-        href: 'javascript:void()',
+        href: '#',
         name: 'About US',
       },
     ],
@@ -116,7 +116,7 @@ const Footer = () => {
         <div className="mt-6 sm:mt-0">
           <ul className="flex items-center space-x-4">
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -129,7 +129,7 @@ const Footer = () => {
             </li>
 
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="#">
                 <svg
                   width="24px"
                   height="24px"
@@ -145,7 +145,7 @@ const Footer = () => {
             </li>
 
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="#">
                 <svg
                   className="svg-icon w-6 h-6 text-black dark:text-white"
                   viewBox="0 0 20 20"
@@ -159,7 +159,7 @@ const Footer = () => {
             </li>
 
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">
-              <a href="javascript:void()">
+              <a href="#">
                 <svg
                   className="svg-icon w-6 h-6 text-black dark:text-white"
                   viewBox="0 0 16 16"

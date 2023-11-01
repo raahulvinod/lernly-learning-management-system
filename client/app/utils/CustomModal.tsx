@@ -15,7 +15,6 @@ const CustomModal: React.FC<Props> = ({
   activeItem,
   component: Component,
   setRoute,
-  refetch,
 }) => {
   return (
     <Modal
@@ -25,7 +24,7 @@ const CustomModal: React.FC<Props> = ({
       aria-describedby="modal-modal-description"
     >
       <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[500px] rounded-[8px] p-4 outline-none">
-        <Component setOpen={setOpen} setRoute={setRoute} refetch={refetch} />
+        <Component setOpen={setOpen} setRoute={setRoute} />
       </Box>
     </Modal>
   );

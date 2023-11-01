@@ -36,12 +36,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   const [openSideBar, setOpenSideBar] = useState(false);
 
   const {
-    data: user = {},
+    data: userData,
     isLoading,
     refetch,
   } = useLoadUserQuery(undefined, {});
 
   const { data } = useSession();
+
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
 
   const [logout, setLogout] = useState(false);
@@ -51,27 +52,24 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
   });
 
   useEffect(() => {
-    if (!user) {
+    if (!userData) {
       if (data) {
         socialAuth({
           email: data.user?.email,
           name: data.user?.name,
           avatar: data.user?.image,
         });
-        refetch();
       }
     }
 
-    if (data === null) {
-      if (isSuccess) {
-        toast.success('Login successfully');
-      }
+    if (isSuccess) {
+      refetch();
     }
 
-    if (data === null && !isLoading && !user) {
+    if (data === null && !isLoading && !userData) {
       setLogout(true);
     }
-  }, [data, user]);
+  }, [data, userData, isSuccess]);
 
   if (typeof window !== 'undefined') {
     window.addEventListener('scroll', () => {
@@ -127,10 +125,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
                   onClick={() => setOpenSideBar(true)}
                 />
               </div>
-              {user ? (
+              {userData ? (
                 <Link href={'/profile'}>
                   <Image
-                    src={user.avatar ? user.avatar.url : avatar}
+                    src={
+                      userData.user.avatar ? userData.user.avatar.url : avatar
+                    }
                     alt="profile"
                     className="h-[30px] w-[30px] rounded-full"
                     width={30}
@@ -182,7 +182,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
-              refetch={refetch}
             />
           )}
         </>
