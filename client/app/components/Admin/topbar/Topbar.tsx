@@ -15,6 +15,14 @@ import { format } from 'timeago.js';
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || '';
 const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
+export interface Notification {
+  _id: string;
+  title: string;
+  message: string;
+  status: string;
+  createdAt: string;
+}
+
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -25,12 +33,10 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(data);
-
   const [updateNotificationStatus, { isSuccess }] =
     useUpdateNotificationStatusMutation();
 
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const [audio] = useState(
     new Audio(
@@ -44,11 +50,10 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
 
   useEffect(() => {
     if (data) {
-      setNotifications(
-        data.notifications.filter(
-          (notification: any) => notification.status === 'unread'
-        )
+      const unreadNotifications = data.notification.filter(
+        (notification: Notification) => notification.status === 'unread'
       );
+      setNotifications(unreadNotifications);
     }
 
     if (isSuccess) {
@@ -60,10 +65,12 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
 
   useEffect(() => {
     socketId.on('newNotification', (data) => {
-      refetch();
+      if (data) {
+        refetch();
+      }
       playerNotificationSound();
     });
-  }, []);
+  }, [refetch]);
 
   const handleNotificationChange = async (id: string) => {
     await updateNotificationStatus(id);
