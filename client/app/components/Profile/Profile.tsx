@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
@@ -8,9 +8,13 @@ import SidebarProfile from './SidebarProfile';
 import { useLogOutQuery } from '@/redux/features/auth/authApi';
 import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
+import { UserData } from '../course/CourseContentMedia';
+import CourseCard from '../course/CourseCard';
+import { Course } from '../course/Courses';
+import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 
 type Props = {
-  user: any;
+  user: UserData;
 };
 
 const Profile: React.FC<Props> = ({ user }) => {
@@ -38,6 +42,20 @@ const Profile: React.FC<Props> = ({ user }) => {
     await signOut();
   };
 
+  const { data, isLoading } = useGetUsersAllCoursesQuery(undefined, {});
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      const filteredCourses = user.courses
+        .map((userCourse: Course) =>
+          data.courses.find((course: Course) => course._id === userCourse._id)
+        )
+        .filter((course) => course !== undefined);
+      setCourses(filteredCourses);
+    }
+  }, [data]);
+
   return (
     <div className="w-[85%] flex mx-auto">
       <div
@@ -61,6 +79,16 @@ const Profile: React.FC<Props> = ({ user }) => {
       {active === 2 && (
         <div className="w-full h-full bg-transparent mt-[80px]">
           <ChangePassword />
+        </div>
+      )}
+      {active === 3 && (
+        <div className="w-full h-full bg-transparent mt-[80px]">
+          <div className="ml-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4">
+            {courses &&
+              courses.map((course: Course, index: number) => (
+                <CourseCard course={course} key={index} />
+              ))}
+          </div>
         </div>
       )}
     </div>

@@ -5,8 +5,6 @@ import React, { FC, useState, useEffect } from 'react';
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi';
 
 import NavItems from '../utils/NavItems';
-import { useSelector } from 'react-redux';
-import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 
