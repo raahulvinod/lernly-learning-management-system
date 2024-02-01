@@ -1,3 +1,4 @@
+import build from 'next/dist/build';
 import { apiSlice } from '../api/apiSlice';
 
 export const userApi = apiSlice.injectEndpoints({
@@ -36,6 +37,15 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: 'include' as const,
       }),
     }),
+
+    updateUserRole: builder.mutation({
+      query: ({ email, role }) => ({
+        url: '/update-user',
+        method: 'PUT',
+        body: { email, role },
+        credentials: 'include' as const,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +54,5 @@ export const {
   useEditProfileMutation,
   useUpdatePasswordMutation,
   useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
 } = userApi;

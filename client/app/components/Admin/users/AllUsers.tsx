@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button, Modal, useTheme } from '@mui/material';
 import { AiOutlineDelete, AiOutlineMail } from 'react-icons/ai';
 import { useTheme as NextTheme } from 'next-themes';
 import { format } from 'timeago.js';
@@ -10,7 +10,12 @@ import { format } from 'timeago.js';
 import AdminHeader from '../topbar/AdminHeader';
 import Loader from '../../Loader/Loader';
 import { tokens } from '../sidebar/Theme';
-import { useGetAllUsersQuery } from '@/redux/features/user/userApi';
+import {
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
+} from '@/redux/features/user/userApi';
+import RoleChangeModal from '../../Modal/RoleChangeModal';
+import toast from 'react-hot-toast';
 
 type Props = {
   isTeam: boolean;
@@ -19,12 +24,33 @@ type Props = {
 
 const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
   const [active, setActive] = useState(false);
+  const [userId, setuserId] = useState('');
 
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { isLoading, data, error } = useGetAllUsersQuery({});
+  const { isLoading, data, error, refetch } = useGetAllUsersQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const [updateUserRole, { error: updateError, isSuccess }] =
+    useUpdateUserRoleMutation();
+
+  useEffect(() => {
+    if (updateError) {
+      if ('data' in updateError) {
+        const errorMessage = updateError as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+
+    if (isSuccess) {
+      refetch();
+      toast.success('User role updated successfully');
+    }
+  }, [updateError, isSuccess]);
 
   const columns = [
     { field: 'id', headerName: 'User Id', flex: 0.5 },
@@ -113,6 +139,14 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
       });
   }
 
+  const closeModal = () => {
+    setActive(false);
+  };
+
+  const addMember = async (email: string, role: string) => {
+    await updateUserRole({ email, role });
+  };
+
   return (
     <div className="mt-[20px] ml-12 w-full relative h-screen">
       {isLoading ? (
@@ -170,6 +204,18 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
             >
               <DataGrid checkboxSelection rows={rows} columns={columns} />
             </Box>
+            {active && (
+              <Modal
+                open={active}
+                onClose={() => setActive(!open)}
+                aria-labelledBy="modal-modal-title"
+                aria-describedBy="modal-modal-description"
+              >
+                <Box>
+                  <RoleChangeModal onClose={closeModal} addMember={addMember} />
+                </Box>
+              </Modal>
+            )}
           </Box>
         </>
       )}

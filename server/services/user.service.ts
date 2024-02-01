@@ -28,11 +28,11 @@ export const getAllUsersService = async (res: Response) => {
 // update user role
 export const updateUserRoleService = async (
   res: Response,
-  id: string,
+  email: string,
   role: string
 ) => {
   const user = await userModel
-    .findByIdAndUpdate(id, { role }, { new: true })
+    .findOneAndUpdate({ email }, { role }, { new: true })
     .sort({ createdAt: -1 });
 
   res.status(200).json({
