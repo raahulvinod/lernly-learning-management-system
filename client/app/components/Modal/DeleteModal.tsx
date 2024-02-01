@@ -2,9 +2,15 @@ type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
   handleDelete: () => void;
+  isUser?: boolean;
 };
 
-const DeleteModal: React.FC<Props> = ({ open, setOpen, handleDelete }) => {
+const DeleteModal: React.FC<Props> = ({
+  open,
+  setOpen,
+  handleDelete,
+  isUser,
+}) => {
   return (
     <div
       className="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"
@@ -44,8 +50,9 @@ const DeleteModal: React.FC<Props> = ({ open, setOpen, handleDelete }) => {
               Are you sure want to delete?
             </h2>
             <p className="text-sm text-gray-500 px-8">
-              Do you really want to delete your course? This process cannot be
-              undone
+              Do you really want to delete{' '}
+              {`${isUser ? 'this user' : 'your course'}`} ? This process cannot
+              be undone
             </p>
           </div>
           <div className="p-3  mt-2 text-center space-x-4 md:block">

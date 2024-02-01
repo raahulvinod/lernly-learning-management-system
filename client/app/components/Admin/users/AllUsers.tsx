@@ -11,11 +11,13 @@ import AdminHeader from '../topbar/AdminHeader';
 import Loader from '../../Loader/Loader';
 import { tokens } from '../sidebar/Theme';
 import {
+  useDeleteUserMutation,
   useGetAllUsersQuery,
   useUpdateUserRoleMutation,
 } from '@/redux/features/user/userApi';
 import RoleChangeModal from '../../Modal/RoleChangeModal';
 import toast from 'react-hot-toast';
+import DeleteModal from '../../Modal/DeleteModal';
 
 type Props = {
   isTeam: boolean;
@@ -25,6 +27,7 @@ type Props = {
 const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
   const [active, setActive] = useState(false);
   const [userId, setuserId] = useState('');
+  const [openModel, setOpenModel] = useState(false);
 
   const { theme: themes, setTheme } = NextTheme();
   const theme = useTheme();
@@ -38,6 +41,9 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
   const [updateUserRole, { error: updateError, isSuccess }] =
     useUpdateUserRoleMutation();
 
+  const [deleteUser, { error: deleteError, isSuccess: deleteSuccess }] =
+    useDeleteUserMutation();
+
   useEffect(() => {
     if (updateError) {
       if ('data' in updateError) {
@@ -50,7 +56,19 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
       refetch();
       toast.success('User role updated successfully');
     }
-  }, [updateError, isSuccess]);
+
+    if (deleteSuccess) {
+      refetch();
+      toast.success('Delete user successfully');
+    }
+
+    if (deleteError) {
+      if (('data' in deleteError) as any) {
+        const errorMessage = deleteError as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [updateError, isSuccess, deleteSuccess, deleteError]);
 
   const columns = [
     { field: 'id', headerName: 'User Id', flex: 0.5 },
@@ -86,7 +104,12 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
       renderCell: (params: any) => {
         return (
           <>
-            <Button>
+            <Button
+              onClick={() => {
+                setOpenModel(!openModel);
+                setuserId(params.row.id);
+              }}
+            >
               <AiOutlineDelete size={20} />
             </Button>
           </>
@@ -145,6 +168,12 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
 
   const addMember = async (email: string, role: string) => {
     await updateUserRole({ email, role });
+  };
+
+  const removeUser = async () => {
+    await deleteUser(userId);
+
+    setOpenModel(false);
   };
 
   return (
@@ -213,6 +242,23 @@ const AllUsers: React.FC<Props> = ({ isTeam, open }) => {
               >
                 <Box>
                   <RoleChangeModal onClose={closeModal} addMember={addMember} />
+                </Box>
+              </Modal>
+            )}
+            {openModel && (
+              <Modal
+                open={openModel}
+                onClose={() => setOpenModel(!openModel)}
+                aria-labelledBy="modal-modal-title"
+                aria-describedBy="modal-modal-description"
+              >
+                <Box>
+                  <DeleteModal
+                    open={openModel}
+                    setOpen={setOpenModel}
+                    handleDelete={removeUser}
+                    isUser={true}
+                  />
                 </Box>
               </Modal>
             )}

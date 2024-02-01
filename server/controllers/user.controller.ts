@@ -440,7 +440,6 @@ export const updateUserRole = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, role } = req.body;
-      console.log(email, role);
 
       updateUserRoleService(res, email, role);
     } catch (error: any) {
@@ -453,8 +452,7 @@ export const updateUserRole = CatchAsyncError(
 export const deleteUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
-
+      const { id } = req.body;
       const user = await userModel.findById(id);
 
       if (!user) {
