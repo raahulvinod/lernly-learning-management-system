@@ -18,8 +18,10 @@ import CoursePlayer from '../Admin/course/CoursePlayer';
 import CourseContentList from './CourseContentList';
 import CheckoutForm from '../payment/CheckoutForm';
 import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
-import { useOpen } from '@/app/context/OpenContext';
 import { UserData } from './CourseContentMedia';
+import CustomModal from '@/app/utils/CustomModal';
+import Signup from '../Auth/Signup';
+import Login from '../Auth/Login';
 
 interface CourseDataProps {
   courseData: Course;
@@ -36,7 +38,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({
 
   const [user, setUser] = useState<UserData>();
   const [open, setOpen] = useState(false);
-  const { setOpen: modelOpen } = useOpen();
+  const [route, setRoute] = useState('Login');
+  const [openModel, setOpenModel] = useState(false);
 
   useEffect(() => {
     setUser(userData);
@@ -57,7 +60,8 @@ const CourseDetails: React.FC<CourseDataProps> = ({
     if (user) {
       setOpen(true);
     } else {
-      modelOpen(true);
+      // toast.error('Please log in to purchase this course');
+      setOpenModel(true);
     }
   };
 
@@ -386,6 +390,32 @@ const CourseDetails: React.FC<CourseDataProps> = ({
             </div>
           )}
         </>
+        {route === 'Login' && (
+          <>
+            {openModel && (
+              <CustomModal
+                open={openModel}
+                setOpen={setOpenModel}
+                setRoute={setRoute}
+                activeItem={1}
+                component={Login}
+              />
+            )}
+          </>
+        )}
+        {route === 'Sign-Up' && (
+          <>
+            {openModel && (
+              <CustomModal
+                open={openModel}
+                setOpen={setOpenModel}
+                setRoute={setRoute}
+                activeItem={1}
+                component={Signup}
+              />
+            )}
+          </>
+        )}
       </div>
     </>
   );

@@ -1,12 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+
 import Loader from '@/app/components/Loader/Loader';
 import CourseCard from '@/app/components/course/CourseCard';
 import { Course } from '@/app/components/course/Courses';
 import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 const page = () => {
   const searchParams = useSearchParams();

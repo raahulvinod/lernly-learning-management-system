@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { OpenContext } from '../context/OpenContext';
 
 interface CourseLayoutProps {
   children: React.ReactNode;
@@ -23,10 +22,7 @@ const CourseLayout: React.FC<CourseLayoutProps> = ({ children }) => {
         setRoute={setRoute}
         route={route}
       />
-      <OpenContext.Provider value={{ setOpen }}>
-        {children}
-      </OpenContext.Provider>
-
+      {children}
       <Footer />
     </div>
   );
