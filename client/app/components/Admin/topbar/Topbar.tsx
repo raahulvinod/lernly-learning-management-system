@@ -40,7 +40,7 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
 
   const [audio] = useState(
     new Audio(
-      'https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3'
+      'https://res.cloudinary.com/dxypazeq8/video/upload/v1706945775/livechat-129007_afxnj7.mp3'
     )
   );
 
