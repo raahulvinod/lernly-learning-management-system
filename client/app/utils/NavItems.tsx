@@ -10,18 +10,14 @@ export const navItemsData = [
     name: 'Courses',
     url: '/courses',
   },
-  // {
-  //   name: 'My learning',
-  //   url: '/my-courses',
-  // },
-  // {
-  //   name: 'Policy',
-  //   url: '/policy',
-  // },
-  // {
-  //   name: 'FAQ',
-  //   url: '/faq',
-  // },
+  {
+    name: 'About us',
+    url: '/about',
+  },
+  {
+    name: 'Contact us',
+    url: '/contact',
+  },
 ];
 
 type Props = {
