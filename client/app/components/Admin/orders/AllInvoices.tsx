@@ -107,65 +107,7 @@ const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
         ]),
   ];
 
-  // test data
-  const rows: any = [
-    {
-      id: '113122323',
-      userName: 'Rahul',
-      userEmail: 'rahul@gmail.com',
-      title: 'ReactJS',
-      price: '399',
-      createdAt: '2 days ago',
-    },
-    {
-      id: '225672345',
-      userName: 'Alice',
-      userEmail: 'alice@example.com',
-      title: 'JavaScript Basics',
-      price: '149',
-      createdAt: '1 week ago',
-    },
-    {
-      id: '389045871',
-      userName: 'John',
-      userEmail: 'john@example.com',
-      title: 'Python Fundamentals',
-      price: '299',
-      createdAt: '3 days ago',
-    },
-    {
-      id: '984512367',
-      userName: 'Emma',
-      userEmail: 'emma@gmail.com',
-      title: 'Web Development Masterclass',
-      price: '499',
-      createdAt: '4 days ago',
-    },
-    {
-      id: '723891247',
-      userName: 'Michael',
-      userEmail: 'michael@example.com',
-      title: 'Node.js for Beginners',
-      price: '199',
-      createdAt: '5 days ago',
-    },
-    {
-      id: '567823417',
-      userName: 'Sophia',
-      userEmail: 'sophia@gmail.com',
-      title: 'Angular Essentials',
-      price: '349',
-      createdAt: '1 day ago',
-    },
-    {
-      id: '123897651',
-      userName: 'David',
-      userEmail: 'david@example.com',
-      title: 'HTML & CSS Crash Course',
-      price: '99',
-      createdAt: '6 days ago',
-    },
-  ];
+  const rows: any = [];
 
   orderData &&
     orderData.forEach((item: any) => {
@@ -173,9 +115,9 @@ const AllInvoices: React.FC<Props> = ({ isDashboard, open }) => {
         id: item._id,
         userName: item.userName,
         userEmail: item.userEmail,
-        title: item.tile,
+        title: item.title,
         price: item.price,
-        created_at: format(item.createdAt),
+        createdAt: format(item.createdAt),
       });
     });
 

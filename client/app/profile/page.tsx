@@ -20,7 +20,7 @@ const page: React.FC<Props> = (props) => {
   const { user } = useSelector((state: any) => state.auth);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Protected>
         <Heading
           title={`${user?.name} Profile - Learnly online courses`}

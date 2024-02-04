@@ -89,6 +89,11 @@ const Profile: React.FC<Props> = ({ user }) => {
                 <CourseCard course={course} key={index} />
               ))}
           </div>
+          {courses.length === 0 && (
+            <h1 className="text-center dark:text-white font-Poppins text-[18px]">
+              You don't have any purchased courses.
+            </h1>
+          )}
         </div>
       )}
     </div>
