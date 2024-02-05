@@ -2,6 +2,7 @@ require('dotenv').config();
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { rateLimit } from 'express-rate-limit';
 
 import { ErrorMiddleware } from './middleware/error';
 
@@ -16,12 +17,20 @@ export const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: ['http://localhost:3000'],
     credentials: true,
   })
 );
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+});
 
 // routes
 app.use(
@@ -48,5 +57,8 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
   err.statusCode = 404;
   next(err);
 });
+
+// Rate limiting middleware to all requests.
+app.use(limiter);
 
 app.use(ErrorMiddleware);
