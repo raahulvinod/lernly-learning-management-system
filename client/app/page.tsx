@@ -9,6 +9,7 @@ import Courses from './components/course/Courses';
 import Faq from './components/faq/Faq';
 import Footer from './components/Footer';
 import Brands from './components/Brands';
+import Featured from './components/Featured';
 
 const Page = () => {
   const [open, setOpen] = useState(false);
@@ -33,6 +34,7 @@ const Page = () => {
       />
       <Hero />
       <Courses />
+      <Featured />
       <Brands />
       <Faq />
       <Footer />
