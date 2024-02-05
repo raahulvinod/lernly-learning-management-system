@@ -1,6 +1,6 @@
 'use client';
 
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 
 import Heading from './utils/Heading';
 import Header from './components/Header';
@@ -8,6 +8,7 @@ import Hero from './components/Hero';
 import Courses from './components/course/Courses';
 import Faq from './components/faq/Faq';
 import Footer from './components/Footer';
+import Brands from './components/Brands';
 
 const Page = () => {
   const [open, setOpen] = useState(false);
@@ -32,6 +33,7 @@ const Page = () => {
       />
       <Hero />
       <Courses />
+      <Brands />
       <Faq />
       <Footer />
     </div>

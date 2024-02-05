@@ -37,7 +37,6 @@ const Reviews: React.FC<ReviewProps> = ({
   const [reviewReply, setReviewReply] = useState('');
 
   const isRepliesVisible = replayActive && reviewId === review._id;
-  console.log(userData);
 
   const [
     addReviewReply,

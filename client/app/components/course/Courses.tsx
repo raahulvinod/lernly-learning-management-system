@@ -61,10 +61,10 @@ const Courses = () => {
     <div className={`w-[90%] 800px:w-[80%] m-auto`}>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mb-12">
         <article>
-          <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-Poppins font-extrabold text-gray-900 dark:text-white">
             OUR COURSES
           </h2>
-          <section className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+          <section className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
             {courses &&
               courses.map((course: Course, index: number) => (
                 <CourseCard course={course} key={index} />
