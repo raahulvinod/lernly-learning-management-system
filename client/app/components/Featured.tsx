@@ -47,7 +47,7 @@ const Featured = () => {
                         <feature.icon className="inline-block mr-2 text-indigo-600" />
                       }
                       {feature.name}
-                    </dt>{' '}
+                    </dt>
                     <dd className="inline dark:text-gray-300">
                       {feature.description}
                     </dd>
@@ -57,7 +57,7 @@ const Featured = () => {
             </div>
           </div>
           <img
-            src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+            src="https://res.cloudinary.com/dxypazeq8/image/upload/v1707145604/learnlydemo_e2g5xj.png"
             alt="Learnly Features"
             className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
             width={2432}
