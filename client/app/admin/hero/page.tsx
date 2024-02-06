@@ -6,7 +6,7 @@ import EditHero from '@/app/components/Admin/customization/EditHero';
 import Topbar from '@/app/components/Admin/topbar/Topbar';
 import Heading from '@/app/utils/Heading';
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -21,4 +21,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -5,7 +5,7 @@ import Heading from '@/app/utils/Heading';
 import OrdersAnalytics from '@/app/components/Admin/analytics/OrdersAnalytics';
 import Topbar from '@/app/components/Admin/topbar/Topbar';
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -20,4 +20,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -120,7 +120,7 @@ const CoursePreview: React.FC<Props> = ({
 
             {/* Benefits */}
             <div className="mt-4 dark:text-white">
-              <h3 className="text-xl font-semibold">What you'll learn</h3>
+              <h3 className="text-xl font-semibold">What you will learn</h3>
               {courseData?.benefits?.map((item: any, index: number) => (
                 <div
                   className="w-full flex 800px:items-center py-2"

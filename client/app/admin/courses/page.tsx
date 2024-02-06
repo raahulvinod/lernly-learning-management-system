@@ -6,7 +6,7 @@ import Topbar from '@/app/components/Admin/topbar/Topbar';
 
 type Props = {};
 
-const page: React.FC<Props> = () => {
+const Page: React.FC<Props> = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,4 +17,4 @@ const page: React.FC<Props> = () => {
   );
 };
 
-export default page;
+export default Page;

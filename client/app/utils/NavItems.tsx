@@ -49,7 +49,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
           <div className="w-full text-center py-6">
             {navItemsData &&
               navItemsData.map((i, index) => (
-                <Link href="/" passHref>
+                <Link key={index} href="/" passHref>
                   <span
                     className={`${
                       activeItem === index

@@ -8,9 +8,7 @@ import { redirect } from 'next/navigation';
 import Loader from '@/app/components/Loader/Loader';
 import CourseContent from '@/app/components/course/CourseContent';
 
-interface CourseAccessProps {}
-
-const page = ({ params }: { params: { id: string } }) => {
+const CourseAccessPage = ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
   const { isLoading, data, error } = useLoadUserQuery(undefined, {});
@@ -44,4 +42,4 @@ const page = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default CourseAccessPage;

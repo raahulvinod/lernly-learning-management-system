@@ -6,7 +6,7 @@ import Topbar from '../components/Admin/topbar/Topbar';
 import AdminProtected from '../hooks/adminProtected';
 import Heading from '../utils/Heading';
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,4 +26,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

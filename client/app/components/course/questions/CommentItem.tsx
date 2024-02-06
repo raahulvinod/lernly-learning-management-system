@@ -93,37 +93,42 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 isRepliesVisible ? '' : 'hidden'
               }`}
             >
-              {questionData?.questionReplies?.map((item: any) => (
-                <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
-                  <div>
-                    <Image
-                      src={
-                        item?.user.avatar
-                          ? item?.user.avatar.url
-                          : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
-                      }
-                      width={50}
-                      height={50}
-                      alt="user profile"
-                      className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
-                    />
-                  </div>
-                  <div className="pl-3">
-                    <div className="flex items-center">
-                      <h5 className="text-20px font-semibold">
-                        {item.user.name}
-                      </h5>
-                      {item.user.role === 'admin' && (
-                        <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
-                      )}
+              {questionData?.questionReplies?.map(
+                (item: any, index: number) => (
+                  <div
+                    key={index}
+                    className="w-full flex 800px:ml-16 my-5 text-black dark:text-white"
+                  >
+                    <div>
+                      <Image
+                        src={
+                          item?.user.avatar
+                            ? item?.user.avatar.url
+                            : 'https://res.cloudinary.com/dxypazeq8/image/upload/v1698515476/avatars/adzae3s5ffkbfmrrfmhj.png'
+                        }
+                        width={50}
+                        height={50}
+                        alt="user profile"
+                        className="ml-2 w-[50px] h-[50px] object-cover rounded-full"
+                      />
                     </div>
-                    <p>{item.answer}</p>
-                    <small className="text-black dark:text-[#ffffff83]">
-                      {format(item?.createdAt)}
-                    </small>
+                    <div className="pl-3">
+                      <div className="flex items-center">
+                        <h5 className="text-20px font-semibold">
+                          {item.user.name}
+                        </h5>
+                        {item.user.role === 'admin' && (
+                          <VscVerifiedFilled className="text-blue-500 text-lg ml-1" />
+                        )}
+                      </div>
+                      <p>{item.answer}</p>
+                      <small className="text-black dark:text-[#ffffff83]">
+                        {format(item?.createdAt)}
+                      </small>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
               <div>
                 <div className="w-full flex relative">
                   <input

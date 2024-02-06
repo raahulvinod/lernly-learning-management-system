@@ -96,7 +96,7 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
           </div>
           {notifications &&
             notifications.map((notified: any, index: number) => (
-              <div>
+              <div key={index}>
                 <a
                   href="#"
                   className="flex px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"

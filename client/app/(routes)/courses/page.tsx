@@ -9,7 +9,7 @@ import { Course } from '@/app/components/course/Courses';
 import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
 
-const page = () => {
+const CoursesPage = () => {
   const searchParams = useSearchParams();
   const search = searchParams?.get('title') || '';
   const [courses, setCourses] = useState([]);
@@ -111,4 +111,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CoursesPage;

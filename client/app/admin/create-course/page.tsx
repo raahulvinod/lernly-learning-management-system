@@ -6,7 +6,7 @@ import Heading from '@/app/utils/Heading';
 import CreateCourse from '@/app/components/Admin/course/CreateCourse';
 import Topbar from '@/app/components/Admin/topbar/Topbar';
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -21,4 +21,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

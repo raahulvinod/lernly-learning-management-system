@@ -86,7 +86,7 @@ const EditCategories = () => {
           <AdminHeader title="CATEGORIES" subtitle="All categories" />
           {categories.map((category: any, index: number) => {
             return (
-              <div className="p-3">
+              <div className="p-3" key={index}>
                 <div className="flex items-center w-full justify-center">
                   <input
                     className={`${styles.input} !border-none !text-[20px]`}

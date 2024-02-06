@@ -5,7 +5,7 @@ import EditCourse from '@/app/components/Admin/course/EditCourse';
 import Topbar from '@/app/components/Admin/topbar/Topbar';
 import { useState } from 'react';
 
-const page = ({ params }: any) => {
+const Page = ({ params }: any) => {
   const courseId = params?.id;
 
   const [open, setOpen] = useState(false);
@@ -23,4 +23,4 @@ const page = ({ params }: any) => {
   );
 };
 
-export default page;
+export default Page;

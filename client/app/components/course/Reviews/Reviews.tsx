@@ -142,7 +142,10 @@ const Reviews: React.FC<ReviewProps> = ({
             }`}
           >
             {review.commentReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+              <div
+                key={item._id}
+                className="w-full flex 800px:ml-16 my-5 text-black dark:text-white"
+              >
                 <div>
                   <Image
                     src={item?.user.avatar ? item?.user.avatar.url : ''}

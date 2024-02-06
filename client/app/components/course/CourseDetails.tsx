@@ -126,11 +126,11 @@ const CourseDetails: React.FC<CourseDataProps> = ({
               {/* What You'll Learn Section */}
               <section className="py-4 border bg-white dark:bg-gray-900 dark:text-white border-gray-300 rounded p-4 mr-12">
                 <h2 className="text-xl font-semibold dark:text-gray-100 text-gray-900 mb-2">
-                  What You'll Learn
+                  What You will Learn
                 </h2>
                 <ul className="list-inside">
                   {courseData?.benefits?.map((benefit: any, index: number) => (
-                    <li className="mb-2 flex items-start">
+                    <li key={index} className="mb-2 flex items-start">
                       <MdCheck className="text-green-500 mr-2" />
                       {benefit?.title}
                     </li>
@@ -146,7 +146,7 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                       Course Overview
                     </h2>
                     <p className="text-gray-700 dark:text-gray-400">
-                      Learn what this course is all about,and what you'll
+                      Learn what this course is all about,and what you will
                       achieve.
                     </p>
                     <CourseContentList
@@ -164,7 +164,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                 <ul className=" list-disc list-inside">
                   {courseData?.prerequisites?.map(
                     (prerequisite: any, index: number) => (
-                      <li className="mb-2">{prerequisite?.title}</li>
+                      <li key={index} className="mb-2">
+                        {prerequisite?.title}
+                      </li>
                     )
                   )}
                 </ul>
@@ -255,9 +257,9 @@ const CourseDetails: React.FC<CourseDataProps> = ({
                     </div>
                   </div>
                   <p className="text-gray-700 dark:text-gray-400">
-                    I recently completed this course, and I must say it's one of
-                    the best online courses I've ever taken. The instructor did
-                    a fantastic job explaining complex React concepts in a
+                    I recently completed this course, and I must say it is one
+                    of the best online courses I have ever taken. The instructor
+                    did a fantastic job explaining complex React concepts in a
                     simple and understandable manner. The course content was
                     well-structured, starting from the fundamentals and
                     gradually progressing to more advanced topics. Each section

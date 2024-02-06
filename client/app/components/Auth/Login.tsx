@@ -199,8 +199,7 @@ const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
       </div>
 
       <p className="mt-8 font-Poppins text-xs font-light text-center text-gray-400">
-        {' '}
-        Don't have an account?{' '}
+        Dont have an account?{' '}
         <span
           className="font-medium font-Poppins text-gray-700 dark:text-gray-200 hover:underline cursor-pointer"
           onClick={() => setRoute('Sign-Up')}

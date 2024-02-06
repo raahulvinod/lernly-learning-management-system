@@ -7,7 +7,7 @@ import EditFaq from '../../components/Admin/customization/EditFaq';
 
 type Props = {};
 
-const page: React.FC<Props> = () => {
+const Page: React.FC<Props> = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="w-[85%] ml-12">
@@ -17,4 +17,4 @@ const page: React.FC<Props> = () => {
   );
 };
 
-export default page;
+export default Page;
