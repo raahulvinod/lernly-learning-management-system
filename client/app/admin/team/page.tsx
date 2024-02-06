@@ -1,12 +1,11 @@
 'use client';
 
-import Topbar from '@/app/components/Admin/topbar/Topbar';
-import AllUsers from '@/app/components/Admin/users/AllUsers';
 import { useState } from 'react';
 
-type Props = {};
+import Topbar from '@/app/components/Admin/topbar/Topbar';
+import AllUsers from '@/app/components/Admin/users/AllUsers';
 
-const Page: React.FC<Props> = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
 
   return (
