@@ -17,13 +17,6 @@
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.3",
-    "@types/cookie-parser": "^1.4.4",
-    "@types/cors": "^2.8.14",
-    "@types/express": "^4.17.17",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/node": "^20.6.0",
-    "@types/node-cron": "^3.0.8",
-    "@types/socket.io": "^3.0.2",
     "axios": "^1.5.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.40.0",
@@ -44,7 +37,15 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
     "@types/ejs": "^3.1.2",
-    "@types/nodemailer": "^6.4.10"
+    "@types/express": "^4.17.21",
+    "@types/express-rate-limit": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.11.16",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.10",
+    "@types/socket.io": "^3.0.2"
   }
 }
