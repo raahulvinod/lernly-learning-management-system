@@ -11,11 +11,11 @@ export const navItemsData = [
     url: '/courses',
   },
   {
-    name: 'About us',
+    name: 'About',
     url: '/about',
   },
   {
-    name: 'Contact us',
+    name: 'Contact',
     url: '/contact',
   },
 ];
@@ -31,7 +31,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
       <div className="hidden 800px:flex">
         {navItemsData &&
           navItemsData.map((i, index) => (
-            <Link href={`${i.url}`} key={index} passHref>
+            <Link href={`${i.url}`} key={i.name} passHref>
               <span
                 className={`${
                   activeItem === index
@@ -49,7 +49,7 @@ const NavItems: React.FC<Props> = ({ activeItem, isMobile }) => {
           <div className="w-full text-center py-6">
             {navItemsData &&
               navItemsData.map((i, index) => (
-                <Link key={index} href="/" passHref>
+                <Link key={i.name} href={`${i.url}`} passHref>
                   <span
                     className={`${
                       activeItem === index
