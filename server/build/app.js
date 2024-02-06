@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
-require('dotenv').config();
+require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -20,7 +20,7 @@ exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json({ limit: '50mb' }));
 exports.app.use((0, cookie_parser_1.default)());
 exports.app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000'],
+    origin: ['https://learnlyeducation.vercel.app'],
     credentials: true,
 }));
 const limiter = (0, express_rate_limit_1.rateLimit)({
