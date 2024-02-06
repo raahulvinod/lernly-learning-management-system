@@ -38,23 +38,11 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Create Audio instance only in the browser environment
-      setAudio(
-        new Audio(
-          'https://res.cloudinary.com/dxypazeq8/video/upload/v1706945775/livechat-129007_afxnj7.mp3'
-        )
-      );
-    }
-  }, []);
-
-  const playerNotificationSound = () => {
-    if (audio) {
-      audio.play();
-    }
+  const playNotificationSound = () => {
+    const audio = new Audio(
+      'https://res.cloudinary.com/dxypazeq8/video/upload/v1706945775/livechat-129007_afxnj7.mp3'
+    );
+    audio.play();
   };
 
   useEffect(() => {
@@ -68,18 +56,14 @@ const Topbar: React.FC<Props> = ({ open, setOpen }) => {
     if (isSuccess) {
       refetch();
     }
-
-    if (audio) {
-      audio.load();
-    }
   }, [data, isSuccess]);
 
   useEffect(() => {
     socketId.on('newNotification', (data) => {
       if (data) {
         refetch();
+        playNotificationSound();
       }
-      playerNotificationSound();
     });
   }, [refetch]);
 
