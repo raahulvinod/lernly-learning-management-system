@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: ['https://learnlyeducation.vercel.app'],
     credentials: true,
   })
 );
