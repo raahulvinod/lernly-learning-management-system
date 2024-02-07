@@ -36,7 +36,7 @@ const CourseContent: React.FC<CourseContentProps> = ({
         Join educators and learners worldwide on a journey of discovery."
             keywords={content[activeVideo]?.tags}
           />
-          <div className="col-span-7">
+          <div className="col-span-12 md:col-span-7">
             <CourseContentMedia
               courseData={content}
               courseId={courseId}

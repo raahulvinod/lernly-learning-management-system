@@ -12,8 +12,8 @@ import Brands from './components/Brands';
 import Featured from './components/Featured';
 
 const Page = () => {
-  const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
+  const [open, setOpen] = useState(false);
   const [route, setRoute] = useState('Login');
 
   return (
@@ -28,9 +28,9 @@ const Page = () => {
       <Header
         open={open}
         setOpen={setOpen}
-        activeItem={activeItem}
         setRoute={setRoute}
         route={route}
+        activeItem={activeItem}
       />
       <Hero />
       <Courses />

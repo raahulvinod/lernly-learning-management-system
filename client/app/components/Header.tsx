@@ -29,7 +29,7 @@ type Props = {
   setRoute: (route: string) => void;
 };
 
-const Header: FC<Props> = ({ activeItem, setOpen, route, setRoute, open }) => {
+const Header: FC<Props> = ({ setOpen, route, setRoute, open, activeItem }) => {
   const [active, setActive] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(false);
 
