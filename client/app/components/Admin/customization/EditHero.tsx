@@ -119,6 +119,8 @@ const EditHero: React.FC<Props> = () => {
                 src={image}
                 className="w-full mx-auto sm:w-10/12  lg:w-full"
               />
+            </div>
+            <div>
               <input
                 type="file"
                 name=""
@@ -129,7 +131,7 @@ const EditHero: React.FC<Props> = () => {
               />
               <label
                 htmlFor="banner"
-                className="absolute bottom-10 right-10 z-20"
+                className="absolute bottom-[40] right-10 z-20"
               >
                 <AiOutlineCamera
                   size={25}
