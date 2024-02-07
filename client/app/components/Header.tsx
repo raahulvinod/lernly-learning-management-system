@@ -174,15 +174,15 @@ const Header: FC<Props> = ({ setOpen, route, setRoute, open, activeItem }) => {
                     />
                   </Link>
                 ) : (
-                  <HiOutlineUserCircle
-                    size={25}
-                    className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                    onClick={() => setOpen(true)}
-                  />
+                  <span className="ml-1 text-[18px] flex font-Poppins font-[400] text-black dark:text-white cursor-pointer">
+                    <HiOutlineUserCircle
+                      size={25}
+                      className="800px:block cursor-pointer dark:text-white text-black"
+                      onClick={() => setOpen(true)}
+                    />
+                    Login
+                  </span>
                 )}
-                <span className="ml-1 text-[18px] font-Poppins font-[400] text-black dark:text-white">
-                  Profile
-                </span>
               </div>
             </div>
           </div>
