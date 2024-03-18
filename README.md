@@ -15,7 +15,7 @@ Enhanced functionality includes course filtering and search capabilities, alongs
 
 Security is paramount, integrating NextAuth for streamlined Google and GitHub authentication, bolstered by TypeScript for type-safe development practices.
 
-Incorporating cutting-edge features, Learnly enables secure video uploads utilizing Videocipher for Video DRM Encryption, ensuring content protection. Thumbnail uploads are facilitated through seamless integration with Cloudinary, guaranteeing visually engaging course previews.
+Incorporating cutting-edge features, Learnly enables secure video uploads utilizing Videocipher for Video DRM Encryption, ensuring content protection.Video thumbnail uploads are facilitated through seamless integration with Cloudinary, guaranteeing visually engaging course previews.
 
 Empower your educational platform with Learnly's comprehensive feature set, combining security, usability, and innovation.
 
