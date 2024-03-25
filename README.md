@@ -14,6 +14,9 @@ Stay connected in real-time with Socket.IO's notification system, providing admi
 Enhanced functionality includes course filtering and search capabilities, alongside email notifications leveraging Nodemailer for course details and question replies.
 
 Security is paramount, integrating NextAuth for streamlined Google and GitHub authentication, bolstered by TypeScript for type-safe development practices.
+
+Implemented Redis Upstash for efficient caching, enhancing the platform's performance and scalability.
+
 Incorporating cutting-edge features, Learnly enables secure video uploads utilizing Videocipher for Video DRM Encryption, ensuring content protection.Video thumbnail uploads are facilitated through seamless integration with Cloudinary, guaranteeing visually engaging course previews.
 
 Empower your educational platform with Learnly's comprehensive feature set, combining security, usability, and innovation.
