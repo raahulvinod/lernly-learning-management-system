@@ -25,13 +25,13 @@ const Hero = () => {
             </p>
             <div className="pt-10 items-center justify-center space-y-3 sm:space-x-6 sm:space-y-0 sm:flex lg:justify-start">
               <a
-                href="javascript:void(0)"
+                href="/courses"
                 className="px-7 py-3 w-full bg-[crimson] text-white text-center rounded-md shadow-md block sm:w-auto"
               >
                 Explore courses
               </a>
               <a
-                href="javascript:void(0)"
+                href="/about"
                 className="px-7 py-3 w-full text-gray-800 text-center rounded-md block sm:w-auto transition-colors duration-200 hover:text-deep-purple-accent-700 dark:text-[#37a39a]"
               >
                 Learn more
