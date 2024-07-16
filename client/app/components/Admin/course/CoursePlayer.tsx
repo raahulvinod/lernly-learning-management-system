@@ -26,7 +26,7 @@ const CoursePlayer: React.FC<Props> = ({ title, videoUrl }) => {
     >
       {videoData.otp && videoData.playbackInfo !== '' && (
         <iframe
-          src={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData?.playbackInfo}&player=QdBu8SBfu1N967gf`}
+          src={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData?.playbackInfo}&player=1izXAuNaX7tO7SBM`}
           style={{
             border: 0,
             width: '100%',
